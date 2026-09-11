@@ -159,11 +159,12 @@ export function ShopView({ route }: { route: ShopRoute }) {
 
   /* Shared filter accordion — used by the desktop aside and the mobile sheet */
   const filterPanel = (
-    <Accordion
-      type="multiple"
-      defaultValue={["cat", "size", "color", "price"]}
-      className="border-0"
-    >
+    <div className="space-y-1">
+      <Accordion
+        type="multiple"
+        defaultValue={["cat", "size", "color", "price"]}
+        className="border-0"
+      >
       {(genderLabel || isAll) && (
         <AccordionItem value="cat" className="border-stone-200">
           <AccordionTrigger className="text-[11px] font-semibold tracking-[0.25em] uppercase">
@@ -297,6 +298,7 @@ export function ShopView({ route }: { route: ShopRoute }) {
         </AccordionContent>
       </AccordionItem>
     </Accordion>
+    </div>
   );
 
   return (

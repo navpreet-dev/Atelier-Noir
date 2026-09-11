@@ -1,0 +1,869 @@
+     1→"use client";
+     2→
+     3→import { Fragment, useState } from "react";
+     4→import { ArrowLeft, ShoppingBag } from "lucide-react";
+     5→import { toast } from "sonner";
+     6→import { Input } from "@/components/ui/input";
+     7→import { Label } from "@/components/ui/label";
+     8→import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+     9→import { formatPrice, useStore } from "@/lib/store";
+    10→
+    11→type PaymentMethod = "card" | "upi" | "cod";
+    12→
+    13→type PlacedOrderItem = {
+    14→  id: string;
+    15→  name: string;
+    16→  image: string | null;
+    17→  color: string;
+    18→  size: string;
+    19→  qty: number;
+    20→  price: number;
+    21→};
+    22→
+    23→type PlacedOrder = {
+    24→  number: string;
+    25→  email: string;
+    26→  name: string;
+    27→  address: string;
+    28→  city: string;
+    29→  state: string;
+    30→  postalCode: string;
+    31→  country: string;
+    32→  phone: string;
+    33→  paymentMethod: PaymentMethod;
+    34→  paymentDetail: string;
+    35→  estimatedMin: number;
+    36→  estimatedMax: number;
+    37→  subtotal: number;
+    38→  discount: number;
+    39→  shipping: number;
+    40→  total: number;
+    41→  promoCode?: string | null;
+    42→  items: PlacedOrderItem[];
+    43→};
+    44→
+    45→const COUNTRIES = [
+    46→  "India",
+    47→  "United States",
+    48→  "United Kingdom",
+    49→  "United Arab Emirates",
+    50→  "Singapore",
+    51→  "Australia",
+    52→  "Germany",
+    53→  "France",
+    54→  "Japan",
+    55→];
+    56→
+    57→const PAYMENT_METHODS: { id: PaymentMethod; title: string; desc: string }[] = [
+    58→  {
+    59→    id: "card",
+    60→    title: "Card",
+    61→    desc: "Visa, Mastercard, American Express — pay securely online",
+    62→  },
+    63→  { id: "upi", title: "UPI", desc: "Pay from any UPI app using your UPI ID" },
+    64→  {
+    65→    id: "cod",
+    66→    title: "Cash on Delivery",
+    67→    desc: "Pay in cash when your order arrives",
+    68→  },
+    69→];
+    70→
+    71→const PAYMENT_LABELS: Record<PaymentMethod, string> = {
+    72→  card: "Card",
+    73→  upi: "UPI",
+    74→  cod: "Cash on Delivery",
+    75→};
+    76→
+    77→const formatDate = (d: number | string | Date) =>
+    78→  new Date(d).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+    79→
+    80→const scrollToTop = () => {
+    81→  window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+    82→};
+    83→
+    84→function Field({
+    85→  id,
+    86→  label,
+    87→  error,
+    88→  children,
+    89→}: {
+    90→  id: string;
+    91→  label: string;
+    92→  error?: string;
+    93→  children: React.ReactNode;
+    94→}) {
+    95→  return (
+    96→    <div className="space-y-2">
+    97→      <Label htmlFor={id} className="text-[10px] font-semibold tracking-[0.2em] text-stone-500 uppercase">
+    98→        {label}
+    99→      </Label>
+   100→      {children}
+   101→      {error && (
+   102→        <p role="alert" className="text-xs text-[#9A3B26]">
+   103→          {error}
+   104→        </p>
+   105→      )}
+   106→    </div>
+   107→  );
+   108→}
+   109→
+   110→function SectionHeading({ children }: { children: React.ReactNode }) {
+   111→  return <h2 className="text-[12px] font-semibold uppercase tracking-[0.3em] text-stone-900">{children}</h2>;
+   112→}
+   113→
+   114→const STEPS = [
+   115→  { num: "01", label: "Shipping" },
+   116→  { num: "02", label: "Payment" },
+   117→  { num: "03", label: "Confirmation" },
+   118→];
+   119→
+   120→function StepIndicator({ step }: { step: number }) {
+   121→  const current = STEPS[step - 1];
+   122→  return (
+   123→    <Fragment>
+   124→      <p className="text-[10px] tracking-[0.22em] text-stone-400 uppercase sm:hidden">
+   125→        <span className="font-semibold text-stone-900">{current.num}</span> / 03 —{" "}
+   126→        <span className="font-semibold text-stone-900">{current.label}</span>
+   127→      </p>
+   128→      <div className="hidden items-center gap-3 sm:flex sm:gap-5">
+   129→        {STEPS.map((s, idx) => {
+   130→          const state = idx + 1 < step ? "done" : idx + 1 === step ? "current" : "todo";
+   131→          return (
+   132→            <Fragment key={s.num}>
+   133→              {idx > 0 && <span aria-hidden className="h-px w-12 bg-stone-200" />}
+   134→              <span
+   135→                aria-current={state === "current" ? "step" : undefined}
+   136→                className={`whitespace-nowrap text-[11px] tracking-[0.22em] uppercase ${
+   137→                  state === "todo" ? "text-stone-400" : "text-stone-900"
+   138→                }`}
+   139→              >
+   140→                <span className="font-semibold">{s.num}</span>
+   141→                <span className={state === "current" ? "font-semibold" : " font-normal"}>
+   142→                  {" "}
+   143→                  — {s.label}
+   144→                </span>
+   145→              </span>
+   146→            </Fragment>
+   147→          );
+   148→        })}
+   149→      </div>
+   150→    </Fragment>
+   151→  );
+   152→}
+   153→
+   154→function OrderSummary({ promoCode, total }: { promoCode: string | null; total: number }) {
+   155→  const cartItems = useStore((s) => s.cartItems);
+   156→  const subtotal = cartItems.reduce((n, i) => n + i.qty * i.product.price, 0);
+   157→  const discount = promoCode ? Math.round(0.1 * subtotal * 100) / 100 : 0;
+   158→  const shipping = cartItems.length === 0 || subtotal - discount >= 150 ? 0 : 8;
+   159→
+   160→  return (
+   161→    <aside className="lg:sticky lg:top-32 lg:self-start">
+   162→      <div className="border border-stone-200 p-7">
+   163→        <h2 className="text-[12px] font-semibold uppercase tracking-[0.3em]">Order Summary</h2>
+   164→
+   165→        <div className="mt-6 max-h-72 space-y-5 overflow-y-auto pr-1">
+   166→          {cartItems.map((item) => (
+   167→            <div key={item.id} className="flex items-center gap-4">
+   168→              <div className="h-16 w-14 shrink-0 overflow-hidden bg-stone-100">
+   169→                <img
+   170→                  src={item.product.images[0]}
+   171→                  alt={item.product.name}
+   172→                  className="h-full w-full object-cover"
+   173→                />
+   174→              </div>
+   175→              <div className="min-w-0 flex-1">
+   176→                <p className="truncate text-sm font-medium text-stone-900">{item.product.name}</p>
+   177→                <p className="mt-0.5 text-xs text-stone-500">
+   178→                  {item.color} · Size {item.size} · Qty {item.qty}
+   179→                </p>
+   180→              </div>
+   181→              <p className="shrink-0 text-sm font-semibold text-stone-900">
+   182→                {formatPrice(item.product.price * item.qty)}
+   183→              </p>
+   184→            </div>
+   185→          ))}
+   186→        </div>
+   187→
+   188→        <div className="mt-6 space-y-3 border-t border-stone-100 pt-5 text-sm">
+   189→          <div className="flex justify-between">
+   190→            <span className="text-stone-500">Subtotal</span>
+   191→            <span className="text-stone-900">{formatPrice(subtotal)}</span>
+   192→          </div>
+   193→          {promoCode && (
+   194→            <div className="flex justify-between text-[#5C6B4F]">
+   195→              <span>
+   196→                Promo {promoCode} (−10%)
+   197→              </span>
+   198→              <span>−{formatPrice(discount)}</span>
+   199→            </div>
+   200→          )}
+   201→          <div className="flex justify-between">
+   202→            <span className="text-stone-500">Shipping</span>
+   203→            <span className="text-stone-900">{shipping === 0 ? "Free" : formatPrice(shipping)}</span>
+   204→          </div>
+   205→          <div className="flex justify-between border-t border-stone-200 pt-4 text-base font-semibold">
+   206→            <span>Total</span>
+   207→            <span>{formatPrice(total)}</span>
+   208→          </div>
+   209→          <p className="text-xs text-stone-400">
+   210→            Or 4 interest-free payments of {formatPrice(Math.round(total / 4))}
+   211→          </p>
+   212→        </div>
+   213→
+   214→        <p className="mt-6 border-t border-stone-100 pt-5 text-[11px] leading-relaxed text-stone-400">
+   215→          Secure 256-bit encrypted checkout · Free 30-day returns · 10-year repair guarantee
+   216→        </p>
+   217→      </div>
+   218→    </aside>
+   219→  );
+   220→}
+   221→
+   222→export function CheckoutView() {
+   223→  const cartItems = useStore((s) => s.cartItems);
+   224→  const user = useStore((s) => s.user);
+   225→  const promoCode = useStore((s) => s.promoCode);
+   226→  const clearPromo = useStore((s) => s.clearPromo);
+   227→  const hydrateCart = useStore((s) => s.hydrateCart);
+   228→  const navigate = useStore((s) => s.navigate);
+   229→  const sessionId = useStore((s) => s.sessionId);
+   230→
+   231→  const [step, setStep] = useState(1);
+   232→  const [dir, setDir] = useState("forward");
+   233→  const [errors, setErrors] = useState<Record<string, string>>({});
+   234→  const [placing, setPlacing] = useState(false);
+   235→  const [order, setOrder] = useState<PlacedOrder | null>(null);
+   236→  const [dialogOpen, setDialogOpen] = useState(false);
+   237→
+   238→  const [name, setName] = useState(user?.name ?? "");
+   239→  const [email, setEmail] = useState(user?.email ?? "");
+   240→  const [phone, setPhone] = useState("");
+   241→  const [address, setAddress] = useState("");
+   242→  const [city, setCity] = useState("");
+   243→  const [postalCode, setPostalCode] = useState("");
+   244→  const [country, setCountry] = useState("India");
+   245→  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("card");
+   246→  const [cardName, setCardName] = useState(user?.name ?? "");
+   247→  const [cardNumber, setCardNumber] = useState("");
+   248→  const [cardExpiry, setCardExpiry] = useState("");
+   249→  const [cardCvv, setCardCvv] = useState("");
+   250→  const [upiId, setUpiId] = useState("");
+   251→
+   252→  const subtotal = cartItems.reduce((n, i) => n + i.qty * i.product.price, 0);
+   253→  const discount = promoCode ? Math.round(0.1 * subtotal * 100) / 100 : 0;
+   254→  const shipping = cartItems.length === 0 || subtotal - discount >= 150 ? 0 : 8;
+   255→  const total = Math.max(0, subtotal - discount + shipping);
+   256→
+   257→  const placeOrder = async () => {
+   258→    if (placing) return;
+   259→    const errs: Record<string, string> = {};
+   260→    if (paymentMethod === "card") {
+   261→      if (cardName.trim().length < 2) errs.cardName = "Please enter the name on your card.";
+   262→      const digits = cardNumber.replace(/\D/g, "");
+   263→      if (digits.length < 15 || digits.length > 16)
+   264→        errs.cardNumber = "Please enter a valid card number.";
+   265→      const m = /^(0[1-9]|1[0-2])\/(\d{2})$/.exec(cardExpiry.trim());
+   266→      if (m) {
+   267→        if (new Date(2000 + Number(m[2]), Number(m[1]), 1) <= new Date())
+   268→          errs.cardExpiry = "This card has expired.";
+   269→      } else {
+   270→        errs.cardExpiry = "Use MM/YY format.";
+   271→      }
+   272→      const cvv = cardCvv.replace(/\D/g, "");
+   273→      if (cvv.length < 3 || cvv.length > 4) errs.cardCvv = "Please enter the 3–4 digit code.";
+   274→    } else if (paymentMethod === "upi" && !/^[\w.\-]{2,}@[a-zA-Z]{2,}$/.test(upiId.trim())) {
+   275→      errs.upiId = "Enter a valid UPI ID (name@bank).";
+   276→    }
+   277→
+   278→    setErrors(errs);
+   279→    if (Object.keys(errs).length > 0) return;
+   280→
+   281→    setPlacing(true);
+   282→    try {
+   283→      const paymentDetail =
+   284→        paymentMethod === "card"
+   285→          ? `Visa ending in ${cardNumber.replace(/\D/g, "").slice(-4)}`
+   286→          : paymentMethod === "upi"
+   287→            ? upiId.trim()
+   288→            : "";
+   289→      const res = await fetch("/api/orders", {
+   290→        method: "POST",
+   291→        headers: { "Content-Type": "application/json" },
+   292→        body: JSON.stringify({
+   293→          sessionId,
+   294→          promoCode: promoCode ?? undefined,
+   295→          name,
+   296→          email,
+   297→          phone,
+   298→          address,
+   299→          city,
+   300→          postalCode,
+   301→          country,
+   302→          paymentMethod,
+   303→          cardName,
+   304→          cardNumber,
+   305→          cardExpiry,
+   306→          cardCvv,
+   307→          upiId,
+   308→          items: cartItems.map((i) => ({
+   309→            productId: i.productId,
+   310→            name: i.product.name,
+   311→            image: i.product.images[0],
+   312→            size: i.size,
+   313→            color: i.color,
+   314→            qty: i.qty,
+   315→            price: i.product.price,
+   316→          })),
+   317→          subtotal,
+   318→          shipping,
+   319→          total,
+   320→          paymentDetail,
+   321→        }),
+   322→      });
+   323→      const json = await res.json();
+   324→      if (!res.ok) {
+   325→        toast.error(json.error ?? "Could not place your order. Please check your details and try again.");
+   326→        return;
+   327→      }
+   328→      const o = json.order ?? {};
+   329→      const now = Date.now();
+   330→      setOrder({
+   331→        number: o.orderNumber ?? o.number ?? "",
+   332→        email: o.email ?? email,
+   333→        name: o.name ?? name,
+   334→        address: o.address ?? address,
+   335→        city: o.city ?? city,
+   336→        state: o.state ?? "",
+   337→        postalCode: o.postalCode ?? postalCode,
+   338→        country: o.country ?? country,
+   339→        phone: o.phone ?? phone,
+   340→        paymentMethod: (o.paymentMethod ?? paymentMethod) as PaymentMethod,
+   341→        paymentDetail: o.paymentDetail ?? paymentDetail,
+   342→        estimatedMin: o.estimatedMin ?? now + 5 * 86400000,
+   343→        estimatedMax: o.estimatedMax ?? now + 7 * 86400000,
+   344→        subtotal: typeof o.subtotal === "number" ? o.subtotal : subtotal,
+   345→        discount: typeof o.discount === "number" ? o.discount : discount,
+   346→        shipping: typeof o.shipping === "number" ? o.shipping : shipping,
+   347→        total: typeof o.total === "number" ? o.total : total,
+   348→        promoCode: o.promoCode ?? promoCode ?? null,
+   349→        items: (Array.isArray(o.items) ? o.items : []).map(
+   350→          (it: Record<string, unknown>, idx: number) => ({
+   351→            id: String(it.id ?? idx),
+   352→            name: String(it.name ?? ""),
+   353→            image: (it.image as string | null) ?? null,
+   354→            color: String(it.color ?? ""),
+   355→            size: String(it.size ?? ""),
+   356→            qty: Number(it.qty ?? 0),
+   357→            price: Number(it.price ?? 0),
+   358→          })
+   359→        ),
+   360→      });
+   361→      clearPromo();
+   362→      await hydrateCart();
+   363→      setDir("forward");
+   364→      setStep(3);
+   365→      setDialogOpen(true);
+   366→      scrollToTop();
+   367→    } catch {
+   368→      toast.error("Network error. Please try again.");
+   369→    } finally {
+   370→      setPlacing(false);
+   371→    }
+   372→  };
+   373→
+   374→  if (cartItems.length !== 0 || order) {
+   375→    if (step === 3 && order) {
+   376→      return (
+   377→        <div className="mx-auto max-w-7xl px-4 pb-24 md:px-6 lg:px-10">
+   378→          <div className="mx-auto max-w-2xl">
+   379→            <div className="pt-14 text-center">
+   380→              <p className="text-[10px] font-semibold tracking-[0.3em] text-[#5C6B4F] uppercase">
+   381→                Order Confirmed
+   382→              </p>
+   383→              <h1 className="mt-3 font-display text-3xl tracking-tight text-stone-900 md:text-4xl">
+   384→                Thank you, {order.name.split(" ")[0]}.
+   385→              </h1>
+   386→              <p className="mt-4 text-sm leading-relaxed text-stone-500">
+   387→                Order <strong className="font-semibold text-stone-900">{order.number}</strong> is
+   388→                confirmed. A receipt has been sent to {order.email}. Your pieces will be prepared
+   389→                and dispatched within two business days.
+   390→              </p>
+   391→            </div>
+   392→
+   393→            <div className="mt-10 divide-y divide-stone-100 border border-stone-200">
+   394→              <div className="grid gap-1 px-6 py-5 sm:grid-cols-[160px_1fr] sm:gap-6">
+   395→                <p className="text-[10px] font-semibold tracking-[0.2em] text-stone-400 uppercase">
+   396→                  Arriving
+   397→                </p>
+   398→                <p className="text-sm text-stone-800">
+   399→                  {formatDate(order.estimatedMin)} – {formatDate(order.estimatedMax)}
+   400→                </p>
+   401→              </div>
+   402→              <div className="grid gap-1 px-6 py-5 sm:grid-cols-[160px_1fr] sm:gap-6">
+   403→                <p className="text-[10px] font-semibold tracking-[0.2em] text-stone-400 uppercase">
+   404→                  Delivering to
+   405→                </p>
+   406→                <p className="text-sm leading-relaxed text-stone-800">
+   407→                  {order.name}
+   408→                  <br />
+   409→                  {order.address}
+   410→                  <br />
+   411→                  {[order.city, order.state].filter(Boolean).join(", ")} {order.postalCode}
+   412→                  <br />
+   413→                  {order.country} · {order.phone}
+   414→                </p>
+   415→              </div>
+   416→              <div className="grid gap-1 px-6 py-5 sm:grid-cols-[160px_1fr] sm:gap-6">
+   417→                <p className="text-[10px] font-semibold tracking-[0.2em] text-stone-400 uppercase">
+   418→                  Payment
+   419→                </p>
+   420→                <p className="text-sm text-stone-800">
+   421→                  {PAYMENT_LABELS[order.paymentMethod] ?? order.paymentMethod}
+   422→                  {order.paymentDetail ? ` — ${order.paymentDetail}` : ""}
+   423→                </p>
+   424→              </div>
+   425→            </div>
+   426→
+   427→            <div className="mt-10">
+   428→              <h2 className="text-[12px] font-semibold uppercase tracking-[0.3em] text-stone-900">
+   429→                Your Order
+   430→              </h2>
+   431→              <div className="mt-4 divide-y divide-stone-100 border-y border-stone-100">
+   432→                {order.items.map((item) => (
+   433→                  <div key={item.id} className="flex items-center gap-5 py-5">
+   434→                    <div className="aspect-[3/4] w-16 shrink-0 overflow-hidden bg-stone-100">
+   435→                      {item.image ? (
+   436→                        <img
+   437→                          src={item.image}
+   438→                          alt={item.name}
+   439→                          className="h-full w-full object-cover"
+   440→                        />
+   441→                      ) : (
+   442→                        <div className="h-full w-full bg-stone-100" />
+   443→                      )}
+   444→                    </div>
+   445→                    <div className="min-w-0 flex-1">
+   446→                      <p className="text-sm font-medium text-stone-900">{item.name}</p>
+   447→                      <p className="mt-0.5 text-xs text-stone-500">
+   448→                        {item.color} · Size {item.size} · Qty {item.qty}
+   449→                      </p>
+   450→                    </div>
+   451→                    <p className="text-sm font-semibold text-stone-900">
+   452→                      {formatPrice(item.price * item.qty)}
+   453→                    </p>
+   454→                  </div>
+   455→                ))}
+   456→              </div>
+   457→              <div className="mt-5 ml-auto max-w-xs space-y-3 text-sm">
+   458→                <div className="flex justify-between">
+   459→                  <span className="text-stone-500">Subtotal</span>
+   460→                  <span className="text-stone-900">{formatPrice(order.subtotal)}</span>
+   461→                </div>
+   462→                {order.promoCode && (
+   463→                  <div className="flex justify-between text-[#5C6B4F]">
+   464→                    <span>
+   465→                      Promo {order.promoCode} (−10%)
+   466→                    </span>
+   467→                    <span>−{formatPrice(order.discount)}</span>
+   468→                  </div>
+   469→                )}
+   470→                <div className="flex justify-between">
+   471→                  <span className="text-stone-500">Shipping</span>
+   472→                  <span className="text-stone-900">
+   473→                    {order.shipping === 0 ? "Free" : formatPrice(order.shipping)}
+   474→                  </span>
+   475→                </div>
+   476→                <div className="flex justify-between border-t border-stone-200 pt-4 text-base font-semibold">
+   477→                  <span>Total</span>
+   478→                  <span>{formatPrice(order.total)}</span>
+   479→                </div>
+   480→              </div>
+   481→            </div>
+   482→
+   483→            <div className="mt-12 text-center">
+   484→              <button
+   485→                onClick={() => navigate({ name: "shop", title: "All Clothing" })}
+   486→                className="w-full bg-stone-900 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700 sm:w-auto sm:px-16"
+   487→              >
+   488→                Continue Shopping
+   489→              </button>
+   490→              <p className="mt-5 text-[11px] leading-relaxed text-stone-400">
+   491→                Questions about your order? Write to us at care@ateliernoir.com with your order
+   492→                number.
+   493→              </p>
+   494→            </div>
+   495→          </div>
+   496→
+   497→          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+   498→            <DialogContent className="rounded-none sm:max-w-md">
+   499→              <DialogTitle className="sr-only">Order placed</DialogTitle>
+   500→              <div className="py-3 text-center">
+   501→                <p className="text-[10px] font-semibold tracking-[0.3em] text-[#5C6B4F] uppercase">
+   502→                  Order Placed
+   503→                </p>
+   504→                <h3 className="mt-3 font-display text-2xl text-stone-900">
+   505→                  Thank you, {order.name.split(" ")[0]}.
+   506→                </h3>
+   507→                <p className="mt-3 text-sm leading-relaxed text-stone-500">
+   508→                  Your order <strong className="font-semibold text-stone-900">{order.number}</strong>{" "}
+   509→                  has been placed successfully. A receipt is on its way to {order.email}.
+   510→                </p>
+   511→                <button
+   512→                  onClick={() => setDialogOpen(false)}
+   513→                  className="mt-7 w-full bg-stone-900 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700"
+   514→                >
+   515→                  View Order
+   516→                </button>
+   517→              </div>
+   518→            </DialogContent>
+   519→          </Dialog>
+   520→        </div>
+   521→      );
+   522→    }
+   523→
+   524→    return (
+   525→      <div className="mx-auto max-w-7xl px-4 pb-24 md:px-6 lg:px-10">
+   526→        <h1 className="pt-10 font-display text-3xl tracking-tight md:text-4xl">Checkout</h1>
+   527→
+   528→        <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
+   529→          <StepIndicator step={step} />
+   530→          <button
+   531→            onClick={() => navigate({ name: "cart" })}
+   532→            className="text-[11px] font-semibold tracking-[0.2em] text-stone-500 uppercase underline underline-offset-4 transition hover:text-stone-900"
+   533→          >
+   534→            Return to Bag
+   535→          </button>
+   536→        </div>
+   537→
+   538→        <div className="mt-10 grid gap-12 lg:grid-cols-[1fr_380px]">
+   539→          <div
+   540→            key={step}
+   541→            className={dir === "forward" ? "animate-page-turn-forward" : "animate-page-turn-back"}
+   542→          >
+   543→            {step === 1 ? (
+   544→              <div className="space-y-10">
+   545→                <section className="space-y-5">
+   546→                  <SectionHeading>Contact</SectionHeading>
+   547→                  <div className="grid gap-5 sm:grid-cols-2">
+   548→                    <Field id="checkout-name" label="Full Name" error={errors.name}>
+   549→                      <Input
+   550→                        id="checkout-name"
+   551→                        autoComplete="name"
+   552→                        value={name}
+   553→                        onChange={(e) => setName(e.target.value)}
+   554→                        placeholder="Jane Moreau"
+   555→                        className="h-11 rounded-none border-stone-300 text-[15px] focus-visible:ring-stone-900"
+   556→                      />
+   557→                    </Field>
+   558→                    <Field id="checkout-email" label="Email" error={errors.email}>
+   559→                      <Input
+   560→                        id="checkout-email"
+   561→                        type="email"
+   562→                        autoComplete="email"
+   563→                        value={email}
+   564→                        onChange={(e) => setEmail(e.target.value)}
+   565→                        placeholder="you@example.com"
+   566→                        className="h-11 rounded-none border-stone-300 text-[15px] focus-visible:ring-stone-900"
+   567→                      />
+   568→                    </Field>
+   569→                  </div>
+   570→                  <Field id="checkout-phone" label="Phone" error={errors.phone}>
+   571→                    <Input
+   572→                      id="checkout-phone"
+   573→                      type="tel"
+   574→                      autoComplete="tel"
+   575→                      value={phone}
+   576→                      onChange={(e) => setPhone(e.target.value)}
+   577→                      placeholder="+91 98765 43210"
+   578→                      maxLength={20}
+   579→                      className="h-11 rounded-none border-stone-300 text-[15px] focus-visible:ring-stone-900"
+   580→                    />
+   581→                  </Field>
+   582→                </section>
+   583→
+   584→                <section className="space-y-5">
+   585→                  <SectionHeading>Shipping Address</SectionHeading>
+   586→                  <Field id="checkout-address" label="Address" error={errors.address}>
+   587→                    <Input
+   588→                      id="checkout-address"
+   589→                      autoComplete="address-line1"
+   590→                      value={address}
+   591→                      onChange={(e) => setAddress(e.target.value)}
+   592→                      placeholder="Flat, house no., building, street, landmark"
+   593→                      className="h-11 rounded-none border-stone-300 text-[15px] focus-visible:ring-stone-900"
+   594→                    />
+   595→                  </Field>
+   596→                  <div className="grid gap-5 sm:grid-cols-2">
+   597→                    <Field id="checkout-city" label="City" error={errors.city}>
+   598→                      <Input
+   599→                        id="checkout-city"
+   600→                        autoComplete="address-level2"
+   601→                        value={city}
+   602→                        onChange={(e) => setCity(e.target.value)}
+   603→                        placeholder="Mumbai"
+   604→                        className="h-11 rounded-none border-stone-300 text-[15px] focus-visible:ring-stone-900"
+   605→                      />
+   606→                    </Field>
+   607→                    <Field id="checkout-postal" label="PIN / Postal Code" error={errors.postal}>
+   608→                      <Input
+   609→                        id="checkout-postal"
+   610→                        autoComplete="postal-code"
+   611→                        inputMode="numeric"
+   612→                        value={postalCode}
+   613→                        onChange={(e) => setPostalCode(e.target.value)}
+   614→                        placeholder="400001"
+   615→                        maxLength={10}
+   616→                        className="h-11 rounded-none border-stone-300 text-[15px] focus-visible:ring-stone-900"
+   617→                      />
+   618→                    </Field>
+   619→                  </div>
+   620→                  <Field id="checkout-country" label="Country" error={errors.country}>
+   621→                    <select
+   622→                      id="checkout-country"
+   623→                      autoComplete="country-name"
+   624→                      value={country}
+   625→                      onChange={(e) => setCountry(e.target.value)}
+   626→                      className="h-11 w-full rounded-none border border-stone-300 bg-white px-3 text-[15px] text-stone-900 outline-none transition focus:border-stone-900"
+   627→                    >
+   628→                      {COUNTRIES.map((c) => (
+   629→                        <option key={c} value={c}>
+   630→                          {c}
+   631→                        </option>
+   632→                      ))}
+   633→                    </select>
+   634→                  </Field>
+   635→                </section>
+   636→
+   637→                <section className="space-y-5">
+   638→                  <SectionHeading>Payment Method</SectionHeading>
+   639→                  <p className="-mt-2 text-sm text-stone-500">
+   640→                    Select the account you want to pay with.
+   641→                  </p>
+   642→                  <div role="radiogroup" aria-label="Payment method" className="space-y-3">
+   643→                    {PAYMENT_METHODS.map((pm) => {
+   644→                      const selected = paymentMethod === pm.id;
+   645→                      return (
+   646→                        <label
+   647→                          key={pm.id}
+   648→                          className={`flex cursor-pointer items-start gap-3.5 border px-5 py-4 transition-colors ${
+   649→                            selected
+   650→                              ? "border-stone-900 bg-stone-50"
+   651→                              : "border-stone-200 hover:border-stone-400"
+   652→                          }`}
+   653→                        >
+   654→                          <input
+   655→                            type="radio"
+   656→                            name="payment-method"
+   657→                            value={pm.id}
+   658→                            checked={selected}
+   659→                            onChange={() => setPaymentMethod(pm.id)}
+   660→                            className="sr-only"
+   661→                          />
+   662→                          <span
+   663→                            aria-hidden
+   664→                            className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border ${
+   665→                              selected ? "border-stone-900" : "border-stone-400"
+   666→                            }`}
+   667→                          >
+   668→                            {selected && <span className="h-2 w-2 rounded-full bg-stone-900" />}
+   669→                          </span>
+   670→                          <span>
+   671→                            <span className="block text-sm font-medium text-stone-900">
+   672→                              {pm.title}
+   673→                            </span>
+   674→                            <span className="mt-0.5 block text-xs leading-relaxed text-stone-500">
+   675→                              {pm.desc}
+   676→                            </span>
+   677→                          </span>
+   678→                        </label>
+   679→                      );
+   680→                    })}
+   681→                  </div>
+   682→                </section>
+   683→
+   684→                <button
+   685→                  onClick={() => {
+   686→                    const errs: Record<string, string> = {};
+   687→                    if (name.trim().length < 2) errs.name = "Please enter your full name.";
+   688→                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim()))
+   689→                      errs.email = "Please enter a valid email address.";
+   690→                    if (phone.replace(/\D/g, "").length < 7)
+   691→                      errs.phone = "Please enter a valid phone number.";
+   692→                    if (address.trim().length < 4) errs.address = "Please enter your street address.";
+   693→                    if (city.trim().length < 2) errs.city = "Please enter your city.";
+   694→                    if (postalCode.replace(/\D/g, "").length < 4)
+   695→                      errs.postal = "Please enter a valid postal code.";
+   696→                    if (!country) errs.country = "Please select your country.";
+   697→                    setErrors(errs);
+   698→                    if (Object.keys(errs).length === 0) {
+   699→                      setDir("forward");
+   700→                      setStep(2);
+   701→                      scrollToTop();
+   702→                    }
+   703→                  }}
+   704→                  className="w-full bg-stone-900 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700"
+   705→                >
+   706→                  Continue to Payment
+   707→                </button>
+   708→              </div>
+   709→            ) : (
+   710→              <div className="space-y-10">
+   711→                <div>
+   712→                  <SectionHeading>
+   713→                    {paymentMethod === "card"
+   714→                      ? "Card Details"
+   715→                      : paymentMethod === "upi"
+   716→                        ? "UPI Details"
+   717→                        : "Cash on Delivery"}
+   718→                  </SectionHeading>
+   719→                  <p className="mt-2 text-sm text-stone-500">
+   720→                    {paymentMethod === "card" && "Your card details are encrypted end to end."}
+   721→                    {paymentMethod === "upi" && "A payment request will be sent to this UPI ID."}
+   722→                    {paymentMethod === "cod" &&
+   723→                      "Pay the full amount in cash when your order is handed to you."}
+   724→                  </p>
+   725→                </div>
+   726→
+   727→                {paymentMethod === "card" && (
+   728→                  <section className="space-y-5">
+   729→                    <Field id="checkout-card-name" label="Name on Card" error={errors.cardName}>
+   730→                      <Input
+   731→                        id="checkout-card-name"
+   732→                        autoComplete="cc-name"
+   733→                        value={cardName}
+   734→                        onChange={(e) => setCardName(e.target.value)}
+   735→                        placeholder="JANE MOREAU"
+   736→                        className="h-11 rounded-none border-stone-300 text-[15px] focus-visible:ring-stone-900"
+   737→                      />
+   738→                    </Field>
+   739→                    <Field id="checkout-card-number" label="Card Number" error={errors.cardNumber}>
+   740→                      <Input
+   741→                        id="checkout-card-number"
+   742→                        autoComplete="cc-number"
+   743→                        inputMode="numeric"
+   744→                        value={cardNumber}
+   745→                        onChange={(e) =>
+   746→                          setCardNumber(
+   747→                            e.target.value.replace(/\D/g, "").slice(0, 16).replace(/(\d{4})(?=\d)/g, "$1 ")
+   748→                          )
+   749→                        }
+   750→                        placeholder="4242 4242 4242 4242"
+   751→                        maxLength={19}
+   752→                        className="h-11 rounded-none border-stone-300 text-[15px] tracking-[0.08em] focus-visible:ring-stone-900"
+   753→                      />
+   754→                    </Field>
+   755→                    <div className="grid gap-5 sm:grid-cols-2">
+   756→                      <Field
+   757→                        id="checkout-card-expiry"
+   758→                        label="Expiry (MM/YY)"
+   759→                        error={errors.cardExpiry}
+   760→                      >
+   761→                        <Input
+   762→                          id="checkout-card-expiry"
+   763→                          autoComplete="cc-exp"
+   764→                          inputMode="numeric"
+   765→                          value={cardExpiry}
+   766→                          onChange={(e) => {
+   767→                            const digits = e.target.value.replace(/\D/g, "").slice(0, 4);
+   768→                            setCardExpiry(
+   769→                              digits.length <= 2 ? digits : `${digits.slice(0, 2)}/${digits.slice(2)}`
+   770→                            );
+   771→                          }}
+   772→                          placeholder="08/27"
+   773→                          maxLength={5}
+   774→                          className="h-11 rounded-none border-stone-300 text-[15px] focus-visible:ring-stone-900"
+   775→                        />
+   776→                      </Field>
+   777→                      <Field id="checkout-card-cvv" label="Security Code" error={errors.cardCvv}>
+   778→                        <Input
+   779→                          id="checkout-card-cvv"
+   780→                          autoComplete="cc-csc"
+   781→                          inputMode="numeric"
+   782→                          type="password"
+   783→                          value={cardCvv}
+   784→                          onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, "").slice(0, 4))}
+   785→                          placeholder="3–4 digits"
+   786→                          maxLength={4}
+   787→                          className="h-11 rounded-none border-stone-300 text-[15px] focus-visible:ring-stone-900"
+   788→                        />
+   789→                      </Field>
+   790→                    </div>
+   791→                  </section>
+   792→                )}
+   793→
+   794→                {paymentMethod === "upi" && (
+   795→                  <section className="space-y-5">
+   796→                    <Field id="checkout-upi" label="UPI ID" error={errors.upiId}>
+   797→                      <Input
+   798→                        id="checkout-upi"
+   799→                        value={upiId}
+   800→                        onChange={(e) => setUpiId(e.target.value)}
+   801→                        placeholder="yourname@okbank"
+   802→                        className="h-11 rounded-none border-stone-300 text-[15px] focus-visible:ring-stone-900"
+   803→                      />
+   804→                    </Field>
+   805→                  </section>
+   806→                )}
+   807→
+   808→                {paymentMethod === "cod" && (
+   809→                  <div className="border border-stone-200 bg-stone-50 px-6 py-5 text-sm leading-relaxed text-stone-700">
+   810→                    You will pay{" "}
+   811→                    <strong className="font-semibold text-stone-900">{formatPrice(total)}</strong>{" "}
+   812→                    in cash when your order arrives. Please keep the exact amount ready — our
+   813→                    delivery partner carries a card machine as a backup.
+   814→                  </div>
+   815→                )}
+   816→
+   817→                <div className="space-y-5 border-t border-stone-100 pt-8">
+   818→                  <button
+   819→                    onClick={() => {
+   820→                      setErrors({});
+   821→                      setDir("back");
+   822→                      setStep(1);
+   823→                      scrollToTop();
+   824→                    }}
+   825→                    className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-600 transition hover:text-stone-900"
+   826→                  >
+   827→                    <ArrowLeft size={15} /> Return to Shipping
+   828→                  </button>
+   829→                  <button
+   830→                    onClick={placeOrder}
+   831→                    disabled={placing}
+   832→                    className="w-full bg-stone-900 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700 disabled:opacity-60"
+   833→                  >
+   834→                    {placing ? "Processing…" : `Place Order — ${formatPrice(total)}`}
+   835→                  </button>
+   836→                  <p className="text-center text-[11px] text-stone-400">
+   837→                    By placing your order you agree to our terms and return policy.
+   838→                  </p>
+   839→                </div>
+   840→              </div>
+   841→            )}
+   842→          </div>
+   843→
+   844→          <OrderSummary promoCode={promoCode} total={total} />
+   845→        </div>
+   846→      </div>
+   847→    );
+   848→  }
+   849→
+   850→  return (
+   851→    <div className="mx-auto max-w-7xl px-4 pb-24 md:px-6 lg:px-10">
+   852→      <h1 className="pt-10 font-display text-3xl tracking-tight md:text-4xl">Checkout</h1>
+   853→      <div className="flex flex-col items-center justify-center py-28 text-center">
+   854→        <ShoppingBag size={52} strokeWidth={1} className="text-stone-300" />
+   855→        <p className="mt-6 font-display text-2xl text-stone-900">Your bag is empty</p>
+   856→        <p className="mt-2 max-w-sm text-sm text-stone-500">
+   857→          Add a piece to your bag to continue to checkout.
+   858→        </p>
+   859→        <button
+   860→          onClick={() => navigate({ name: "shop", title: "All Clothing" })}
+   861→          className="mt-8 bg-stone-900 px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white hover:bg-stone-700"
+   862→        >
+   863→          Explore the Collection
+   864→        </button>
+   865→      </div>
+   866→    </div>
+   867→  );
+   868→}
+   869→

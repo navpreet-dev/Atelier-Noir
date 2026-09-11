@@ -152,7 +152,7 @@ export function MediaVideo({
         playsInline
         preload="auto"
         disablePictureInPicture
-        className={`${className} transition-opacity duration-s]`}
+        className={`${className} transition-opacity duration-[2000ms]`}
         style={{ opacity: !mounted || (showCover && playing) ? 0 : undefined }}
       />
       {poster ? (
@@ -161,7 +161,7 @@ export function MediaVideo({
           alt={alt}
           aria-hidden={alt === "" || undefined}
           fetchPriority="high"
-          className={`animate-cover-enter animate-cover-settle pointer-events-none absolute inset-0 transition-opacity duration-s] ${coverClassName}`}
+          className={`animate-cover-enter animate-cover-settle pointer-events-none absolute inset-0 transition-opacity duration-[2000ms] ${coverClassName}`}
           style={{ opacity: showCover ? undefined : 0 }}
         />
       ) : null}
