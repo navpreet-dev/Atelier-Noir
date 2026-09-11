@@ -1,0 +1,1397 @@
+     1→function lE({ slug: e }) {
+     2→  let t = z((e) => e.navigate),
+     3→    r = z((e) => e.addToCart),
+     4→    s = z((e) => e.toggleWishlist),
+     5→    n = z((e) => e.requireSignIn),
+     6→    a = z((e) => e.inWishlist),
+     7→    o = z((e) => e.setCartOpen),
+     8→    [i, l] = (0, C.useState)(null),
+     9→    [c, d] = (0, C.useState)([]),
+    10→    [u, m] = (0, C.useState)(!0),
+    11→    [p, h] = (0, C.useState)(!1),
+    12→    [x, f] = (0, C.useState)([]),
+    13→    [g, b] = (0, C.useState)(0),
+    14→    [v, y] = (0, C.useState)(null),
+    15→    [w, j] = (0, C.useState)(null),
+    16→    [N, S] = (0, C.useState)(1),
+    17→    [E, A] = (0, C.useState)(!1),
+    18→    [R, M] = (0, C.useState)(!1),
+    19→    P = (0, C.useRef)(null),
+    20→    [O, D] = (0, C.useState)(!1),
+    21→    [L, $] = (0, C.useState)(5),
+    22→    [F, W] = (0, C.useState)(""),
+    23→    [_, H] = (0, C.useState)(""),
+    24→    [V, U] = (0, C.useState)(""),
+    25→    [K, Y] = (0, C.useState)(""),
+    26→    [G, J] = (0, C.useState)(!1);
+    27→  (0, C.useEffect)(() => {
+    28→    let t = !1;
+    29→    return (
+    30→      m(!0),
+    31→      h(!1),
+    32→      b(0),
+    33→      y(null),
+    34→      j(null),
+    35→      S(1),
+    36→      fetch(`/api/products/${e}`)
+    37→        .then((e) => (e.ok ? e.json() : Promise.reject(Error("not found"))))
+    38→        .then((r) => {
+    39→          if (!t)
+    40→            if (
+    41→              (l(r.product), d(r.reviews ?? []), r.product?.colors?.length && j(r.product.colors[0].name), r.product)
+    42→            ) {
+    43→              z.getState().logClientActivity("viewed_product", { slug: e, name: r.product.name });
+    44→              let s = r.product,
+    45→                n = "unisex" === s.gender ? "category=bags,shoes,accessories" : `gender=${s.gender}`;
+    46→              fetch(`/api/products?exclude=${e}&limit=8&${n}`)
+    47→                .then((e) => e.json())
+    48→                .then((e) => {
+    49→                  t || f((e.products ?? []).slice(0, 4));
+    50→                })
+    51→                .catch(() => {});
+    52→            } else f([]);
+    53→        })
+    54→        .catch(() => {
+    55→          t || h(!0);
+    56→        })
+    57→        .finally(() => {
+    58→          t || m(!1);
+    59→        }),
+    60→      () => {
+    61→        t = !0;
+    62→      }
+    63→    );
+    64→  }, [e]);
+    65→  let X = !!i?.video,
+    66→    Z = (i?.images.length ?? 0) + +!!X,
+    67→    Q = X && g === Z - 1,
+    68→    ee = (0, C.useMemo)(
+    69→      () => (!i?.comparePrice || i.comparePrice <= i.price ? null : Math.round((1 - i.price / i.comparePrice) * 100)),
+    70→      [i?.price, i?.comparePrice],
+    71→    ),
+    72→    et = (0, C.useMemo)(() => {
+    73→      let e = [0, 0, 0, 0, 0];
+    74→      c.forEach((t) => {
+    75→        t.rating >= 1 && t.rating <= 5 && e[t.rating - 1]++;
+    76→      });
+    77→      let t = c.length || 1;
+    78→      return e.reverse().map((e, r) => ({ stars: 5 - r, count: e, pct: Math.round((e / t) * 100) }));
+    79→    }, [c]),
+    80→    er = () => !!v || (T.toast.error("Please select a size first"), !1),
+    81→    es = async () => {
+    82→      if (!i || !n() || !er()) return;
+    83→      A(!0);
+    84→      let e = await r(i, v, w || "Default", N);
+    85→      (A(!1),
+    86→        e
+    87→          ? (T.toast.success(`${i.name} — added to your bag`, { description: `${w} \xb7 Size ${v} \xb7 Qty ${N}` }),
+    88→            o(!0))
+    89→          : T.toast.error("Could not add to bag. Please try again."));
+    90→    },
+    91→    en = async () => {
+    92→      if (!i || !n() || !er()) return;
+    93→      A(!0);
+    94→      let e = await r(i, v, w || "Default", N);
+    95→      (A(!1), e ? t({ name: "cart" }) : T.toast.error("Could not continue. Please try again."));
+    96→    },
+    97→    ea = async (e) => {
+    98→      if ((e.preventDefault(), i)) {
+    99→        if (!F.trim() || !V.trim() || !K.trim())
+   100→          return void T.toast.error("Please fill in your name, a title and your review");
+   101→        J(!0);
+   102→        try {
+   103→          let e = await fetch("/api/reviews", {
+   104→              method: "POST",
+   105→              headers: { "Content-Type": "application/json" },
+   106→              body: JSON.stringify({ productId: i.id, author: F, rating: L, title: V, body: K, location: _ }),
+   107→            }),
+   108→            t = await e.json();
+   109→          if (!e.ok) throw Error(t.error || "failed");
+   110→          (d((e) => [t.review, ...e]),
+   111→            l((e) =>
+   112→              e
+   113→                ? {
+   114→                    ...e,
+   115→                    rating: Math.round(((e.rating * e.reviewCount + L) / (e.reviewCount + 1)) * 10) / 10,
+   116→                    reviewCount: e.reviewCount + 1,
+   117→                  }
+   118→                : e,
+   119→            ),
+   120→            T.toast.success("Thank you for your review!", { description: "It is now live on this product." }),
+   121→            D(!1),
+   122→            W(""),
+   123→            H(""),
+   124→            U(""),
+   125→            Y(""),
+   126→            $(5));
+   127→        } catch (e) {
+   128→          T.toast.error(e instanceof Error ? e.message : "Could not submit review");
+   129→        } finally {
+   130→          J(!1);
+   131→        }
+   132→      }
+   133→    };
+   134→  if (u)
+   135→    return (0, k.jsx)("div", {
+   136→      className: "mx-auto max-w-7xl px-4 py-10 md:px-6 lg:px-10",
+   137→      children: (0, k.jsxs)("div", {
+   138→        className: "grid gap-10 lg:grid-cols-2",
+   139→        children: [
+   140→          (0, k.jsx)("div", { className: "aspect-[4/5] animate-pulse bg-stone-100" }),
+   141→          (0, k.jsxs)("div", {
+   142→            className: "space-y-4 py-4",
+   143→            children: [
+   144→              (0, k.jsx)("div", { className: "h-4 w-24 animate-pulse bg-stone-100" }),
+   145→              (0, k.jsx)("div", { className: "h-10 w-3/4 animate-pulse bg-stone-100" }),
+   146→              (0, k.jsx)("div", { className: "h-6 w-32 animate-pulse bg-stone-100" }),
+   147→              (0, k.jsx)("div", { className: "h-32 w-full animate-pulse bg-stone-100" }),
+   148→            ],
+   149→          }),
+   150→        ],
+   151→      }),
+   152→    });
+   153→  if (p || !i)
+   154→    return (0, k.jsxs)("div", {
+   155→      className: "flex flex-col items-center justify-center py-32 text-center",
+   156→      children: [
+   157→        (0, k.jsx)("p", { className: "font-display text-3xl text-stone-900", children: "This piece has retired" }),
+   158→        (0, k.jsx)("p", {
+   159→          className: "mt-3 max-w-md text-sm text-stone-500",
+   160→          children: "The page you are looking for does not exist or the product is no longer available.",
+   161→        }),
+   162→        (0, k.jsx)("button", {
+   163→          onClick: () => t({ name: "shop", title: "All Clothing" }),
+   164→          className:
+   165→            "mt-8 bg-stone-900 px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white hover:bg-stone-700",
+   166→          children: "Back to Shop",
+   167→        }),
+   168→      ],
+   169→    });
+   170→  let eo = a(i.id),
+   171→    ei = i.stock <= 6;
+   172→  return (0, k.jsxs)("div", {
+   173→    className: "pb-20",
+   174→    children: [
+   175→      (0, k.jsxs)("nav", {
+   176→        "aria-label": "Breadcrumb",
+   177→        className:
+   178→          "mx-auto flex max-w-7xl flex-wrap items-center gap-2 px-4 pt-6 text-[11px] uppercase tracking-[0.18em] text-stone-400 md:px-6 lg:px-10",
+   179→        children: [
+   180→          (0, k.jsx)("button", {
+   181→            onClick: () => t({ name: "home" }),
+   182→            className: "hover:text-stone-900",
+   183→            children: "Home",
+   184→          }),
+   185→          (0, k.jsx)("span", { children: "/" }),
+   186→          (0, k.jsx)("button", {
+   187→            onClick: () =>
+   188→              t({
+   189→                name: "shop",
+   190→                gender: "unisex" === i.gender ? "all" : i.gender,
+   191→                title: "unisex" === i.gender ? "Accessories" : "men" === i.gender ? "Men" : "Women",
+   192→              }),
+   193→            className: "capitalize hover:text-stone-900",
+   194→            children: "unisex" === i.gender ? "Accessories" : i.gender,
+   195→          }),
+   196→          (0, k.jsx)("span", { children: "/" }),
+   197→          (0, k.jsx)("span", { className: "normal-case text-stone-700", children: i.name }),
+   198→        ],
+   199→      }),
+   200→      (0, k.jsxs)("div", {
+   201→        className: "mx-auto mt-6 grid max-w-7xl gap-10 px-4 md:px-6 lg:grid-cols-[1.15fr_1fr] lg:gap-16 lg:px-10",
+   202→        children: [
+   203→          (0, k.jsxs)("div", {
+   204→            className: "flex flex-col-reverse gap-4 md:flex-row",
+   205→            children: [
+   206→              (0, k.jsxs)("div", {
+   207→                className: "flex gap-3 overflow-x-auto md:w-20 md:flex-col md:overflow-visible",
+   208→                children: [
+   209→                  i.images.map((e, t) =>
+   210→                    (0, k.jsx)(
+   211→                      "button",
+   212→                      {
+   213→                        onClick: () => b(t),
+   214→                        className: `relative aspect-[3/4] w-16 shrink-0 overflow-hidden border-2 transition md:w-full ${g === t && !Q ? "border-stone-900" : "border-transparent opacity-70 hover:opacity-100"}`,
+   215→                        "aria-label": `View image ${t + 1}`,
+   216→                        children: (0, k.jsx)("img", {
+   217→                          src: e,
+   218→                          alt: "",
+   219→                          className: "h-full w-full object-cover",
+   220→                          loading: "lazy",
+   221→                        }),
+   222→                      },
+   223→                      e + t,
+   224→                    ),
+   225→                  ),
+   226→                  X &&
+   227→                    (0, k.jsxs)("button", {
+   228→                      onClick: () => b(Z - 1),
+   229→                      className: `relative aspect-[3/4] w-16 shrink-0 overflow-hidden border-2 transition md:w-full ${Q ? "border-stone-900" : "border-transparent opacity-70 hover:opacity-100"}`,
+   230→                      "aria-label": "Play product video",
+   231→                      children: [
+   232→                        (0, k.jsx)("img", {
+   233→                          src: i.images[0],
+   234→                          alt: "",
+   235→                          className: "h-full w-full object-cover",
+   236→                          loading: "lazy",
+   237→                        }),
+   238→                        (0, k.jsx)("span", {
+   239→                          className: "absolute inset-0 flex items-center justify-center bg-stone-900/30",
+   240→                          children: (0, k.jsx)(lw, { size: 18, className: "fill-white text-white" }),
+   241→                        }),
+   242→                      ],
+   243→                    }),
+   244→                ],
+   245→              }),
+   246→              (0, k.jsxs)("div", {
+   247→                className: "relative flex-1 select-none overflow-hidden bg-stone-100",
+   248→                children: [
+   249→                  (0, k.jsx)("div", {
+   250→                    className: "relative aspect-[4/5] w-full",
+   251→                    children: Q
+   252→                      ? (0, k.jsx)(
+   253→                          nR,
+   254→                          {
+   255→                            src: i.video,
+   256→                            poster: i.images[0],
+   257→                            className: "h-full w-full object-cover",
+   258→                            coverClassName: "h-full w-full object-cover",
+   259→                          },
+   260→                          i.slug,
+   261→                        )
+   262→                      : (0, k.jsx)(
+   263→                          "img",
+   264→                          {
+   265→                            src: i.images[g],
+   266→                            alt: `${i.name} — view ${g + 1}`,
+   267→                            className: "animate-in fade-in h-full w-full object-cover duration-300",
+   268→                          },
+   269→                          g,
+   270→                        ),
+   271→                  }),
+   272→                  (0, k.jsxs)("div", {
+   273→                    className: "absolute left-4 top-4 flex flex-col gap-1.5",
+   274→                    children: [
+   275→                      i.isNew &&
+   276→                        (0, k.jsx)("span", {
+   277→                          className: "bg-stone-900 px-3 py-1.5 text-[10px] font-semibold tracking-[0.2em] text-white",
+   278→                          children: "NEW SEASON",
+   279→                        }),
+   280→                      ee &&
+   281→                        (0, k.jsxs)("span", {
+   282→                          className: "bg-[#9A3B26] px-3 py-1.5 text-[10px] font-semibold tracking-[0.2em] text-white",
+   283→                          children: ["SAVE ", ee, "%"],
+   284→                        }),
+   285→                    ],
+   286→                  }),
+   287→                  (0, k.jsx)("p", {
+   288→                    className:
+   289→                      "absolute bottom-4 right-4 bg-white/85 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-stone-600 backdrop-blur",
+   290→                    children: Q ? "Film" : `${g + 1} / ${i.images.length}`,
+   291→                  }),
+   292→                ],
+   293→              }),
+   294→            ],
+   295→          }),
+   296→          (0, k.jsxs)("div", {
+   297→            className: "lg:sticky lg:top-32 lg:self-start",
+   298→            children: [
+   299→              (0, k.jsxs)("p", {
+   300→                className: "text-[10px] font-semibold uppercase tracking-[0.3em] text-[#B08968]",
+   301→                children: ["unisex" === i.gender ? "Unisex" : "men" === i.gender ? "Men" : "Women", " · ", i.category],
+   302→              }),
+   303→              (0, k.jsx)("h1", {
+   304→                className: "mt-2 font-display text-3xl tracking-tight text-stone-900 md:text-4xl",
+   305→                children: i.name,
+   306→              }),
+   307→              (0, k.jsxs)("div", {
+   308→                className: "mt-3 flex items-center gap-3",
+   309→                children: [
+   310→                  (0, k.jsxs)("button", {
+   311→                    onClick: () => P.current?.scrollIntoView({ behavior: "smooth" }),
+   312→                    className: "flex items-center gap-2 text-sm text-stone-600 hover:underline",
+   313→                    children: [
+   314→                      (0, k.jsx)(nv, { rating: i.rating }),
+   315→                      (0, k.jsx)("span", { children: i.rating.toFixed(1) }),
+   316→                      (0, k.jsxs)("span", {
+   317→                        className: "text-stone-400 underline underline-offset-2",
+   318→                        children: [i.reviewCount, " reviews"],
+   319→                      }),
+   320→                    ],
+   321→                  }),
+   322→                  (0, k.jsx)("span", { className: "text-stone-200", children: "|" }),
+   323→                  (0, k.jsxs)("span", { className: "text-sm text-stone-500", children: [i.sold, "+ sold"] }),
+   324→                ],
+   325→              }),
+   326→              (0, k.jsxs)("div", {
+   327→                className: "mt-4 flex items-baseline gap-3",
+   328→                children: [
+   329→                  (0, k.jsx)("span", {
+   330→                    className: `text-2xl font-semibold ${ee ? "text-[#9A3B26]" : "text-stone-900"}`,
+   331→                    children: I(i.price),
+   332→                  }),
+   333→                  i.comparePrice &&
+   334→                    i.comparePrice > i.price &&
+   335→                    (0, k.jsx)("span", {
+   336→                      className: "text-lg text-stone-400 line-through",
+   337→                      children: I(i.comparePrice),
+   338→                    }),
+   339→                  ee &&
+   340→                    (0, k.jsxs)("span", {
+   341→                      className: "text-sm font-medium text-[#9A3B26]",
+   342→                      children: ["You save ", I(i.comparePrice - i.price)],
+   343→                    }),
+   344→                ],
+   345→              }),
+   346→              (0, k.jsx)("p", {
+   347→                className: "mt-5 text-[15px] leading-relaxed text-stone-600",
+   348→                children: i.description,
+   349→              }),
+   350→              (0, k.jsxs)("div", {
+   351→                className: "mt-7",
+   352→                children: [
+   353→                  (0, k.jsx)("div", {
+   354→                    className: "flex items-baseline justify-between",
+   355→                    children: (0, k.jsxs)("p", {
+   356→                      className: "text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900",
+   357→                      children: [
+   358→                        "Colour: ",
+   359→                        (0, k.jsx)("span", {
+   360→                          className: "ml-1 font-normal normal-case tracking-normal text-stone-500",
+   361→                          children: w,
+   362→                        }),
+   363→                      ],
+   364→                    }),
+   365→                  }),
+   366→                  (0, k.jsx)("div", {
+   367→                    className: "mt-3 flex gap-3",
+   368→                    children: i.colors.map((e) =>
+   369→                      (0, k.jsx)(
+   370→                        "button",
+   371→                        {
+   372→                          onClick: () => j(e.name),
+   373→                          title: e.name,
+   374→                          "aria-label": `Colour ${e.name}`,
+   375→                          className: `h-9 w-9 rounded-full border-2 p-0.5 transition ${w === e.name ? "border-stone-900" : "border-transparent hover:border-stone-300"}`,
+   376→                          children: (0, k.jsx)("span", {
+   377→                            className: "block h-full w-full rounded-full border border-stone-200",
+   378→                            style: { backgroundColor: e.hex },
+   379→                          }),
+   380→                        },
+   381→                        e.name,
+   382→                      ),
+   383→                    ),
+   384→                  }),
+   385→                ],
+   386→              }),
+   387→              (0, k.jsxs)("div", {
+   388→                className: "mt-6",
+   389→                children: [
+   390→                  (0, k.jsxs)("div", {
+   391→                    className: "flex items-center justify-between",
+   392→                    children: [
+   393→                      (0, k.jsxs)("p", {
+   394→                        className: "text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900",
+   395→                        children: [
+   396→                          "Size: ",
+   397→                          (0, k.jsx)("span", {
+   398→                            className: "ml-1 font-normal normal-case tracking-normal text-stone-500",
+   399→                            children: v ?? "Select a size",
+   400→                          }),
+   401→                        ],
+   402→                      }),
+   403→                      (0, k.jsxs)("button", {
+   404→                        onClick: () => M(!0),
+   405→                        className:
+   406→                          "flex items-center gap-1.5 text-[11px] uppercase tracking-[0.15em] text-stone-500 underline underline-offset-4 hover:text-stone-900",
+   407→                        children: [(0, k.jsx)(lN, { size: 13 }), " Size Guide"],
+   408→                      }),
+   409→                    ],
+   410→                  }),
+   411→                  (0, k.jsx)("div", {
+   412→                    className: "mt-3 flex flex-wrap gap-2",
+   413→                    children: i.sizes.map((e) =>
+   414→                      (0, k.jsx)(
+   415→                        "button",
+   416→                        {
+   417→                          onClick: () => y(e),
+   418→                          className: `min-w-12 border px-3.5 py-2.5 text-sm transition ${v === e ? "border-stone-900 bg-stone-900 text-white" : "border-stone-300 text-stone-700 hover:border-stone-900"}`,
+   419→                          children: e,
+   420→                        },
+   421→                        e,
+   422→                      ),
+   423→                    ),
+   424→                  }),
+   425→                  ei &&
+   426→                    (0, k.jsxs)("p", {
+   427→                      className: "mt-3 flex items-center gap-2 text-[13px] font-medium text-[#9A3B26]",
+   428→                      children: [
+   429→                        (0, k.jsx)("span", { className: "h-1.5 w-1.5 animate-pulse rounded-full bg-[#9A3B26]" }),
+   430→                        "Only ",
+   431→                        i.stock,
+   432→                        " left — selling fast",
+   433→                      ],
+   434→                    }),
+   435→                ],
+   436→              }),
+   437→              (0, k.jsxs)("div", {
+   438→                className: "mt-7",
+   439→                children: [
+   440→                  (0, k.jsxs)("div", {
+   441→                    className: "flex items-center justify-between sm:hidden",
+   442→                    children: [
+   443→                      (0, k.jsxs)("div", {
+   444→                        className: "flex h-12 items-center border border-stone-300",
+   445→                        children: [
+   446→                          (0, k.jsx)("button", {
+   447→                            onClick: () => S((e) => Math.max(1, e - 1)),
+   448→                            className: "flex h-full w-12 items-center justify-center text-stone-600 hover:bg-stone-50",
+   449→                            "aria-label": "Decrease quantity",
+   450→                            children: (0, k.jsx)(s5, { size: 15 }),
+   451→                          }),
+   452→                          (0, k.jsx)("span", { className: "w-10 text-center text-sm font-medium", children: N }),
+   453→                          (0, k.jsx)("button", {
+   454→                            onClick: () => S((e) => Math.min(10, e + 1)),
+   455→                            className: "flex h-full w-12 items-center justify-center text-stone-600 hover:bg-stone-50",
+   456→                            "aria-label": "Increase quantity",
+   457→                            children: (0, k.jsx)(s4, { size: 15 }),
+   458→                          }),
+   459→                        ],
+   460→                      }),
+   461→                      (0, k.jsx)("button", {
+   462→                        onClick: () => {
+   463→                          (s(i), T.toast.success(eo ? "Removed from wishlist" : "Saved to wishlist"));
+   464→                        },
+   465→                        "aria-label": eo ? "Remove from wishlist" : "Add to wishlist",
+   466→                        className:
+   467→                          "flex h-12 w-14 items-center justify-center border border-stone-300 transition hover:border-stone-900",
+   468→                        children: (0, k.jsx)(B, {
+   469→                          size: 18,
+   470→                          className: eo ? "fill-[#9A3B26] text-[#9A3B26]" : "text-stone-700",
+   471→                        }),
+   472→                      }),
+   473→                    ],
+   474→                  }),
+   475→                  (0, k.jsxs)("button", {
+   476→                    onClick: es,
+   477→                    disabled: E,
+   478→                    className:
+   479→                      "mt-3 flex w-full items-center justify-center gap-2.5 bg-stone-900 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700 disabled:opacity-60 sm:hidden",
+   480→                    children: [(0, k.jsx)(q, { size: 16 }), E ? "Adding…" : "Add to Bag"],
+   481→                  }),
+   482→                  (0, k.jsx)("button", {
+   483→                    onClick: en,
+   484→                    disabled: E,
+   485→                    className:
+   486→                      "mt-3 flex w-full items-center justify-center border border-stone-900 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 transition hover:bg-stone-900 hover:text-white disabled:opacity-60 sm:hidden",
+   487→                    children: "Buy Now",
+   488→                  }),
+   489→                  (0, k.jsxs)("div", {
+   490→                    className: "hidden items-stretch gap-3 sm:flex",
+   491→                    children: [
+   492→                      (0, k.jsxs)("div", {
+   493→                        className: "flex items-center border border-stone-300",
+   494→                        children: [
+   495→                          (0, k.jsx)("button", {
+   496→                            onClick: () => S((e) => Math.max(1, e - 1)),
+   497→                            className: "flex h-full w-11 items-center justify-center text-stone-600 hover:bg-stone-50",
+   498→                            "aria-label": "Decrease quantity",
+   499→                            children: (0, k.jsx)(s5, { size: 15 }),
+   500→                          }),
+   501→                          (0, k.jsx)("span", { className: "w-10 text-center text-sm font-medium", children: N }),
+   502→                          (0, k.jsx)("button", {
+   503→                            onClick: () => S((e) => Math.min(10, e + 1)),
+   504→                            className: "flex h-full w-11 items-center justify-center text-stone-600 hover:bg-stone-50",
+   505→                            "aria-label": "Increase quantity",
+   506→                            children: (0, k.jsx)(s4, { size: 15 }),
+   507→                          }),
+   508→                        ],
+   509→                      }),
+   510→                      (0, k.jsxs)("button", {
+   511→                        onClick: es,
+   512→                        disabled: E,
+   513→                        className:
+   514→                          "flex flex-1 items-center justify-center gap-2.5 bg-stone-900 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700 disabled:opacity-60",
+   515→                        children: [(0, k.jsx)(q, { size: 16 }), E ? "Adding…" : "Add to Bag"],
+   516→                      }),
+   517→                      (0, k.jsx)("button", {
+   518→                        onClick: en,
+   519→                        disabled: E,
+   520→                        className:
+   521→                          "flex flex-1 items-center justify-center border border-stone-900 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 transition hover:bg-stone-900 hover:text-white disabled:opacity-60",
+   522→                        children: "Buy Now",
+   523→                      }),
+   524→                      (0, k.jsx)("button", {
+   525→                        onClick: () => {
+   526→                          (s(i), T.toast.success(eo ? "Removed from wishlist" : "Saved to wishlist"));
+   527→                        },
+   528→                        "aria-label": eo ? "Remove from wishlist" : "Add to wishlist",
+   529→                        className:
+   530→                          "flex w-14 items-center justify-center border border-stone-300 transition hover:border-stone-900",
+   531→                        children: (0, k.jsx)(B, {
+   532→                          size: 18,
+   533→                          className: eo ? "fill-[#9A3B26] text-[#9A3B26]" : "text-stone-700",
+   534→                        }),
+   535→                      }),
+   536→                    ],
+   537→                  }),
+   538→                ],
+   539→              }),
+   540→              (0, k.jsx)("div", {
+   541→                className: "mt-7 grid grid-cols-3 gap-3 border-y border-stone-100 py-4 text-center",
+   542→                children: [
+   543→                  { Icon: lC, label: "Free shipping over $150" },
+   544→                  { Icon: lj, label: "30-day free returns" },
+   545→                  { Icon: lk, label: "10-year repairs" },
+   546→                ].map(({ Icon: e, label: t }) =>
+   547→                  (0, k.jsxs)(
+   548→                    "div",
+   549→                    {
+   550→                      className: "flex flex-col items-center gap-1.5",
+   551→                      children: [
+   552→                        (0, k.jsx)(e, { size: 17, className: "text-stone-400" }),
+   553→                        (0, k.jsx)("p", { className: "text-[11px] leading-tight text-stone-500", children: t }),
+   554→                      ],
+   555→                    },
+   556→                    t,
+   557→                  ),
+   558→                ),
+   559→              }),
+   560→              (0, k.jsxs)(t5, {
+   561→                type: "single",
+   562→                collapsible: !0,
+   563→                className: "mt-2",
+   564→                children: [
+   565→                  (0, k.jsxs)(t4, {
+   566→                    value: "desc",
+   567→                    className: "border-stone-200",
+   568→                    children: [
+   569→                      (0, k.jsx)(t3, {
+   570→                        className: "text-[12px] font-semibold uppercase tracking-[0.2em]",
+   571→                        children: "Description & Fit",
+   572→                      }),
+   573→                      (0, k.jsxs)(t6, {
+   574→                        className: "text-sm leading-relaxed text-stone-600",
+   575→                        children: [
+   576→                          i.description,
+   577→                          " Model is 5′9″ (175 cm) and wears a size S. Fit is true to size with a modern, slightly relaxed cut.",
+   578→                        ],
+   579→                      }),
+   580→                    ],
+   581→                  }),
+   582→                  (0, k.jsxs)(t4, {
+   583→                    value: "details",
+   584→                    className: "border-stone-200",
+   585→                    children: [
+   586→                      (0, k.jsx)(t3, {
+   587→                        className: "text-[12px] font-semibold uppercase tracking-[0.2em]",
+   588→                        children: "Details & Care",
+   589→                      }),
+   590→                      (0, k.jsxs)(t6, {
+   591→                        children: [
+   592→                          (0, k.jsx)("ul", {
+   593→                            className: "space-y-1.5 text-sm text-stone-600",
+   594→                            children: i.details.map((e) =>
+   595→                              (0, k.jsxs)(
+   596→                                "li",
+   597→                                {
+   598→                                  className: "flex gap-2",
+   599→                                  children: [
+   600→                                    (0, k.jsx)("span", {
+   601→                                      className: "mt-1.5 h-1 w-1 shrink-0 rounded-full bg-stone-400",
+   602→                                    }),
+   603→                                    e,
+   604→                                  ],
+   605→                                },
+   606→                                e,
+   607→                              ),
+   608→                            ),
+   609→                          }),
+   610→                          (0, k.jsx)("p", {
+   611→                            className: "mt-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-400",
+   612→                            children: "Materials & Care",
+   613→                          }),
+   614→                          (0, k.jsx)("ul", {
+   615→                            className: "mt-2 space-y-1.5 text-sm text-stone-600",
+   616→                            children: i.materials.map((e) =>
+   617→                              (0, k.jsxs)(
+   618→                                "li",
+   619→                                {
+   620→                                  className: "flex gap-2",
+   621→                                  children: [
+   622→                                    (0, k.jsx)("span", {
+   623→                                      className: "mt-1.5 h-1 w-1 shrink-0 rounded-full bg-stone-400",
+   624→                                    }),
+   625→                                    e,
+   626→                                  ],
+   627→                                },
+   628→                                e,
+   629→                              ),
+   630→                            ),
+   631→                          }),
+   632→                        ],
+   633→                      }),
+   634→                    ],
+   635→                  }),
+   636→                  (0, k.jsxs)(t4, {
+   637→                    value: "ship",
+   638→                    className: "border-b-stone-200",
+   639→                    children: [
+   640→                      (0, k.jsx)(t3, {
+   641→                        className: "text-[12px] font-semibold uppercase tracking-[0.2em]",
+   642→                        children: "Shipping & Returns",
+   643→                      }),
+   644→                      (0, k.jsx)(t6, {
+   645→                        className: "text-sm leading-relaxed text-stone-600",
+   646→                        children:
+   647→                          "Free carbon-neutral shipping on orders over $150 (2–4 business days). Express available at checkout. Returns are free within 30 days — instant exchanges ship before you send yours back.",
+   648→                      }),
+   649→                    ],
+   650→                  }),
+   651→                ],
+   652→              }),
+   653→            ],
+   654→          }),
+   655→        ],
+   656→      }),
+   657→      (0, k.jsxs)("div", {
+   658→        ref: P,
+   659→        className: "mx-auto mt-20 max-w-7xl scroll-mt-28 px-4 md:px-6 lg:px-10",
+   660→        children: [
+   661→          (0, k.jsx)(nT, { eyebrow: "Reviews", title: `What ${i.reviewCount} People Say` }),
+   662→          (0, k.jsxs)("div", {
+   663→            className: "grid gap-10 lg:grid-cols-[320px_1fr]",
+   664→            children: [
+   665→              (0, k.jsx)("div", {
+   666→                children: (0, k.jsxs)("div", {
+   667→                  className: "border border-stone-200 p-6",
+   668→                  children: [
+   669→                    (0, k.jsxs)("div", {
+   670→                      className: "flex items-end gap-3",
+   671→                      children: [
+   672→                        (0, k.jsx)("p", {
+   673→                          className: "font-display text-6xl leading-none text-stone-900",
+   674→                          children: i.rating.toFixed(1),
+   675→                        }),
+   676→                        (0, k.jsxs)("div", {
+   677→                          className: "pb-1",
+   678→                          children: [
+   679→                            (0, k.jsx)(nv, { rating: i.rating, size: 16 }),
+   680→                            (0, k.jsxs)("p", {
+   681→                              className: "mt-1 text-xs text-stone-500",
+   682→                              children: [i.reviewCount, " verified reviews"],
+   683→                            }),
+   684→                          ],
+   685→                        }),
+   686→                      ],
+   687→                    }),
+   688→                    (0, k.jsx)("div", {
+   689→                      className: "mt-5 space-y-2",
+   690→                      children: et.map((e) =>
+   691→                        (0, k.jsxs)(
+   692→                          "div",
+   693→                          {
+   694→                            className: "flex items-center gap-2 text-xs text-stone-500",
+   695→                            children: [
+   696→                              (0, k.jsxs)("span", { className: "w-8", children: [e.stars, "★"] }),
+   697→                              (0, k.jsx)("div", {
+   698→                                className: "h-1.5 flex-1 overflow-hidden rounded-full bg-stone-100",
+   699→                                children: (0, k.jsx)("div", {
+   700→                                  className: "h-full rounded-full bg-[#B08968]",
+   701→                                  style: { width: `${e.pct}%` },
+   702→                                }),
+   703→                              }),
+   704→                              (0, k.jsx)("span", { className: "w-8 text-right", children: e.count }),
+   705→                            ],
+   706→                          },
+   707→                          e.stars,
+   708→                        ),
+   709→                      ),
+   710→                    }),
+   711→                    (0, k.jsxs)("p", {
+   712→                      className: "mt-5 border-t border-stone-100 pt-4 text-[13px] text-stone-500",
+   713→                      children: [
+   714→                        (0, k.jsx)("strong", { className: "text-stone-900", children: "96%" }),
+   715→                        " of reviewers recommend this piece.",
+   716→                      ],
+   717→                    }),
+   718→                    (0, k.jsx)("button", {
+   719→                      onClick: () => D(!0),
+   720→                      className:
+   721→                        "mt-4 w-full border border-stone-900 py-3.5 text-[11px] font-semibold uppercase tracking-[0.25em] transition hover:bg-stone-900 hover:text-white",
+   722→                      children: "Write a Review",
+   723→                    }),
+   724→                  ],
+   725→                }),
+   726→              }),
+   727→              (0, k.jsx)("div", {
+   728→                children:
+   729→                  0 === c.length
+   730→                    ? (0, k.jsxs)("div", {
+   731→                        className: "border border-dashed border-stone-300 py-16 text-center",
+   732→                        children: [
+   733→                          (0, k.jsx)("p", {
+   734→                            className: "font-display text-xl text-stone-800",
+   735→                            children: "No reviews yet — be the first",
+   736→                          }),
+   737→                          (0, k.jsx)("p", {
+   738→                            className: "mt-2 text-sm text-stone-500",
+   739→                            children: "Share your fit notes and styling tips with the community.",
+   740→                          }),
+   741→                        ],
+   742→                      })
+   743→                    : (0, k.jsx)("div", {
+   744→                        className: "max-h-[640px] space-y-0 overflow-y-auto pr-1",
+   745→                        children: c.map((e) =>
+   746→                          (0, k.jsxs)(
+   747→                            "article",
+   748→                            {
+   749→                              className: "border-b border-stone-100 py-6 first:pt-0 last:border-0",
+   750→                              children: [
+   751→                                (0, k.jsxs)("div", {
+   752→                                  className: "flex items-start justify-between gap-4",
+   753→                                  children: [
+   754→                                    (0, k.jsxs)("div", {
+   755→                                      className: "flex items-center gap-3",
+   756→                                      children: [
+   757→                                        (0, k.jsx)("span", {
+   758→                                          className:
+   759→                                            "flex h-10 w-10 items-center justify-center rounded-full bg-stone-100 font-display text-lg text-stone-700",
+   760→                                          children: e.author.charAt(0).toUpperCase(),
+   761→                                        }),
+   762→                                        (0, k.jsxs)("div", {
+   763→                                          children: [
+   764→                                            (0, k.jsxs)("p", {
+   765→                                              className: "text-sm font-medium text-stone-900",
+   766→                                              children: [
+   767→                                                e.author,
+   768→                                                e.verified &&
+   769→                                                  (0, k.jsx)("span", {
+   770→                                                    className:
+   771→                                                      "ml-2 rounded-full bg-stone-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-stone-500",
+   772→                                                    children: "Verified Buyer",
+   773→                                                  }),
+   774→                                              ],
+   775→                                            }),
+   776→                                            (0, k.jsx)("p", {
+   777→                                              className: "text-xs text-stone-400",
+   778→                                              children: e.location || "Verified purchase",
+   779→                                            }),
+   780→                                          ],
+   781→                                        }),
+   782→                                      ],
+   783→                                    }),
+   784→                                    (0, k.jsxs)("div", {
+   785→                                      className: "text-right",
+   786→                                      children: [
+   787→                                        (0, k.jsx)(nv, { rating: e.rating, size: 12 }),
+   788→                                        (0, k.jsx)("p", {
+   789→                                          className: "mt-1 text-[11px] text-stone-400",
+   790→                                          children: new Date(e.createdAt).toLocaleDateString("en-US", {
+   791→                                            month: "short",
+   792→                                            year: "numeric",
+   793→                                          }),
+   794→                                        }),
+   795→                                      ],
+   796→                                    }),
+   797→                                  ],
+   798→                                }),
+   799→                                (0, k.jsxs)("h4", {
+   800→                                  className: "mt-3 text-sm font-semibold text-stone-900",
+   801→                                  children: ["“", e.title, "”"],
+   802→                                }),
+   803→                                (0, k.jsx)("p", {
+   804→                                  className: "mt-1.5 text-sm leading-relaxed text-stone-600",
+   805→                                  children: e.body,
+   806→                                }),
+   807→                                (0, k.jsxs)("div", {
+   808→                                  className: "mt-3 flex items-center gap-4 text-xs text-stone-400",
+   809→                                  children: [
+   810→                                    (0, k.jsx)("span", { children: "Was this helpful?" }),
+   811→                                    (0, k.jsxs)("button", {
+   812→                                      onClick: () => T.toast.success("Thanks for the feedback"),
+   813→                                      className:
+   814→                                        "border border-stone-200 px-3 py-1 transition hover:border-stone-900 hover:text-stone-900",
+   815→                                      children: ["Yes (", e.helpful + 12, ")"],
+   816→                                    }),
+   817→                                  ],
+   818→                                }),
+   819→                              ],
+   820→                            },
+   821→                            e.id,
+   822→                          ),
+   823→                        ),
+   824→                      }),
+   825→              }),
+   826→            ],
+   827→          }),
+   828→        ],
+   829→      }),
+   830→      x.length > 0 &&
+   831→        (0, k.jsxs)("div", {
+   832→          className: "mx-auto mt-24 max-w-7xl px-4 md:px-6 lg:px-10",
+   833→          children: [
+   834→            (0, k.jsx)(nT, { eyebrow: "Complete the Look", title: "You May Also Like" }),
+   835→            (0, k.jsx)("div", {
+   836→              className: "grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4 md:gap-x-6",
+   837→              children: x.map((e) => (0, k.jsx)(nA, { product: e }, e.id)),
+   838→            }),
+   839→          ],
+   840→        }),
+   841→      (0, k.jsx)(nm, {
+   842→        open: R,
+   843→        onOpenChange: M,
+   844→        children: (0, k.jsxs)(nx, {
+   845→          className: "rounded-none sm:max-w-md",
+   846→          children: [
+   847→            (0, k.jsx)(nf, {
+   848→              children: (0, k.jsx)(ng, { className: "font-display text-2xl", children: "Size Guide" }),
+   849→            }),
+   850→            (0, k.jsx)("p", {
+   851→              className: "text-sm text-stone-500",
+   852→              children: "Measurements in cm. Our fits run true to size with a modern, slightly relaxed cut.",
+   853→            }),
+   854→            (0, k.jsxs)("table", {
+   855→              className: "mt-2 w-full text-sm",
+   856→              children: [
+   857→                (0, k.jsx)("thead", {
+   858→                  children: (0, k.jsxs)("tr", {
+   859→                    className:
+   860→                      "border-b border-stone-200 text-left text-[11px] uppercase tracking-wider text-stone-400",
+   861→                    children: [
+   862→                      (0, k.jsx)("th", { className: "py-2", children: "Size" }),
+   863→                      (0, k.jsx)("th", { className: "py-2", children: "Chest" }),
+   864→                      (0, k.jsx)("th", { className: "py-2", children: "Waist" }),
+   865→                      (0, k.jsx)("th", { className: "py-2", children: "Hip" }),
+   866→                    ],
+   867→                  }),
+   868→                }),
+   869→                (0, k.jsx)("tbody", {
+   870→                  children: lS.map((e) =>
+   871→                    (0, k.jsx)(
+   872→                      "tr",
+   873→                      {
+   874→                        className: "border-b border-stone-100",
+   875→                        children: e.map((e, t) =>
+   876→                          (0, k.jsx)("td", { className: "py-2.5 text-stone-700", children: e }, t),
+   877→                        ),
+   878→                      },
+   879→                      e[0],
+   880→                    ),
+   881→                  ),
+   882→                }),
+   883→              ],
+   884→            }),
+   885→            (0, k.jsx)("p", {
+   886→              className: "text-xs text-stone-400",
+   887→              children: "Between sizes? Size down for tailoring, up for knitwear.",
+   888→            }),
+   889→          ],
+   890→        }),
+   891→      }),
+   892→      (0, k.jsx)(nm, {
+   893→        open: O,
+   894→        onOpenChange: D,
+   895→        children: (0, k.jsxs)(nx, {
+   896→          className: "rounded-none sm:max-w-lg",
+   897→          children: [
+   898→            (0, k.jsx)(nf, {
+   899→              children: (0, k.jsx)(ng, { className: "font-display text-2xl", children: "Write a Review" }),
+   900→            }),
+   901→            (0, k.jsxs)("form", {
+   902→              onSubmit: ea,
+   903→              className: "space-y-4",
+   904→              children: [
+   905→                (0, k.jsxs)("div", {
+   906→                  children: [
+   907→                    (0, k.jsx)("p", {
+   908→                      className: "mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-500",
+   909→                      children: "Your rating",
+   910→                    }),
+   911→                    (0, k.jsx)("div", {
+   912→                      className: "flex gap-1",
+   913→                      children: [1, 2, 3, 4, 5].map((e) =>
+   914→                        (0, k.jsx)(
+   915→                          "button",
+   916→                          {
+   917→                            type: "button",
+   918→                            onClick: () => $(e),
+   919→                            "aria-label": `${e} star${e > 1 ? "s" : ""}`,
+   920→                            className: "p-1 transition hover:scale-110",
+   921→                            children: (0, k.jsx)("svg", {
+   922→                              width: "26",
+   923→                              height: "26",
+   924→                              viewBox: "0 0 24 24",
+   925→                              className: e <= L ? "fill-[#B08968]" : "fill-stone-200",
+   926→                              children: (0, k.jsx)("path", {
+   927→                                d: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
+   928→                              }),
+   929→                            }),
+   930→                          },
+   931→                          e,
+   932→                        ),
+   933→                      ),
+   934→                    }),
+   935→                  ],
+   936→                }),
+   937→                (0, k.jsxs)("div", {
+   938→                  className: "grid gap-4 sm:grid-cols-2",
+   939→                  children: [
+   940→                    (0, k.jsx)("input", {
+   941→                      value: F,
+   942→                      onChange: (e) => W(e.target.value),
+   943→                      placeholder: "Your name *",
+   944→                      className:
+   945→                        "h-11 border border-stone-300 px-3.5 text-sm focus:border-stone-900 focus:outline-none",
+   946→                    }),
+   947→                    (0, k.jsx)("input", {
+   948→                      value: _,
+   949→                      onChange: (e) => H(e.target.value),
+   950→                      placeholder: "City (optional)",
+   951→                      className:
+   952→                        "h-11 border border-stone-300 px-3.5 text-sm focus:border-stone-900 focus:outline-none",
+   953→                    }),
+   954→                  ],
+   955→                }),
+   956→                (0, k.jsx)("input", {
+   957→                  value: V,
+   958→                  onChange: (e) => U(e.target.value),
+   959→                  placeholder: "Review title *",
+   960→                  className:
+   961→                    "h-11 w-full border border-stone-300 px-3.5 text-sm focus:border-stone-900 focus:outline-none",
+   962→                }),
+   963→                (0, k.jsx)("textarea", {
+   964→                  value: K,
+   965→                  onChange: (e) => Y(e.target.value),
+   966→                  placeholder: "How is the fit, fabric and finish? *",
+   967→                  rows: 4,
+   968→                  className:
+   969→                    "w-full border border-stone-300 px-3.5 py-3 text-sm focus:border-stone-900 focus:outline-none",
+   970→                }),
+   971→                (0, k.jsxs)("div", {
+   972→                  className: "flex gap-3",
+   973→                  children: [
+   974→                    (0, k.jsx)("button", {
+   975→                      type: "submit",
+   976→                      disabled: G,
+   977→                      className:
+   978→                        "flex-1 bg-stone-900 py-3.5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700 disabled:opacity-60",
+   979→                      children: G ? "Submitting…" : "Submit Review",
+   980→                    }),
+   981→                    (0, k.jsxs)("button", {
+   982→                      type: "button",
+   983→                      onClick: () => D(!1),
+   984→                      className:
+   985→                        "flex items-center gap-2 border border-stone-300 px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-600 hover:border-stone-900",
+   986→                      children: [(0, k.jsx)(sz, { size: 14 }), " Cancel"],
+   987→                    }),
+   988→                  ],
+   989→                }),
+   990→              ],
+   991→            }),
+   992→          ],
+   993→        }),
+   994→      }),
+   995→    ],
+   996→  });
+   997→}
+   998→let lA = F("arrow-left", [
+   999→    ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
+  1000→    ["path", { d: "M19 12H5", key: "x3x0zl" }],
+  1001→  ]),
+  1002→  lR = F("tag", [
+  1003→    [
+  1004→      "path",
+  1005→      {
+  1006→        d: "M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z",
+  1007→        key: "vktsd0",
+  1008→      },
+  1009→    ],
+  1010→    ["circle", { cx: "7.5", cy: "7.5", r: ".5", fill: "currentColor", key: "kqv944" }],
+  1011→  ]);
+  1012→function lT({ className: e, type: t, ...r }) {
+  1013→  return (0, k.jsx)("input", {
+  1014→    type: t,
+  1015→    "data-slot": "input",
+  1016→    className: t2(
+  1017→      "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+  1018→      "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+  1019→      "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  1020→      e,
+  1021→    ),
+  1022→    ...r,
+  1023→  });
+  1024→}
+  1025→function lz() {
+  1026→  let e = z((e) => e.cartItems),
+  1027→    t = z((e) => e.updateQty),
+  1028→    r = z((e) => e.removeItem),
+  1029→    s = z((e) => e.navigate),
+  1030→    n = z((e) => e.promoCode),
+  1031→    a = z((e) => e.applyPromoCode),
+  1032→    o = z((e) => e.requireSignIn),
+  1033→    [i, l] = (0, C.useState)(""),
+  1034→    c = P(e),
+  1035→    d = n ? Math.round(0.1 * c * 100) / 100 : 0,
+  1036→    u = 0 === e.length || c - d >= 150 ? 0 : 8,
+  1037→    m = Math.max(0, c - d + u);
+  1038→  return 0 === e.length
+  1039→    ? (0, k.jsxs)("div", {
+  1040→        className: "mx-auto max-w-7xl px-4 pb-24 md:px-6 lg:px-10",
+  1041→        children: [
+  1042→          (0, k.jsx)("h1", {
+  1043→            className: "pt-10 font-display text-3xl tracking-tight md:text-4xl",
+  1044→            children: "Shopping Bag",
+  1045→          }),
+  1046→          (0, k.jsxs)("div", {
+  1047→            className: "flex flex-col items-center justify-center py-28 text-center",
+  1048→            children: [
+  1049→              (0, k.jsx)(q, { size: 52, strokeWidth: 1, className: "text-stone-300" }),
+  1050→              (0, k.jsx)("p", {
+  1051→                className: "mt-6 font-display text-2xl text-stone-900",
+  1052→                children: "Your bag is empty",
+  1053→              }),
+  1054→              (0, k.jsx)("p", {
+  1055→                className: "mt-2 max-w-sm text-sm text-stone-500",
+  1056→                children: "Beautiful things take up little space. Start with a piece you will keep for a decade.",
+  1057→              }),
+  1058→              (0, k.jsx)("button", {
+  1059→                onClick: () => s({ name: "shop", title: "All Clothing" }),
+  1060→                className:
+  1061→                  "mt-8 bg-stone-900 px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white hover:bg-stone-700",
+  1062→                children: "Explore the Collection",
+  1063→              }),
+  1064→            ],
+  1065→          }),
+  1066→        ],
+  1067→      })
+  1068→    : (0, k.jsxs)("div", {
+  1069→        className: "mx-auto max-w-7xl px-4 pb-24 md:px-6 lg:px-10",
+  1070→        children: [
+  1071→          (0, k.jsxs)("h1", {
+  1072→            className: "pt-10 font-display text-3xl tracking-tight md:text-4xl",
+  1073→            children: [
+  1074→              "Shopping Bag ",
+  1075→              (0, k.jsxs)("span", { className: "text-lg text-stone-400", children: ["(", M(e), ")"] }),
+  1076→            ],
+  1077→          }),
+  1078→          (0, k.jsxs)("div", {
+  1079→            className: "mt-10 grid gap-12 lg:grid-cols-[1fr_380px]",
+  1080→            children: [
+  1081→              (0, k.jsxs)("div", {
+  1082→                children: [
+  1083→                  (0, k.jsxs)("div", {
+  1084→                    className: "mb-6 flex items-center gap-3 border border-stone-200 bg-stone-50 px-5 py-4",
+  1085→                    children: [
+  1086→                      (0, k.jsx)(lC, { size: 18, className: "shrink-0 text-stone-500" }),
+  1087→                      (0, k.jsx)("p", {
+  1088→                        className: "text-sm text-stone-600",
+  1089→                        children:
+  1090→                          c - d >= 150
+  1091→                            ? (0, k.jsx)("strong", {
+  1092→                                className: "text-[#5C6B4F]",
+  1093→                                children: "Your order qualifies for complimentary carbon-neutral shipping.",
+  1094→                              })
+  1095→                            : (0, k.jsxs)(k.Fragment, {
+  1096→                                children: [
+  1097→                                  "Add ",
+  1098→                                  (0, k.jsx)("strong", { className: "text-stone-900", children: I(150 - c + d) }),
+  1099→                                  " more for free shipping",
+  1100→                                ],
+  1101→                              }),
+  1102→                      }),
+  1103→                    ],
+  1104→                  }),
+  1105→                  (0, k.jsx)("div", {
+  1106→                    className: "divide-y divide-stone-100 border-y border-stone-100",
+  1107→                    children: e.map((e) =>
+  1108→                      (0, k.jsxs)(
+  1109→                        "div",
+  1110→                        {
+  1111→                          className: "flex gap-5 py-6",
+  1112→                          children: [
+  1113→                            (0, k.jsx)("button", {
+  1114→                              onClick: () => s({ name: "product", slug: e.product.slug }),
+  1115→                              className: "aspect-[3/4] w-28 shrink-0 overflow-hidden bg-stone-100 sm:w-36",
+  1116→                              children: (0, k.jsx)("img", {
+  1117→                                src: e.product.images[0],
+  1118→                                alt: e.product.name,
+  1119→                                className: "h-full w-full object-cover transition duration-500 hover:scale-105",
+  1120→                              }),
+  1121→                            }),
+  1122→                            (0, k.jsxs)("div", {
+  1123→                              className: "flex flex-1 flex-col",
+  1124→                              children: [
+  1125→                                (0, k.jsxs)("div", {
+  1126→                                  className: "flex items-start justify-between gap-3",
+  1127→                                  children: [
+  1128→                                    (0, k.jsxs)("div", {
+  1129→                                      children: [
+  1130→                                        (0, k.jsx)("button", {
+  1131→                                          onClick: () => s({ name: "product", slug: e.product.slug }),
+  1132→                                          className: "text-left font-medium text-stone-900 hover:underline",
+  1133→                                          children: e.product.name,
+  1134→                                        }),
+  1135→                                        (0, k.jsxs)("p", {
+  1136→                                          className: "mt-1 text-sm capitalize text-stone-500",
+  1137→                                          children: [e.color, " · Size ", e.size],
+  1138→                                        }),
+  1139→                                        (0, k.jsx)("p", {
+  1140→                                          className: "mt-0.5 text-xs text-stone-400",
+  1141→                                          children: "Ships in 1–2 business days",
+  1142→                                        }),
+  1143→                                      ],
+  1144→                                    }),
+  1145→                                    (0, k.jsx)("button", {
+  1146→                                      onClick: () => r(e.id),
+  1147→                                      "aria-label": `Remove ${e.product.name} from bag`,
+  1148→                                      className: "text-stone-400 transition hover:text-[#9A3B26]",
+  1149→                                      children: (0, k.jsx)(s3, { size: 17 }),
+  1150→                                    }),
+  1151→                                  ],
+  1152→                                }),
+  1153→                                (0, k.jsxs)("div", {
+  1154→                                  className: "mt-auto flex flex-wrap items-center justify-between gap-3 pt-4",
+  1155→                                  children: [
+  1156→                                    (0, k.jsxs)("div", {
+  1157→                                      className: "flex items-center border border-stone-300",
+  1158→                                      children: [
+  1159→                                        (0, k.jsx)("button", {
+  1160→                                          onClick: () => t(e.id, e.qty - 1),
+  1161→                                          className:
+  1162→                                            "flex h-10 w-10 items-center justify-center text-stone-600 hover:bg-stone-50",
+  1163→                                          "aria-label": "Decrease quantity",
+  1164→                                          children: (0, k.jsx)(s5, { size: 14 }),
+  1165→                                        }),
+  1166→                                        (0, k.jsx)("span", {
+  1167→                                          className: "w-10 text-center text-sm font-medium",
+  1168→                                          children: e.qty,
+  1169→                                        }),
+  1170→                                        (0, k.jsx)("button", {
+  1171→                                          onClick: () => t(e.id, e.qty + 1),
+  1172→                                          className:
+  1173→                                            "flex h-10 w-10 items-center justify-center text-stone-600 hover:bg-stone-50",
+  1174→                                          "aria-label": "Increase quantity",
+  1175→                                          children: (0, k.jsx)(s4, { size: 14 }),
+  1176→                                        }),
+  1177→                                      ],
+  1178→                                    }),
+  1179→                                    (0, k.jsxs)("div", {
+  1180→                                      className: "text-right",
+  1181→                                      children: [
+  1182→                                        (0, k.jsx)("p", {
+  1183→                                          className: "font-semibold text-stone-900",
+  1184→                                          children: I(e.product.price * e.qty),
+  1185→                                        }),
+  1186→                                        (0, k.jsxs)("p", {
+  1187→                                          className: "text-xs text-stone-400",
+  1188→                                          children: [I(e.product.price), " each"],
+  1189→                                        }),
+  1190→                                      ],
+  1191→                                    }),
+  1192→                                  ],
+  1193→                                }),
+  1194→                              ],
+  1195→                            }),
+  1196→                          ],
+  1197→                        },
+  1198→                        e.id,
+  1199→                      ),
+  1200→                    ),
+  1201→                  }),
+  1202→                  (0, k.jsxs)("button", {
+  1203→                    onClick: () => s({ name: "shop", title: "All Clothing" }),
+  1204→                    className:
+  1205→                      "mt-8 flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-stone-600 hover:text-stone-900",
+  1206→                    children: [(0, k.jsx)(lA, { size: 15 }), " Continue Shopping"],
+  1207→                  }),
+  1208→                ],
+  1209→              }),
+  1210→              (0, k.jsx)("aside", {
+  1211→                className: "lg:sticky lg:top-32 lg:self-start",
+  1212→                children: (0, k.jsxs)("div", {
+  1213→                  className: "border border-stone-200 p-7",
+  1214→                  children: [
+  1215→                    (0, k.jsx)("h2", {
+  1216→                      className: "text-[12px] font-semibold uppercase tracking-[0.3em]",
+  1217→                      children: "Order Summary",
+  1218→                    }),
+  1219→                    (0, k.jsxs)("div", {
+  1220→                      className: "mt-6 space-y-3 text-sm",
+  1221→                      children: [
+  1222→                        (0, k.jsxs)("div", {
+  1223→                          className: "flex justify-between",
+  1224→                          children: [
+  1225→                            (0, k.jsx)("span", { className: "text-stone-500", children: "Subtotal" }),
+  1226→                            (0, k.jsx)("span", { className: "text-stone-900", children: I(c) }),
+  1227→                          ],
+  1228→                        }),
+  1229→                        n &&
+  1230→                          (0, k.jsxs)("div", {
+  1231→                            className: "flex justify-between text-[#5C6B4F]",
+  1232→                            children: [
+  1233→                              (0, k.jsxs)("span", { children: ["Promo ", n, " (−10%)"] }),
+  1234→                              (0, k.jsxs)("span", { children: ["−", I(d)] }),
+  1235→                            ],
+  1236→                          }),
+  1237→                        (0, k.jsxs)("div", {
+  1238→                          className: "flex justify-between",
+  1239→                          children: [
+  1240→                            (0, k.jsx)("span", { className: "text-stone-500", children: "Shipping" }),
+  1241→                            (0, k.jsx)("span", { className: "text-stone-900", children: 0 === u ? "Free" : I(u) }),
+  1242→                          ],
+  1243→                        }),
+  1244→                        (0, k.jsxs)("div", {
+  1245→                          className: "flex justify-between border-t border-stone-200 pt-4 text-base font-semibold",
+  1246→                          children: [(0, k.jsx)("span", { children: "Total" }), (0, k.jsx)("span", { children: I(m) })],
+  1247→                        }),
+  1248→                        (0, k.jsxs)("p", {
+  1249→                          className: "text-xs text-stone-400",
+  1250→                          children: ["Or 4 interest-free payments of ", I(Math.round(m / 4))],
+  1251→                        }),
+  1252→                      ],
+  1253→                    }),
+  1254→                    (0, k.jsxs)("div", {
+  1255→                      className: "mt-6",
+  1256→                      children: [
+  1257→                        (0, k.jsxs)("p", {
+  1258→                          className:
+  1259→                            "mb-2 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-500",
+  1260→                          children: [(0, k.jsx)(lR, { size: 12 }), " Promo Code"],
+  1261→                        }),
+  1262→                        n
+  1263→                          ? (0, k.jsxs)("p", {
+  1264→                              className:
+  1265→                                "flex items-center gap-2 border border-[#5C6B4F]/30 bg-[#5C6B4F]/5 px-3.5 py-3 text-sm text-[#5C6B4F]",
+  1266→                              children: [(0, k.jsx)(ae, { size: 15 }), " ", n, " applied"],
+  1267→                            })
+  1268→                          : (0, k.jsxs)("div", {
+  1269→                              className: "flex",
+  1270→                              children: [
+  1271→                                (0, k.jsx)(lT, {
+  1272→                                  value: i,
+  1273→                                  onChange: (e) => l(e.target.value),
+  1274→                                  placeholder: "ATELIER10",
+  1275→                                  className:
+  1276→                                    "h-11 rounded-none border-stone-300 focus-visible:ring-0 focus-visible:border-stone-900",
+  1277→                                }),
+  1278→                                (0, k.jsx)("button", {
+  1279→                                  onClick: () => {
+  1280→                                    a(i)
+  1281→                                      ? T.toast.success("Promo applied — 10% off your order")
+  1282→                                      : T.toast.error("That code is not valid. Please check and try again.");
+  1283→                                  },
+  1284→                                  className:
+  1285→                                    "shrink-0 border border-l-0 border-stone-900 px-5 text-[11px] font-semibold uppercase tracking-[0.2em] transition hover:bg-stone-900 hover:text-white",
+  1286→                                  children: "Apply",
+  1287→                                }),
+  1288→                              ],
+  1289→                            }),
+  1290→                      ],
+  1291→                    }),
+  1292→                    (0, k.jsxs)("button", {
+  1293→                      onClick: () => {
+  1294→                        o() && s({ name: "checkout" });
+  1295→                      },
+  1296→                      className:
+  1297→                        "mt-7 w-full bg-stone-900 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700",
+  1298→                      children: ["Buy Now — ", I(m)],
+  1299→                    }),
+  1300→                    (0, k.jsx)("p", {
+  1301→                      className: "mt-4 text-center text-[11px] leading-relaxed text-stone-400",
+  1302→                      children: "Secure 256-bit encrypted checkout · Free 30-day returns · 10-year repair guarantee",
+  1303→                    }),
+  1304→                  ],
+  1305→                }),
+  1306→              }),
+  1307→            ],
+  1308→          }),
+  1309→        ],
+  1310→      });
+  1311→}
+  1312→let lM = [
+  1313→    "India",
+  1314→    "United States",
+  1315→    "United Kingdom",
+  1316→    "United Arab Emirates",
+  1317→    "Singapore",
+  1318→    "Australia",
+  1319→    "Germany",
+  1320→    "France",
+  1321→    "Japan",
+  1322→  ],
+  1323→  lP = [
+  1324→    { id: "card", title: "Card", desc: "Visa, Mastercard, American Express — pay securely online" },
+  1325→    { id: "upi", title: "UPI", desc: "Pay from any UPI app using your UPI ID" },
+  1326→    { id: "cod", title: "Cash on Delivery", desc: "Pay in cash when your order arrives" },
+  1327→  ],
+  1328→  lI = { card: "Card", upi: "UPI", cod: "Cash on Delivery" },
+  1329→  lO = (e) => new Date(e).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+  1330→function lD({ id: e, label: t, error: r, children: s }) {
+  1331→  return (0, k.jsxs)("div", {
+  1332→    className: "space-y-2",
+  1333→    children: [
+  1334→      (0, k.jsx)(aV, {
+  1335→        htmlFor: e,
+  1336→        className: "text-[10px] font-semibold tracking-[0.2em] text-stone-500 uppercase",
+  1337→        children: t,
+  1338→      }),
+  1339→      s,
+  1340→      r && (0, k.jsx)("p", { role: "alert", className: "text-xs text-[#9A3B26]", children: r }),
+  1341→    ],
+  1342→  });
+  1343→}
+  1344→function lL({ children: e }) {
+  1345→  return (0, k.jsx)("h2", {
+  1346→    className: "text-[12px] font-semibold uppercase tracking-[0.3em] text-stone-900",
+  1347→    children: e,
+  1348→  });
+  1349→}
+  1350→function l$({ step: e }) {
+  1351→  let t = [
+  1352→      { num: "01", label: "Shipping" },
+  1353→      { num: "02", label: "Payment" },
+  1354→      { num: "03", label: "Confirmation" },
+  1355→    ],
+  1356→    r = t[e - 1];
+  1357→  return (0, k.jsxs)(k.Fragment, {
+  1358→    children: [
+  1359→      (0, k.jsxs)("p", {
+  1360→        className: "text-[10px] tracking-[0.22em] text-stone-400 uppercase sm:hidden",
+  1361→        children: [
+  1362→          (0, k.jsx)("span", { className: "font-semibold text-stone-900", children: r.num }),
+  1363→          " / 03 —",
+  1364→          " ",
+  1365→          (0, k.jsx)("span", { className: "font-semibold text-stone-900", children: r.label }),
+  1366→        ],
+  1367→      }),
+  1368→      (0, k.jsx)("div", {
+  1369→        className: "hidden items-center gap-3 sm:flex sm:gap-5",
+  1370→        children: t.map((t, r) => {
+  1371→          let s = r + 1 < e ? "done" : r + 1 === e ? "current" : "todo";
+  1372→          return (0, k.jsxs)(
+  1373→            C.Fragment,
+  1374→            {
+  1375→              children: [
+  1376→                r > 0 && (0, k.jsx)("span", { "aria-hidden": !0, className: "h-px w-12 bg-stone-200" }),
+  1377→                (0, k.jsxs)("span", {
+  1378→                  "aria-current": "current" === s ? "step" : void 0,
+  1379→                  className: `whitespace-nowrap text-[11px] tracking-[0.22em] uppercase ${"todo" === s ? "text-stone-400" : "text-stone-900"}`,
+  1380→                  children: [
+  1381→                    (0, k.jsx)("span", { className: "font-semibold", children: t.num }),
+  1382→                    (0, k.jsxs)("span", {
+  1383→                      className: "current" === s ? "font-semibold" : " font-normal",
+  1384→                      children: [" — ", t.label],
+  1385→                    }),
+  1386→                  ],
+  1387→                }),
+  1388→              ],
+  1389→            },
+  1390→            t.num,
+  1391→          );
+  1392→        }),
+  1393→      }),
+  1394→    ],
+  1395→  });
+  1396→}
+  1397→

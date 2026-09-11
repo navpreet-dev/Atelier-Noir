@@ -1,0 +1,919 @@
+     1→"use client";
+     2→
+     3→import { useEffect, useMemo, useState } from "react";
+     4→import {
+     5→  Heart,
+     6→  Minus,
+     7→  Play,
+     8→  Plus,
+     9→  RotateCcw,
+    10→  ShieldCheck,
+    11→  Star,
+    12→  Truck,
+    13→  X,
+    14→} from "lucide-react";
+    15→import {
+    16→  Accordion,
+    17→  AccordionContent,
+    18→  AccordionItem,
+    19→  AccordionTrigger,
+    20→} from "@/components/ui/accordion";
+    21→import {
+    22→  Dialog,
+    23→  DialogContent,
+    24→  DialogDescription,
+    25→  DialogHeader,
+    26→  DialogTitle,
+    27→} from "@/components/ui/dialog";
+    28→import { ProductCard, type Product } from "@/components/site/product-card";
+    29→import { StarRating } from "@/components/site/star-rating";
+    30→import { formatPrice, useStore } from "@/lib/store";
+    31→import { toast } from "@/hooks/use-toast";
+    32→import { SIZE_GUIDE_ROWS } from "@/lib/site-data";
+    33→
+    34→type DetailedProduct = Product & {
+    35→  description: string;
+    36→  video: string | null;
+    37→  details: string[];
+    38→  materials: string[];
+    39→};
+    40→
+    41→type Review = {
+    42→  id: string;
+    43→  author: string;
+    44→  location?: string | null;
+    45→  rating: number;
+    46→  title: string;
+    47→  body: string;
+    48→  verified?: boolean;
+    49→  helpful: number;
+    50→  createdAt: string;
+    51→};
+    52→
+    53→const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+    54→
+    55→export function ProductView({ slug }: { slug: string }) {
+    56→  const navigate = useStore((s) => s.navigate);
+    57→  const addToCart = useStore((s) => s.addToCart);
+    58→  const toggleWishlist = useStore((s) => s.toggleWishlist);
+    59→  const requireSignIn = useStore((s) => s.requireSignIn);
+    60→  const logClientActivity = useStore((s) => s.logClientActivity);
+    61→
+    62→  const [product, setProduct] = useState<DetailedProduct | null>(null);
+    63→  const [reviews, setReviews] = useState<Review[]>([]);
+    64→  const [related, setRelated] = useState<Product[]>([]);
+    65→  const [loading, setLoading] = useState(true);
+    66→  const [notFound, setNotFound] = useState(false);
+    67→
+    68→  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+    69→  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+    70→  const [qty, setQty] = useState(1);
+    71→  const [imgIdx, setImgIdx] = useState(0);
+    72→  const [videoPlaying, setVideoPlaying] = useState(false);
+    73→  const [adding, setAdding] = useState(false);
+    74→
+    75→  const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
+    76→  const [reviewOpen, setReviewOpen] = useState(false);
+    77→  const [formRating, setFormRating] = useState(5);
+    78→  const [formName, setFormName] = useState("");
+    79→  const [formLocation, setFormLocation] = useState("");
+    80→  const [formTitle, setFormTitle] = useState("");
+    81→  const [formBody, setFormBody] = useState("");
+    82→  const [submitting, setSubmitting] = useState(false);
+    83→  const [helpfulVotes, setHelpfulVotes] = useState<Record<string, true>>({});
+    84→
+    85→  useEffect(() => {
+    86→    let cancelled = false;
+    87→    setLoading(true);
+    88→    setNotFound(false);
+    89→    setProduct(null);
+    90→    setReviews([]);
+    91→    setRelated([]);
+    92→    setSelectedColor(null);
+    93→    setSelectedSize(null);
+    94→    setQty(1);
+    95→    setImgIdx(0);
+    96→    setVideoPlaying(false);
+    97→    logClientActivity("product_viewed", { slug });
+    98→
+    99→    fetch(`/api/products/${slug}`)
+   100→      .then((res) =>
+   101→        res.ok ? res.json() : Promise.reject(new Error("not found"))
+   102→      )
+   103→      .then((json) => {
+   104→        if (cancelled) return;
+   105→        const p = (json.product ?? null) as DetailedProduct | null;
+   106→        if (!p) {
+   107→          setNotFound(true);
+   108→          return;
+   109→        }
+   110→        setProduct(p);
+   111→        setSelectedColor(p.colors?.[0]?.name ?? null);
+   112→
+   113→        fetch(`/api/reviews?productId=${encodeURIComponent(p.id)}`)
+   114→          .then((r) => r.json())
+   115→          .then((rj) => {
+   116→            if (!cancelled) setReviews((rj.reviews ?? []) as Review[]);
+   117→          })
+   118→          .catch(() => undefined);
+   119→
+   120→        const relQuery =
+   121→          p.gender === "unisex"
+   122→            ? "category=bags,shoes,accessories"
+   123→            : `gender=${encodeURIComponent(p.gender)}`;
+   124→        fetch(
+   125→          `/api/products?exclude=${encodeURIComponent(slug)}&limit=8&${relQuery}`
+   126→        )
+   127→          .then((r) => r.json())
+   128→          .then((rj) => {
+   129→            if (!cancelled) setRelated((rj.products ?? []) as Product[]);
+   130→          })
+   131→          .catch(() => undefined);
+   132→      })
+   133→      .catch(() => {
+   134→        if (!cancelled) setNotFound(true);
+   135→      })
+   136→      .finally(() => {
+   137→        if (!cancelled) setLoading(false);
+   138→      });
+   139→
+   140→    return () => {
+   141→      cancelled = true;
+   142→    };
+   143→  }, [slug, logClientActivity]);
+   144→
+   145→  const discount = useMemo(() => {
+   146→    if (!product?.comparePrice || product.comparePrice <= product.price) return null;
+   147→    return Math.round((1 - product.price / product.comparePrice) * 100);
+   148→  }, [product?.price, product?.comparePrice]);
+   149→
+   150→  const distribution = useMemo(() => {
+   151→    const counts = [0, 0, 0, 0, 0];
+   152→    reviews.forEach((r) => {
+   153→      if (r.rating >= 1 && r.rating <= 5) counts[r.rating - 1]++;
+   154→    });
+   155→    const total = reviews.length || 1;
+   156→    return counts
+   157→      .map((count, idx) => ({
+   158→        stars: idx + 1,
+   159→        count,
+   160→        pct: Math.round((count / total) * 100),
+   161→      }))
+   162→      .reverse();
+   163→  }, [reviews]);
+   164→
+   165→  const recommend = reviews.length
+   166→    ? (reviews.filter((r) => r.rating >= 4).length / reviews.length) * 100
+   167→    : 84;
+   168→
+   169→  const wished = useStore((s) => (product ? s.inWishlist(product.id) : false));
+   170→
+   171→  const scrollToReviews = () => {
+   172→    document.getElementById("reviews")?.scrollIntoView({ behavior: "smooth" });
+   173→  };
+   174→
+   175→  const guardSize = () => {
+   176→    if (selectedSize) return true;
+   177→    toast({ title: "Please select a size.", variant: "destructive" });
+   178→    return false;
+   179→  };
+   180→
+   181→  const handleAddToBag = async () => {
+   182→    if (!product || adding) return;
+   183→    if (!guardSize()) return;
+   184→    setAdding(true);
+   185→    const ok = await addToCart(product, selectedSize!, selectedColor ?? "Default", qty);
+   186→    setAdding(false);
+   187→    if (ok) {
+   188→      toast({
+   189→        title: `${product.name} — added to your bag`,
+   190→        description: `${selectedColor} · Size ${selectedSize} · Qty ${qty}`,
+   191→      });
+   192→    } else {
+   193→      toast({ title: "Could not add to bag. Please try again.", variant: "destructive" });
+   194→    }
+   195→  };
+   196→
+   197→  const handleBuyNow = async () => {
+   198→    if (!product || adding) return;
+   199→    if (!requireSignIn()) return;
+   200→    if (!guardSize()) return;
+   201→    setAdding(true);
+   202→    const ok = await addToCart(product, selectedSize!, selectedColor ?? "Default", qty);
+   203→    setAdding(false);
+   204→    if (ok) {
+   205→      navigate({ name: "checkout" });
+   206→    } else {
+   207→      toast({ title: "Could not continue. Please try again.", variant: "destructive" });
+   208→    }
+   209→  };
+   210→
+   211→  const handleToggleWishlist = () => {
+   212→    if (!product) return;
+   213→    const wasWished = useStore.getState().inWishlist(product.id);
+   214→    toggleWishlist({
+   215→      id: product.id,
+   216→      slug: product.slug,
+   217→      name: product.name,
+   218→      price: product.price,
+   219→      image: product.images[0],
+   220→    });
+   221→    if (useStore.getState().user) {
+   222→      toast({ title: wasWished ? "Removed from wishlist" : "Saved to wishlist" });
+   223→    }
+   224→  };
+   225→
+   226→  const submitReview = async (e: React.FormEvent) => {
+   227→    e.preventDefault();
+   228→    if (!product) return;
+   229→    if (!formName.trim() || !formTitle.trim() || !formBody.trim()) {
+   230→      toast({
+   231→        title: "Please fill in your name, a title and your review",
+   232→        variant: "destructive",
+   233→      });
+   234→      return;
+   235→    }
+   236→    setSubmitting(true);
+   237→    try {
+   238→      const res = await fetch("/api/reviews", {
+   239→        method: "POST",
+   240→        headers: { "Content-Type": "application/json" },
+   241→        body: JSON.stringify({
+   242→          productId: product.id,
+   243→          author: formName.trim(),
+   244→          location: formLocation.trim() || undefined,
+   245→          rating: formRating,
+   246→          title: formTitle.trim(),
+   247→          body: formBody.trim(),
+   248→        }),
+   249→      });
+   250→      const json = await res.json();
+   251→      if (!res.ok) throw new Error(json.error || "failed");
+   252→      setReviews((prev) => [json.review as Review, ...prev]);
+   253→      setProduct((p) =>
+   254→        p
+   255→          ? {
+   256→              ...p,
+   257→              rating:
+   258→                Math.round(((p.rating * p.reviewCount + formRating) / (p.reviewCount + 1)) * 10) /
+   259→                10,
+   260→              reviewCount: p.reviewCount + 1,
+   261→            }
+   262→          : p
+   263→      );
+   264→      toast({ title: "Thank you for your review!", description: "It is now live on this product." });
+   265→      setReviewOpen(false);
+   266→      setFormName("");
+   267→      setFormLocation("");
+   268→      setFormTitle("");
+   269→      setFormBody("");
+   270→      setFormRating(5);
+   271→    } catch (err) {
+   272→      toast({
+   273→        title: err instanceof Error ? err.message : "Could not submit review",
+   274→        variant: "destructive",
+   275→      });
+   276→    } finally {
+   277→      setSubmitting(false);
+   278→    }
+   279→  };
+   280→
+   281→  const markHelpful = (id: string) => {
+   282→    if (helpfulVotes[id]) return;
+   283→    setHelpfulVotes((prev) => ({ ...prev, [id]: true }));
+   284→    toast({ title: "Thanks for the feedback" });
+   285→  };
+   286→
+   287→  if (loading) {
+   288→    return (
+   289→      <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 lg:px-10">
+   290→        <div className="grid gap-10 lg:grid-cols-2">
+   291→          <div className="aspect-[4/5] animate-pulse bg-stone-100" />
+   292→          <div className="space-y-4 py-4">
+   293→            <div className="h-4 w-24 animate-pulse bg-stone-100" />
+   294→            <div className="h-10 w-3/4 animate-pulse bg-stone-100" />
+   295→            <div className="h-6 w-32 animate-pulse bg-stone-100" />
+   296→            <div className="h-32 w-full animate-pulse bg-stone-100" />
+   297→          </div>
+   298→        </div>
+   299→      </div>
+   300→    );
+   301→  }
+   302→
+   303→  if (notFound || !product) {
+   304→    return (
+   305→      <div className="flex flex-col items-center justify-center py-32 text-center">
+   306→        <p className="font-display text-3xl text-stone-900">This piece has retired</p>
+   307→        <p className="mt-3 max-w-md text-sm text-stone-500">
+   308→          The page you are looking for does not exist or the product is no longer available.
+   309→        </p>
+   310→        <button
+   311→          onClick={() => navigate({ name: "shop", title: "All Clothing" })}
+   312→          className="mt-8 bg-stone-900 px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white hover:bg-stone-700"
+   313→        >
+   314→          Back to Shop
+   315→        </button>
+   316→      </div>
+   317→    );
+   318→  }
+   319→
+   320→  const genderLabel = product.gender === "unisex" ? "Accessories" : product.gender === "men" ? "Men" : "Women";
+   321→  const sizeList = product.sizes.length ? product.sizes : ["One Size"];
+   322→  const materials = product.materials ?? [];
+   323→  const details = product.details ?? [];
+   324→
+   325→  return (
+   326→    <div>
+   327→      <div className="mx-auto max-w-7xl px-4 pb-24 pt-6 md:px-6 lg:px-10">
+   328→        {/* Breadcrumb */}
+   329→        <nav
+   330→          aria-label="Breadcrumb"
+   331→          className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-stone-400"
+   332→        >
+   333→          <button onClick={() => navigate({ name: "home" })} className="hover:text-stone-900">
+   334→            Home
+   335→          </button>
+   336→          <span aria-hidden>/</span>
+   337→          <button
+   338→            onClick={() =>
+   339→              navigate({
+   340→                name: "shop",
+   341→                gender: product.gender === "unisex" ? "all" : product.gender,
+   342→                title: genderLabel,
+   343→              })
+   344→            }
+   345→            className="capitalize hover:text-stone-900"
+   346→          >
+   347→            {product.gender}
+   348→          </button>
+   349→          <span aria-hidden>/</span>
+   350→          <span className="normal-case text-stone-700">{product.name}</span>
+   351→        </nav>
+   352→
+   353→        <div className="mt-6 grid gap-10 lg:grid-cols-2 lg:gap-16">
+   354→          {/* Gallery */}
+   355→          <div>
+   356→            <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
+   357→              {videoPlaying && product.video ? (
+   358→                <video
+   359→                  src={product.video}
+   360→                  controls
+   361→                  autoPlay
+   362→                  className="absolute inset-0 h-full w-full object-cover"
+   363→                />
+   364→              ) : (
+   365→                <img
+   366→                  src={product.images[imgIdx] ?? product.images[0]}
+   367→                  alt={`${product.name} — view ${imgIdx + 1}`}
+   368→                  className="h-full w-full object-cover"
+   369→                />
+   370→              )}
+   371→              {(product.isNew || product.bestseller) && (
+   372→                <span className="absolute left-4 top-4 bg-stone-900 px-2.5 py-1 text-[10px] font-semibold tracking-[0.18em] text-white">
+   373→                  {product.isNew ? "NEW SEASON" : "BESTSELLER"}
+   374→                </span>
+   375→              )}
+   376→            </div>
+   377→            <div className="mt-3 grid grid-cols-4 gap-3">
+   378→              {[0, 1, 2].map((i) => (
+   379→                <button
+   380→                  key={i}
+   381→                  onClick={() => {
+   382→                    setImgIdx(i);
+   383→                    setVideoPlaying(false);
+   384→                  }}
+   385→                  aria-label={`View image ${i + 1}`}
+   386→                  className={`relative aspect-[3/4] overflow-hidden border transition ${
+   387→                    !videoPlaying && imgIdx === i
+   388→                      ? "border-stone-900"
+   389→                      : "border-transparent hover:border-stone-300"
+   390→                  }`}
+   391→                >
+   392→                  <img
+   393→                    src={product.images[i] ?? product.images[0]}
+   394→                    alt=""
+   395→                    className="h-full w-full object-cover"
+   396→                  />
+   397→                </button>
+   398→              ))}
+   399→              {product.video ? (
+   400→                <button
+   401→                  onClick={() => setVideoPlaying(true)}
+   402→                  aria-label="Play product video"
+   403→                  className={`relative aspect-[3/4] overflow-hidden border transition ${
+   404→                    videoPlaying ? "border-stone-900" : "border-transparent hover:border-stone-300"
+   405→                  }`}
+   406→                >
+   407→                  <img
+   408→                    src={product.images[0]}
+   409→                    alt=""
+   410→                    className="h-full w-full object-cover"
+   411→                  />
+   412→                  <span className="absolute inset-0 flex items-center justify-center bg-stone-900/30">
+   413→                    <Play size={18} className="fill-white text-white" aria-hidden />
+   414→                  </span>
+   415→                </button>
+   416→              ) : product.images[3] ? (
+   417→                <button
+   418→                  onClick={() => {
+   419→                    setImgIdx(3);
+   420→                    setVideoPlaying(false);
+   421→                  }}
+   422→                  aria-label="View image 4"
+   423→                  className={`relative aspect-[3/4] overflow-hidden border transition ${
+   424→                    !videoPlaying && imgIdx === 3
+   425→                      ? "border-stone-900"
+   426→                      : "border-transparent hover:border-stone-300"
+   427→                  }`}
+   428→                >
+   429→                  <img src={product.images[3]} alt="" className="h-full w-full object-cover" />
+   430→                </button>
+   431→              ) : null}
+   432→            </div>
+   433→          </div>
+   434→
+   435→          {/* Details */}
+   436→          <div className="lg:sticky lg:top-32 lg:self-start">
+   437→            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#B08968]">
+   438→              {capitalize(product.gender)} · {product.category}
+   439→            </p>
+   440→            <h1 className="mt-2 font-display text-3xl tracking-tight text-stone-900 md:text-4xl">
+   441→              {product.name}
+   442→            </h1>
+   443→            <div className="mt-3 flex items-center gap-3">
+   444→              <button
+   445→                onClick={scrollToReviews}
+   446→                aria-label={`Rated ${product.rating} out of 5`}
+   447→                className="flex items-center gap-2 text-xs text-stone-500 hover:underline"
+   448→              >
+   449→                <StarRating rating={product.rating} size={12} />
+   450→                <span>
+   451→                  {product.rating.toFixed(1)} {product.reviewCount} reviews
+   452→                </span>
+   453→              </button>
+   454→              <span className="text-stone-200" aria-hidden>
+   455→                |
+   456→              </span>
+   457→              <span className="text-xs text-stone-500">{product.sold}+ sold</span>
+   458→            </div>
+   459→
+   460→            <div className="mt-4 flex items-baseline gap-3">
+   461→              <span
+   462→                className={`text-2xl font-semibold ${discount ? "text-[#9A3B26]" : "text-stone-900"}`}
+   463→              >
+   464→                {formatPrice(product.price)}
+   465→              </span>
+   466→              {discount && product.comparePrice && (
+   467→                <>
+   468→                  <span className="text-lg text-stone-400 line-through">
+   469→                    {formatPrice(product.comparePrice)}
+   470→                  </span>
+   471→                  <span className="ml-1 bg-[#9A3B26]/10 px-2 py-0.5 text-[11px] font-semibold text-[#9A3B26]">
+   472→                    −{discount}%
+   473→                  </span>
+   474→                </>
+   475→              )}
+   476→            </div>
+   477→
+   478→            <p className="mt-4 text-sm leading-relaxed text-stone-600">{product.description}</p>
+   479→
+   480→            {/* Colour */}
+   481→            {product.colors.length > 0 && (
+   482→              <div className="mt-7">
+   483→                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-500">
+   484→                  Colour:{" "}
+   485→                  <span className="ml-1 normal-case tracking-normal">
+   486→                    {capitalize(selectedColor ?? "")}
+   487→                  </span>
+   488→                </p>
+   489→                <div className="mt-3 flex gap-3">
+   490→                  {product.colors.map((c) => (
+   491→                    <button
+   492→                      key={c.name}
+   493→                      onClick={() => setSelectedColor(c.name)}
+   494→                      title={c.name}
+   495→                      aria-label={`Colour ${c.name}`}
+   496→                      className={`flex h-9 w-9 items-center justify-center rounded-full border-2 transition ${
+   497→                        selectedColor === c.name
+   498→                          ? "border-stone-900"
+   499→                          : "border-transparent ring-1 ring-stone-200 hover:ring-stone-400"
+   500→                      }`}
+   501→                    >
+   502→                      <span
+   503→                        className="h-7 w-7 rounded-full"
+   504→                        style={{ backgroundColor: c.hex }}
+   505→                      />
+   506→                    </button>
+   507→                  ))}
+   508→                </div>
+   509→              </div>
+   510→            )}
+   511→
+   512→            {/* Size */}
+   513→            <div className="mt-6">
+   514→              <div className="flex items-center justify-between">
+   515→                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-500">
+   516→                  Size:{" "}
+   517→                  <span className="ml-1 normal-case tracking-normal">
+   518→                    {selectedSize ?? "Select a size"}
+   519→                  </span>
+   520→                </p>
+   521→                <button
+   522→                  onClick={() => setSizeGuideOpen(true)}
+   523→                  className="text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-500 underline hover:text-stone-900"
+   524→                >
+   525→                  Size Guide
+   526→                </button>
+   527→              </div>
+   528→              <div className="mt-3 flex flex-wrap gap-2">
+   529→                {sizeList.map((size) => (
+   530→                  <button
+   531→                    key={size}
+   532→                    onClick={() => setSelectedSize(size)}
+   533→                    className={`min-w-12 border px-3 py-2.5 text-xs font-medium transition ${
+   534→                      selectedSize === size
+   535→                        ? "border-stone-900 bg-stone-900 text-white"
+   536→                        : "border-stone-300 text-stone-700 hover:border-stone-900"
+   537→                    }`}
+   538→                  >
+   539→                    {size}
+   540→                  </button>
+   541→                ))}
+   542→              </div>
+   543→            </div>
+   544→
+   545→            {/* Qty + CTAs */}
+   546→            <div className="mt-8 flex items-stretch gap-3">
+   547→              <div className="flex items-center border border-stone-300">
+   548→                <button
+   549→                  onClick={() => setQty((q) => Math.max(1, q - 1))}
+   550→                  aria-label="Decrease quantity"
+   551→                  className="flex h-12 w-12 items-center justify-center text-stone-600 transition hover:bg-stone-50"
+   552→                >
+   553→                  <Minus size={15} aria-hidden />
+   554→                </button>
+   555→                <span className="w-10 text-center text-sm font-medium">{qty}</span>
+   556→                <button
+   557→                  onClick={() => setQty((q) => Math.min(10, q + 1))}
+   558→                  aria-label="Increase quantity"
+   559→                  className="flex h-12 w-12 items-center justify-center text-stone-600 transition hover:bg-stone-50"
+   560→                >
+   561→                  <Plus size={15} aria-hidden />
+   562→                </button>
+   563→              </div>
+   564→              <button
+   565→                onClick={handleAddToBag}
+   566→                disabled={adding}
+   567→                className="h-12 flex-1 bg-stone-900 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700 disabled:opacity-60"
+   568→              >
+   569→                {adding ? "Adding…" : "Add to Bag"}
+   570→              </button>
+   571→              <button
+   572→                onClick={handleBuyNow}
+   573→                disabled={adding}
+   574→                className="h-12 flex-1 border border-stone-900 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 transition hover:bg-stone-900 hover:text-white disabled:opacity-60"
+   575→              >
+   576→                Buy Now
+   577→              </button>
+   578→              <button
+   579→                onClick={handleToggleWishlist}
+   580→                aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
+   581→                className="flex h-12 w-12 items-center justify-center border border-stone-300 transition hover:border-stone-900"
+   582→              >
+   583→                <Heart
+   584→                  size={18}
+   585→                  className={wished ? "fill-[#9A3B26] text-[#9A3B26]" : "text-stone-700"}
+   586→                  aria-hidden
+   587→                />
+   588→              </button>
+   589→            </div>
+   590→
+   591→            {/* Reassurance */}
+   592→            <div className="mt-7 grid grid-cols-1 gap-3 border-y border-stone-100 py-4 sm:grid-cols-3">
+   593→              <div className="flex items-center gap-2 text-xs text-stone-500">
+   594→                <Truck size={16} className="shrink-0 text-stone-400" aria-hidden />
+   595→                Free shipping over $150
+   596→              </div>
+   597→              <div className="flex items-center gap-2 text-xs text-stone-500">
+   598→                <RotateCcw size={16} className="shrink-0 text-stone-400" aria-hidden />
+   599→                Free 30-day returns
+   600→              </div>
+   601→              <div className="flex items-center gap-2 text-xs text-stone-500">
+   602→                <ShieldCheck size={16} className="shrink-0 text-stone-400" aria-hidden />
+   603→                10-year repair guarantee
+   604→              </div>
+   605→            </div>
+   606→
+   607→            {/* Accordions */}
+   608→            <Accordion type="single" collapsible className="mt-2">
+   609→              <AccordionItem value="description" className="border-stone-200">
+   610→                <AccordionTrigger className="text-[11px] font-semibold uppercase tracking-[0.25em]">
+   611→                  Description & Fit
+   612→                </AccordionTrigger>
+   613→                <AccordionContent className="text-sm leading-relaxed text-stone-600">
+   614→                  {product.description}
+   615→                  {materials.length > 0 && (
+   616→                    <ul className="mt-3 space-y-1.5">
+   617→                      {materials.map((m) => (
+   618→                        <li key={m} className="flex gap-2">
+   619→                          <span
+   620→                            className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-stone-400"
+   621→                            aria-hidden
+   622→                          />
+   623→                          {m}
+   624→                        </li>
+   625→                      ))}
+   626→                    </ul>
+   627→                  )}
+   628→                </AccordionContent>
+   629→              </AccordionItem>
+   630→              <AccordionItem value="details" className="border-stone-200">
+   631→                <AccordionTrigger className="text-[11px] font-semibold uppercase tracking-[0.25em]">
+   632→                  Details & Care
+   633→                </AccordionTrigger>
+   634→                <AccordionContent>
+   635→                  <ul className="space-y-1.5 text-sm text-stone-600">
+   636→                    {details.map((d) => (
+   637→                      <li key={d} className="flex gap-2">
+   638→                        <span
+   639→                          className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-stone-400"
+   640→                          aria-hidden
+   641→                        />
+   642→                        {d}
+   643→                      </li>
+   644→                    ))}
+   645→                  </ul>
+   646→                </AccordionContent>
+   647→              </AccordionItem>
+   648→              <AccordionItem value="shipping" className="border-stone-200">
+   649→                <AccordionTrigger className="text-[11px] font-semibold uppercase tracking-[0.25em]">
+   650→                  Shipping & Returns
+   651→                </AccordionTrigger>
+   652→                <AccordionContent className="text-sm leading-relaxed text-stone-600">
+   653→                  Free carbon-neutral shipping on orders over $150. Express $12. Free returns
+   654→                  within 30 days. Every piece carries our 10-year repair guarantee.
+   655→                </AccordionContent>
+   656→              </AccordionItem>
+   657→            </Accordion>
+   658→          </div>
+   659→        </div>
+   660→      </div>
+   661→
+   662→      {/* Reviews */}
+   663→      <section
+   664→        id="reviews"
+   665→        className="mx-auto max-w-7xl scroll-mt-28 px-4 pb-24 md:px-6 lg:px-10"
+   666→      >
+   667→        <div className="text-center">
+   668→          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#B08968]">
+   669→            Reviews
+   670→          </p>
+   671→          <h2 className="mt-2 font-display text-3xl tracking-tight text-stone-900">
+   672→            What {product.reviewCount} People Say
+   673→          </h2>
+   674→        </div>
+   675→
+   676→        <div className="mt-8 flex flex-col items-center">
+   677→          <p className="font-display text-5xl leading-none text-stone-900">
+   678→            {product.rating.toFixed(1)}
+   679→          </p>
+   680→          <div className="mt-2 flex items-center gap-2">
+   681→            <StarRating rating={product.rating} size={16} />
+   682→            <span className="text-xs text-stone-500">{reviews.length} verified reviews</span>
+   683→          </div>
+   684→          <div className="mt-5 space-y-2">
+   685→            {distribution.map((d) => (
+   686→              <div key={d.stars} className="flex items-center gap-3 text-xs text-stone-500">
+   687→                <span className="flex w-8 items-center justify-end gap-0.5">
+   688→                  {d.stars}
+   689→                  <Star size={10} className="fill-[#B08968] text-[#B08968]" aria-hidden />
+   690→                </span>
+   691→                <div className="h-1.5 w-40 bg-stone-100">
+   692→                  <div className="h-full bg-stone-900" style={{ width: `${d.pct}%` }} />
+   693→                </div>
+   694→                <span className="w-8 text-right">{d.count}</span>
+   695→              </div>
+   696→            ))}
+   697→          </div>
+   698→          <p className="mt-5 text-[13px] text-stone-500">
+   699→            <strong className="font-semibold text-stone-900">{Math.round(recommend)}%</strong> of
+   700→            reviewers recommend this piece.
+   701→          </p>
+   702→          <button
+   703→            onClick={() => setReviewOpen(true)}
+   704→            className="mt-5 border border-stone-900 px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.25em] transition hover:bg-stone-900 hover:text-white"
+   705→          >
+   706→            Write a Review
+   707→          </button>
+   708→        </div>
+   709→
+   710→        {reviews.length === 0 ? (
+   711→          <div className="mx-auto mt-10 max-w-md border border-dashed border-stone-300 py-16 text-center">
+   712→            <p className="font-display text-xl text-stone-800">
+   713→              No reviews yet — be the first
+   714→            </p>
+   715→            <p className="mt-2 text-sm text-stone-500">
+   716→              Share your fit notes and styling tips with the community.
+   717→            </p>
+   718→          </div>
+   719→        ) : (
+   720→          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+   721→            {reviews.map((r) => (
+   722→              <article key={r.id} className="border border-stone-200 p-6">
+   723→                <div className="flex items-start justify-between gap-3">
+   724→                  <div className="flex items-center gap-3">
+   725→                    <span
+   726→                      className="flex h-9 w-9 items-center justify-center rounded-full bg-stone-900 text-sm text-white"
+   727→                      aria-hidden
+   728→                    >
+   729→                      {r.author.charAt(0).toUpperCase()}
+   730→                    </span>
+   731→                    <div>
+   732→                      <p className="text-sm font-medium text-stone-900">
+   733→                        {r.author}
+   734→                        {r.verified !== false && (
+   735→                          <span className="ml-2 rounded-full bg-stone-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-stone-500">
+   736→                            Verified Buyer
+   737→                          </span>
+   738→                        )}
+   739→                      </p>
+   740→                      <p className="text-xs text-stone-400">{r.location || "Verified purchase"}</p>
+   741→                    </div>
+   742→                  </div>
+   743→                  <div className="text-right">
+   744→                    <StarRating rating={r.rating} size={12} />
+   745→                    <p className="mt-1 text-[11px] text-stone-400">
+   746→                      {new Date(r.createdAt).toLocaleDateString("en-US", {
+   747→                        month: "short",
+   748→                        year: "numeric",
+   749→                      })}
+   750→                    </p>
+   751→                  </div>
+   752→                </div>
+   753→                <h4 className="mt-3 text-sm font-semibold text-stone-900">“{r.title}”</h4>
+   754→                <p className="mt-1.5 text-sm leading-relaxed text-stone-600">{r.body}</p>
+   755→                <div className="mt-3 flex items-center gap-4 text-xs text-stone-400">
+   756→                  <span>Was this helpful?</span>
+   757→                  <button
+   758→                    onClick={() => markHelpful(r.id)}
+   759→                    disabled={!!helpfulVotes[r.id]}
+   760→                    className="border border-stone-200 px-3 py-1 transition hover:border-stone-900 hover:text-stone-900 disabled:opacity-60"
+   761→                  >
+   762→                    Yes ({r.helpful + (helpfulVotes[r.id] ? 1 : 0)})
+   763→                  </button>
+   764→                </div>
+   765→              </article>
+   766→            ))}
+   767→          </div>
+   768→        )}
+   769→      </section>
+   770→
+   771→      {/* Related */}
+   772→      {related.length > 0 && (
+   773→        <section className="mx-auto max-w-7xl px-4 pb-24 md:px-6 lg:px-10">
+   774→          <div className="mb-10">
+   775→            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#B08968]">
+   776→              Complete the Look
+   777→            </p>
+   778→            <h2 className="mt-2 font-display text-3xl tracking-tight text-stone-900">
+   779→              You May Also Like
+   780→            </h2>
+   781→          </div>
+   782→          <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4 md:gap-x-6">
+   783→            {related.map((p) => (
+   784→              <ProductCard key={p.id} product={p} />
+   785→            ))}
+   786→          </div>
+   787→        </section>
+   788→      )}
+   789→
+   790→      {/* Size guide dialog */}
+   791→      <Dialog open={sizeGuideOpen} onOpenChange={setSizeGuideOpen}>
+   792→        <DialogContent className="rounded-none sm:max-w-md">
+   793→          <DialogHeader>
+   794→            <DialogTitle className="font-display text-2xl">Size Guide</DialogTitle>
+   795→            <DialogDescription className="sr-only">
+   796→              Garment measurements in centimetres.
+   797→            </DialogDescription>
+   798→          </DialogHeader>
+   799→          <p className="text-sm text-stone-500">
+   800→            Measurements in cm. Our fits run true to size with a modern, slightly relaxed cut.
+   801→          </p>
+   802→          <table className="mt-2 w-full text-sm">
+   803→            <thead>
+   804→              <tr className="border-b border-stone-200 text-left text-[11px] uppercase tracking-wider text-stone-400">
+   805→                <th className="py-2">Size</th>
+   806→                <th className="py-2">Chest</th>
+   807→                <th className="py-2">Waist</th>
+   808→                <th className="py-2">Hip</th>
+   809→              </tr>
+   810→            </thead>
+   811→            <tbody>
+   812→              {SIZE_GUIDE_ROWS.map((row) => (
+   813→                <tr key={row[0]} className="border-b border-stone-100">
+   814→                  {row.map((cell, i) => (
+   815→                    <td key={i} className="py-2.5 text-stone-700">
+   816→                      {cell}
+   817→                    </td>
+   818→                  ))}
+   819→                </tr>
+   820→              ))}
+   821→            </tbody>
+   822→          </table>
+   823→          <p className="text-xs text-stone-400">
+   824→            Between sizes? Size down for tailoring, up for knitwear.
+   825→          </p>
+   826→        </DialogContent>
+   827→      </Dialog>
+   828→
+   829→      {/* Write a review dialog */}
+   830→      <Dialog open={reviewOpen} onOpenChange={setReviewOpen}>
+   831→        <DialogContent className="rounded-none sm:max-w-lg">
+   832→          <DialogHeader>
+   833→            <DialogTitle className="font-display text-2xl">Write a Review</DialogTitle>
+   834→            <DialogDescription className="sr-only">
+   835→              Share your fit notes and styling tips.
+   836→            </DialogDescription>
+   837→          </DialogHeader>
+   838→          <form onSubmit={submitReview} className="space-y-4">
+   839→            <div>
+   840→              <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-500">
+   841→                Your rating
+   842→              </p>
+   843→              <div className="flex gap-1">
+   844→                {[1, 2, 3, 4, 5].map((n) => (
+   845→                  <button
+   846→                    key={n}
+   847→                    type="button"
+   848→                    onClick={() => setFormRating(n)}
+   849→                    aria-label={`${n} star${n > 1 ? "s" : ""}`}
+   850→                    className="p-1 transition hover:scale-110"
+   851→                  >
+   852→                    <Star
+   853→                      size={22}
+   854→                      className={
+   855→                        n <= formRating
+   856→                          ? "fill-[#B08968] text-[#B08968]"
+   857→                          : "fill-stone-200 text-stone-200"
+   858→                      }
+   859→                      aria-hidden
+   860→                    />
+   861→                  </button>
+   862→                ))}
+   863→              </div>
+   864→            </div>
+   865→            <div className="grid gap-4 sm:grid-cols-2">
+   866→              <input
+   867→                value={formName}
+   868→                onChange={(e) => setFormName(e.target.value)}
+   869→                placeholder="Your name *"
+   870→                aria-label="Your name"
+   871→                className="h-11 rounded-none border border-stone-300 px-3.5 text-sm focus:border-stone-900 focus:outline-none"
+   872→              />
+   873→              <input
+   874→                value={formLocation}
+   875→                onChange={(e) => setFormLocation(e.target.value)}
+   876→                placeholder="City (optional)"
+   877→                aria-label="City"
+   878→                className="h-11 rounded-none border border-stone-300 px-3.5 text-sm focus:border-stone-900 focus:outline-none"
+   879→              />
+   880→            </div>
+   881→            <input
+   882→              value={formTitle}
+   883→              onChange={(e) => setFormTitle(e.target.value)}
+   884→              placeholder="Review title *"
+   885→              aria-label="Review title"
+   886→              className="h-11 w-full rounded-none border border-stone-300 px-3.5 text-sm focus:border-stone-900 focus:outline-none"
+   887→            />
+   888→            <textarea
+   889→              value={formBody}
+   890→              onChange={(e) => setFormBody(e.target.value)}
+   891→              placeholder="How is the fit, fabric and finish? *"
+   892→              rows={4}
+   893→              aria-label="Your review"
+   894→              className="w-full rounded-none border border-stone-300 px-3.5 py-3 text-sm focus:border-stone-900 focus:outline-none"
+   895→            />
+   896→            <div className="flex gap-3">
+   897→              <button
+   898→                type="submit"
+   899→                disabled={submitting}
+   900→                className="flex-1 bg-stone-900 py-3.5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700 disabled:opacity-60"
+   901→              >
+   902→                {submitting ? "Submitting…" : "Submit Review"}
+   903→              </button>
+   904→              <button
+   905→                type="button"
+   906→                onClick={() => setReviewOpen(false)}
+   907→                className="flex items-center gap-2 border border-stone-300 px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-600 hover:border-stone-900"
+   908→              >
+   909→                <X size={14} aria-hidden />
+   910→                Cancel
+   911→              </button>
+   912→            </div>
+   913→          </form>
+   914→        </DialogContent>
+   915→      </Dialog>
+   916→    </div>
+   917→  );
+   918→}
+   919→

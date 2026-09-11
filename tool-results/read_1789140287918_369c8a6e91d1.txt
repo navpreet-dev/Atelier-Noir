@@ -1,0 +1,482 @@
+     1→   450→   450→                            children: (0, k.jsx)(s5, { size: 15 }),
+     2→   451→   451→                          }),
+     3→   452→   452→                          (0, k.jsx)("span", { className: "w-10 text-center text-sm font-medium", children: N }),
+     4→   453→   453→                          (0, k.jsx)("button", {
+     5→   454→   454→                            onClick: () => S((e) => Math.min(10, e + 1)),
+     6→   455→   455→                            className: "flex h-full w-12 items-center justify-center text-stone-600 hover:bg-stone-50",
+     7→   456→   456→                            "aria-label": "Increase quantity",
+     8→   457→   457→                            children: (0, k.jsx)(s4, { size: 15 }),
+     9→   458→   458→                          }),
+    10→   459→   459→                        ],
+    11→   460→   460→                      }),
+    12→   461→   461→                      (0, k.jsx)("button", {
+    13→   462→   462→                        onClick: () => {
+    14→   463→   463→                          (s(i), T.toast.success(eo ? "Removed from wishlist" : "Saved to wishlist"));
+    15→   464→   464→                        },
+    16→   465→   465→                        "aria-label": eo ? "Remove from wishlist" : "Add to wishlist",
+    17→   466→   466→                        className:
+    18→   467→   467→                          "flex h-12 w-14 items-center justify-center border border-stone-300 transition hover:border-stone-900",
+    19→   468→   468→                        children: (0, k.jsx)(B, {
+    20→   469→   469→                          size: 18,
+    21→   470→   470→                          className: eo ? "fill-[#9A3B26] text-[#9A3B26]" : "text-stone-700",
+    22→   471→   471→                        }),
+    23→   472→   472→                      }),
+    24→   473→   473→                    ],
+    25→   474→   474→                  }),
+    26→   475→   475→                  (0, k.jsxs)("button", {
+    27→   476→   476→                    onClick: es,
+    28→   477→   477→                    disabled: E,
+    29→   478→   478→                    className:
+    30→   479→   479→                      "mt-3 flex w-full items-center justify-center gap-2.5 bg-stone-900 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700 disabled:opacity-60 sm:hidden",
+    31→   480→   480→                    children: [(0, k.jsx)(q, { size: 16 }), E ? "Adding…" : "Add to Bag"],
+    32→   481→   481→                  }),
+    33→   482→   482→                  (0, k.jsx)("button", {
+    34→   483→   483→                    onClick: en,
+    35→   484→   484→                    disabled: E,
+    36→   485→   485→                    className:
+    37→   486→   486→                      "mt-3 flex w-full items-center justify-center border border-stone-900 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 transition hover:bg-stone-900 hover:text-white disabled:opacity-60 sm:hidden",
+    38→   487→   487→                    children: "Buy Now",
+    39→   488→   488→                  }),
+    40→   489→   489→                  (0, k.jsxs)("div", {
+    41→   490→   490→                    className: "hidden items-stretch gap-3 sm:flex",
+    42→   491→   491→                    children: [
+    43→   492→   492→                      (0, k.jsxs)("div", {
+    44→   493→   493→                        className: "flex items-center border border-stone-300",
+    45→   494→   494→                        children: [
+    46→   495→   495→                          (0, k.jsx)("button", {
+    47→   496→   496→                            onClick: () => S((e) => Math.max(1, e - 1)),
+    48→   497→   497→                            className: "flex h-full w-11 items-center justify-center text-stone-600 hover:bg-stone-50",
+    49→   498→   498→                            "aria-label": "Decrease quantity",
+    50→   499→   499→                            children: (0, k.jsx)(s5, { size: 15 }),
+    51→   500→   500→                          }),
+    52→   501→   501→                          (0, k.jsx)("span", { className: "w-10 text-center text-sm font-medium", children: N }),
+    53→   502→   502→                          (0, k.jsx)("button", {
+    54→   503→   503→                            onClick: () => S((e) => Math.min(10, e + 1)),
+    55→   504→   504→                            className: "flex h-full w-11 items-center justify-center text-stone-600 hover:bg-stone-50",
+    56→   505→   505→                            "aria-label": "Increase quantity",
+    57→   506→   506→                            children: (0, k.jsx)(s4, { size: 15 }),
+    58→   507→   507→                          }),
+    59→   508→   508→                        ],
+    60→   509→   509→                      }),
+    61→   510→   510→                      (0, k.jsxs)("button", {
+    62→   511→   511→                        onClick: es,
+    63→   512→   512→                        disabled: E,
+    64→   513→   513→                        className:
+    65→   514→   514→                          "flex flex-1 items-center justify-center gap-2.5 bg-stone-900 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700 disabled:opacity-60",
+    66→   515→   515→                        children: [(0, k.jsx)(q, { size: 16 }), E ? "Adding…" : "Add to Bag"],
+    67→   516→   516→                      }),
+    68→   517→   517→                      (0, k.jsx)("button", {
+    69→   518→   518→                        onClick: en,
+    70→   519→   519→                        disabled: E,
+    71→   520→   520→                        className:
+    72→   521→   521→                          "flex flex-1 items-center justify-center border border-stone-900 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 transition hover:bg-stone-900 hover:text-white disabled:opacity-60",
+    73→   522→   522→                        children: "Buy Now",
+    74→   523→   523→                      }),
+    75→   524→   524→                      (0, k.jsx)("button", {
+    76→   525→   525→                        onClick: () => {
+    77→   526→   526→                          (s(i), T.toast.success(eo ? "Removed from wishlist" : "Saved to wishlist"));
+    78→   527→   527→                        },
+    79→   528→   528→                        "aria-label": eo ? "Remove from wishlist" : "Add to wishlist",
+    80→   529→   529→                        className:
+    81→   530→   530→                          "flex w-14 items-center justify-center border border-stone-300 transition hover:border-stone-900",
+    82→   531→   531→                        children: (0, k.jsx)(B, {
+    83→   532→   532→                          size: 18,
+    84→   533→   533→                          className: eo ? "fill-[#9A3B26] text-[#9A3B26]" : "text-stone-700",
+    85→   534→   534→                        }),
+    86→   535→   535→                      }),
+    87→   536→   536→                    ],
+    88→   537→   537→                  }),
+    89→   538→   538→                ],
+    90→   539→   539→              }),
+    91→   540→   540→              (0, k.jsx)("div", {
+    92→   541→   541→                className: "mt-7 grid grid-cols-3 gap-3 border-y border-stone-100 py-4 text-center",
+    93→   542→   542→                children: [
+    94→   543→   543→                  { Icon: lC, label: "Free shipping over $150" },
+    95→   544→   544→                  { Icon: lj, label: "30-day free returns" },
+    96→   545→   545→                  { Icon: lk, label: "10-year repairs" },
+    97→   546→   546→                ].map(({ Icon: e, label: t }) =>
+    98→   547→   547→                  (0, k.jsxs)(
+    99→   548→   548→                    "div",
+   100→   549→   549→                    {
+   101→   550→   550→                      className: "flex flex-col items-center gap-1.5",
+   102→   551→   551→                      children: [
+   103→   552→   552→                        (0, k.jsx)(e, { size: 17, className: "text-stone-400" }),
+   104→   553→   553→                        (0, k.jsx)("p", { className: "text-[11px] leading-tight text-stone-500", children: t }),
+   105→   554→   554→                      ],
+   106→   555→   555→                    },
+   107→   556→   556→                    t,
+   108→   557→   557→                  ),
+   109→   558→   558→                ),
+   110→   559→   559→              }),
+   111→   560→   560→              (0, k.jsxs)(t5, {
+   112→   561→   561→                type: "single",
+   113→   562→   562→                collapsible: !0,
+   114→   563→   563→                className: "mt-2",
+   115→   564→   564→                children: [
+   116→   565→   565→                  (0, k.jsxs)(t4, {
+   117→   566→   566→                    value: "desc",
+   118→   567→   567→                    className: "border-stone-200",
+   119→   568→   568→                    children: [
+   120→   569→   569→                      (0, k.jsx)(t3, {
+   121→   570→   570→                        className: "text-[12px] font-semibold uppercase tracking-[0.2em]",
+   122→   571→   571→                        children: "Description & Fit",
+   123→   572→   572→                      }),
+   124→   573→   573→                      (0, k.jsxs)(t6, {
+   125→   574→   574→                        className: "text-sm leading-relaxed text-stone-600",
+   126→   575→   575→                        children: [
+   127→   576→   576→                          i.description,
+   128→   577→   577→                          " Model is 5′9″ (175 cm) and wears a size S. Fit is true to size with a modern, slightly relaxed cut.",
+   129→   578→   578→                        ],
+   130→   579→   579→                      }),
+   131→   580→   580→                    ],
+   132→   581→   581→                  }),
+   133→   582→   582→                  (0, k.jsxs)(t4, {
+   134→   583→   583→                    value: "details",
+   135→   584→   584→                    className: "border-stone-200",
+   136→   585→   585→                    children: [
+   137→   586→   586→                      (0, k.jsx)(t3, {
+   138→   587→   587→                        className: "text-[12px] font-semibold uppercase tracking-[0.2em]",
+   139→   588→   588→                        children: "Details & Care",
+   140→   589→   589→                      }),
+   141→   590→   590→                      (0, k.jsxs)(t6, {
+   142→   591→   591→                        children: [
+   143→   592→   592→                          (0, k.jsx)("ul", {
+   144→   593→   593→                            className: "space-y-1.5 text-sm text-stone-600",
+   145→   594→   594→                            children: i.details.map((e) =>
+   146→   595→   595→                              (0, k.jsxs)(
+   147→   596→   596→                                "li",
+   148→   597→   597→                                {
+   149→   598→   598→                                  className: "flex gap-2",
+   150→   599→   599→                                  children: [
+   151→   600→   600→                                    (0, k.jsx)("span", {
+   152→   601→   601→                                      className: "mt-1.5 h-1 w-1 shrink-0 rounded-full bg-stone-400",
+   153→   602→   602→                                    }),
+   154→   603→   603→                                    e,
+   155→   604→   604→                                  ],
+   156→   605→   605→                                },
+   157→   606→   606→                                e,
+   158→   607→   607→                              ),
+   159→   608→   608→                            ),
+   160→   609→   609→                          }),
+   161→   610→   610→                          (0, k.jsx)("p", {
+   162→   611→   611→                            className: "mt-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-400",
+   163→   612→   612→                            children: "Materials & Care",
+   164→   613→   613→                          }),
+   165→   614→   614→                          (0, k.jsx)("ul", {
+   166→   615→   615→                            className: "mt-2 space-y-1.5 text-sm text-stone-600",
+   167→   616→   616→                            children: i.materials.map((e) =>
+   168→   617→   617→                              (0, k.jsxs)(
+   169→   618→   618→                                "li",
+   170→   619→   619→                                {
+   171→   620→   620→                                  className: "flex gap-2",
+   172→   621→   621→                                  children: [
+   173→   622→   622→                                    (0, k.jsx)("span", {
+   174→   623→   623→                                      className: "mt-1.5 h-1 w-1 shrink-0 rounded-full bg-stone-400",
+   175→   624→   624→                                    }),
+   176→   625→   625→                                    e,
+   177→   626→   626→                                  ],
+   178→   627→   627→                                },
+   179→   628→   628→                                e,
+   180→   629→   629→                              ),
+   181→   630→   630→                            ),
+   182→   631→   631→                          }),
+   183→   632→   632→                        ],
+   184→   633→   633→                      }),
+   185→   634→   634→                    ],
+   186→   635→   635→                  }),
+   187→   636→   636→                  (0, k.jsxs)(t4, {
+   188→   637→   637→                    value: "ship",
+   189→   638→   638→                    className: "border-b-stone-200",
+   190→   639→   639→                    children: [
+   191→   640→   640→                      (0, k.jsx)(t3, {
+   192→   641→   641→                        className: "text-[12px] font-semibold uppercase tracking-[0.2em]",
+   193→   642→   642→                        children: "Shipping & Returns",
+   194→   643→   643→                      }),
+   195→   644→   644→                      (0, k.jsx)(t6, {
+   196→   645→   645→                        className: "text-sm leading-relaxed text-stone-600",
+   197→   646→   646→                        children:
+   198→   647→   647→                          "Free carbon-neutral shipping on orders over $150 (2–4 business days). Express available at checkout. Returns are free within 30 days — instant exchanges ship before you send yours back.",
+   199→   648→   648→                      }),
+   200→   649→   649→                    ],
+   201→   650→   650→                  }),
+   202→   651→   651→                ],
+   203→   652→   652→              }),
+   204→   653→   653→            ],
+   205→   654→   654→          }),
+   206→   655→   655→        ],
+   207→   656→   656→      }),
+   208→   657→   657→      (0, k.jsxs)("div", {
+   209→   658→   658→        ref: P,
+   210→   659→   659→        className: "mx-auto mt-20 max-w-7xl scroll-mt-28 px-4 md:px-6 lg:px-10",
+   211→   660→   660→        children: [
+   212→   661→   661→          (0, k.jsx)(nT, { eyebrow: "Reviews", title: `What ${i.reviewCount} People Say` }),
+   213→   662→   662→          (0, k.jsxs)("div", {
+   214→   663→   663→            className: "grid gap-10 lg:grid-cols-[320px_1fr]",
+   215→   664→   664→            children: [
+   216→   665→   665→              (0, k.jsx)("div", {
+   217→   666→   666→                children: (0, k.jsxs)("div", {
+   218→   667→   667→                  className: "border border-stone-200 p-6",
+   219→   668→   668→                  children: [
+   220→   669→   669→                    (0, k.jsxs)("div", {
+   221→   670→   670→                      className: "flex items-end gap-3",
+   222→   671→   671→                      children: [
+   223→   672→   672→                        (0, k.jsx)("p", {
+   224→   673→   673→                          className: "font-display text-6xl leading-none text-stone-900",
+   225→   674→   674→                          children: i.rating.toFixed(1),
+   226→   675→   675→                        }),
+   227→   676→   676→                        (0, k.jsxs)("div", {
+   228→   677→   677→                          className: "pb-1",
+   229→   678→   678→                          children: [
+   230→   679→   679→                            (0, k.jsx)(nv, { rating: i.rating, size: 16 }),
+   231→   680→   680→                            (0, k.jsxs)("p", {
+   232→   681→   681→                              className: "mt-1 text-xs text-stone-500",
+   233→   682→   682→                              children: [i.reviewCount, " verified reviews"],
+   234→   683→   683→                            }),
+   235→   684→   684→                          ],
+   236→   685→   685→                        }),
+   237→   686→   686→                      ],
+   238→   687→   687→                    }),
+   239→   688→   688→                    (0, k.jsx)("div", {
+   240→   689→   689→                      className: "mt-5 space-y-2",
+   241→   690→   690→                      children: et.map((e) =>
+   242→   691→   691→                        (0, k.jsxs)(
+   243→   692→   692→                          "div",
+   244→   693→   693→                          {
+   245→   694→   694→                            className: "flex items-center gap-2 text-xs text-stone-500",
+   246→   695→   695→                            children: [
+   247→   696→   696→                              (0, k.jsxs)("span", { className: "w-8", children: [e.stars, "★"] }),
+   248→   697→   697→                              (0, k.jsx)("div", {
+   249→   698→   698→                                className: "h-1.5 flex-1 overflow-hidden rounded-full bg-stone-100",
+   250→   699→   699→                                children: (0, k.jsx)("div", {
+   251→   700→   700→                                  className: "h-full rounded-full bg-[#B08968]",
+   252→   701→   701→                                  style: { width: `${e.pct}%` },
+   253→   702→   702→                                }),
+   254→   703→   703→                              }),
+   255→   704→   704→                              (0, k.jsx)("span", { className: "w-8 text-right", children: e.count }),
+   256→   705→   705→                            ],
+   257→   706→   706→                          },
+   258→   707→   707→                          e.stars,
+   259→   708→   708→                        ),
+   260→   709→   709→                      ),
+   261→   710→   710→                    }),
+   262→   711→   711→                    (0, k.jsxs)("p", {
+   263→   712→   712→                      className: "mt-5 border-t border-stone-100 pt-4 text-[13px] text-stone-500",
+   264→   713→   713→                      children: [
+   265→   714→   714→                        (0, k.jsx)("strong", { className: "text-stone-900", children: "96%" }),
+   266→   715→   715→                        " of reviewers recommend this piece.",
+   267→   716→   716→                      ],
+   268→   717→   717→                    }),
+   269→   718→   718→                    (0, k.jsx)("button", {
+   270→   719→   719→                      onClick: () => D(!0),
+   271→   720→   720→                      className:
+   272→   721→   721→                        "mt-4 w-full border border-stone-900 py-3.5 text-[11px] font-semibold uppercase tracking-[0.25em] transition hover:bg-stone-900 hover:text-white",
+   273→   722→   722→                      children: "Write a Review",
+   274→   723→   723→                    }),
+   275→   724→   724→                  ],
+   276→   725→   725→                }),
+   277→   726→   726→              }),
+   278→   727→   727→              (0, k.jsx)("div", {
+   279→   728→   728→                children:
+   280→   729→   729→                  0 === c.length
+   281→   730→   730→                    ? (0, k.jsxs)("div", {
+   282→   731→   731→                        className: "border border-dashed border-stone-300 py-16 text-center",
+   283→   732→   732→                        children: [
+   284→   733→   733→                          (0, k.jsx)("p", {
+   285→   734→   734→                            className: "font-display text-xl text-stone-800",
+   286→   735→   735→                            children: "No reviews yet — be the first",
+   287→   736→   736→                          }),
+   288→   737→   737→                          (0, k.jsx)("p", {
+   289→   738→   738→                            className: "mt-2 text-sm text-stone-500",
+   290→   739→   739→                            children: "Share your fit notes and styling tips with the community.",
+   291→   740→   740→                          }),
+   292→   741→   741→                        ],
+   293→   742→   742→                      })
+   294→   743→   743→                    : (0, k.jsx)("div", {
+   295→   744→   744→                        className: "max-h-[640px] space-y-0 overflow-y-auto pr-1",
+   296→   745→   745→                        children: c.map((e) =>
+   297→   746→   746→                          (0, k.jsxs)(
+   298→   747→   747→                            "article",
+   299→   748→   748→                            {
+   300→   749→   749→                              className: "border-b border-stone-100 py-6 first:pt-0 last:border-0",
+   301→   750→   750→                              children: [
+   302→   751→   751→                                (0, k.jsxs)("div", {
+   303→   752→   752→                                  className: "flex items-start justify-between gap-4",
+   304→   753→   753→                                  children: [
+   305→   754→   754→                                    (0, k.jsxs)("div", {
+   306→   755→   755→                                      className: "flex items-center gap-3",
+   307→   756→   756→                                      children: [
+   308→   757→   757→                                        (0, k.jsx)("span", {
+   309→   758→   758→                                          className:
+   310→   759→   759→                                            "flex h-10 w-10 items-center justify-center rounded-full bg-stone-100 font-display text-lg text-stone-700",
+   311→   760→   760→                                          children: e.author.charAt(0).toUpperCase(),
+   312→   761→   761→                                        }),
+   313→   762→   762→                                        (0, k.jsxs)("div", {
+   314→   763→   763→                                          children: [
+   315→   764→   764→                                            (0, k.jsxs)("p", {
+   316→   765→   765→                                              className: "text-sm font-medium text-stone-900",
+   317→   766→   766→                                              children: [
+   318→   767→   767→                                                e.author,
+   319→   768→   768→                                                e.verified &&
+   320→   769→   769→                                                  (0, k.jsx)("span", {
+   321→   770→   770→                                                    className:
+   322→   771→   771→                                                      "ml-2 rounded-full bg-stone-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-stone-500",
+   323→   772→   772→                                                    children: "Verified Buyer",
+   324→   773→   773→                                                  }),
+   325→   774→   774→                                              ],
+   326→   775→   775→                                            }),
+   327→   776→   776→                                            (0, k.jsx)("p", {
+   328→   777→   777→                                              className: "text-xs text-stone-400",
+   329→   778→   778→                                              children: e.location || "Verified purchase",
+   330→   779→   779→                                            }),
+   331→   780→   780→                                          ],
+   332→   781→   781→                                        }),
+   333→   782→   782→                                      ],
+   334→   783→   783→                                    }),
+   335→   784→   784→                                    (0, k.jsxs)("div", {
+   336→   785→   785→                                      className: "text-right",
+   337→   786→   786→                                      children: [
+   338→   787→   787→                                        (0, k.jsx)(nv, { rating: e.rating, size: 12 }),
+   339→   788→   788→                                        (0, k.jsx)("p", {
+   340→   789→   789→                                          className: "mt-1 text-[11px] text-stone-400",
+   341→   790→   790→                                          children: new Date(e.createdAt).toLocaleDateString("en-US", {
+   342→   791→   791→                                            month: "short",
+   343→   792→   792→                                            year: "numeric",
+   344→   793→   793→                                          }),
+   345→   794→   794→                                        }),
+   346→   795→   795→                                      ],
+   347→   796→   796→                                    }),
+   348→   797→   797→                                  ],
+   349→   798→   798→                                }),
+   350→   799→   799→                                (0, k.jsxs)("h4", {
+   351→   800→   800→                                  className: "mt-3 text-sm font-semibold text-stone-900",
+   352→   801→   801→                                  children: ["“", e.title, "”"],
+   353→   802→   802→                                }),
+   354→   803→   803→                                (0, k.jsx)("p", {
+   355→   804→   804→                                  className: "mt-1.5 text-sm leading-relaxed text-stone-600",
+   356→   805→   805→                                  children: e.body,
+   357→   806→   806→                                }),
+   358→   807→   807→                                (0, k.jsxs)("div", {
+   359→   808→   808→                                  className: "mt-3 flex items-center gap-4 text-xs text-stone-400",
+   360→   809→   809→                                  children: [
+   361→   810→   810→                                    (0, k.jsx)("span", { children: "Was this helpful?" }),
+   362→   811→   811→                                    (0, k.jsxs)("button", {
+   363→   812→   812→                                      onClick: () => T.toast.success("Thanks for the feedback"),
+   364→   813→   813→                                      className:
+   365→   814→   814→                                        "border border-stone-200 px-3 py-1 transition hover:border-stone-900 hover:text-stone-900",
+   366→   815→   815→                                      children: ["Yes (", e.helpful + 12, ")"],
+   367→   816→   816→                                    }),
+   368→   817→   817→                                  ],
+   369→   818→   818→                                }),
+   370→   819→   819→                              ],
+   371→   820→   820→                            },
+   372→   821→   821→                            e.id,
+   373→   822→   822→                          ),
+   374→   823→   823→                        ),
+   375→   824→   824→                      }),
+   376→   825→   825→              }),
+   377→   826→   826→            ],
+   378→   827→   827→          }),
+   379→   828→   828→        ],
+   380→   829→   829→      }),
+   381→   830→   830→      x.length > 0 &&
+   382→   831→   831→        (0, k.jsxs)("div", {
+   383→   832→   832→          className: "mx-auto mt-24 max-w-7xl px-4 md:px-6 lg:px-10",
+   384→   833→   833→          children: [
+   385→   834→   834→            (0, k.jsx)(nT, { eyebrow: "Complete the Look", title: "You May Also Like" }),
+   386→   835→   835→            (0, k.jsx)("div", {
+   387→   836→   836→              className: "grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4 md:gap-x-6",
+   388→   837→   837→              children: x.map((e) => (0, k.jsx)(nA, { product: e }, e.id)),
+   389→   838→   838→            }),
+   390→   839→   839→          ],
+   391→   840→   840→        }),
+   392→   841→   841→      (0, k.jsx)(nm, {
+   393→   842→   842→        open: R,
+   394→   843→   843→        onOpenChange: M,
+   395→   844→   844→        children: (0, k.jsxs)(nx, {
+   396→   845→   845→          className: "rounded-none sm:max-w-md",
+   397→   846→   846→          children: [
+   398→   847→   847→            (0, k.jsx)(nf, {
+   399→   848→   848→              children: (0, k.jsx)(ng, { className: "font-display text-2xl", children: "Size Guide" }),
+   400→   849→   849→            }),
+   401→   850→   850→            (0, k.jsx)("p", {
+   402→   851→   851→              className: "text-sm text-stone-500",
+   403→   852→   852→              children: "Measurements in cm. Our fits run true to size with a modern, slightly relaxed cut.",
+   404→   853→   853→            }),
+   405→   854→   854→            (0, k.jsxs)("table", {
+   406→   855→   855→              className: "mt-2 w-full text-sm",
+   407→   856→   856→              children: [
+   408→   857→   857→                (0, k.jsx)("thead", {
+   409→   858→   858→                  children: (0, k.jsxs)("tr", {
+   410→   859→   859→                    className:
+   411→   860→   860→                      "border-b border-stone-200 text-left text-[11px] uppercase tracking-wider text-stone-400",
+   412→   861→   861→                    children: [
+   413→   862→   862→                      (0, k.jsx)("th", { className: "py-2", children: "Size" }),
+   414→   863→   863→                      (0, k.jsx)("th", { className: "py-2", children: "Chest" }),
+   415→   864→   864→                      (0, k.jsx)("th", { className: "py-2", children: "Waist" }),
+   416→   865→   865→                      (0, k.jsx)("th", { className: "py-2", children: "Hip" }),
+   417→   866→   866→                    ],
+   418→   867→   867→                  }),
+   419→   868→   868→                }),
+   420→   869→   869→                (0, k.jsx)("tbody", {
+   421→   870→   870→                  children: lS.map((e) =>
+   422→   871→   871→                    (0, k.jsx)(
+   423→   872→   872→                      "tr",
+   424→   873→   873→                      {
+   425→   874→   874→                        className: "border-b border-stone-100",
+   426→   875→   875→                        children: e.map((e, t) =>
+   427→   876→   876→                          (0, k.jsx)("td", { className: "py-2.5 text-stone-700", children: e }, t),
+   428→   877→   877→                        ),
+   429→   878→   878→                      },
+   430→   879→   879→                      e[0],
+   431→   880→   880→                    ),
+   432→   881→   881→                  ),
+   433→   882→   882→                }),
+   434→   883→   883→              ],
+   435→   884→   884→            }),
+   436→   885→   885→            (0, k.jsx)("p", {
+   437→   886→   886→              className: "text-xs text-stone-400",
+   438→   887→   887→              children: "Between sizes? Size down for tailoring, up for knitwear.",
+   439→   888→   888→            }),
+   440→   889→   889→          ],
+   441→   890→   890→        }),
+   442→   891→   891→      }),
+   443→   892→   892→      (0, k.jsx)(nm, {
+   444→   893→   893→        open: O,
+   445→   894→   894→        onOpenChange: D,
+   446→   895→   895→        children: (0, k.jsxs)(nx, {
+   447→   896→   896→          className: "rounded-none sm:max-w-lg",
+   448→   897→   897→          children: [
+   449→   898→   898→            (0, k.jsx)(nf, {
+   450→   899→   899→              children: (0, k.jsx)(ng, { className: "font-display text-2xl", children: "Write a Review" }),
+   451→   900→   900→            }),
+   452→   901→   901→            (0, k.jsxs)("form", {
+   453→   902→   902→              onSubmit: ea,
+   454→   903→   903→              className: "space-y-4",
+   455→   904→   904→              children: [
+   456→   905→   905→                (0, k.jsxs)("div", {
+   457→   906→   906→                  children: [
+   458→   907→   907→                    (0, k.jsx)("p", {
+   459→   908→   908→                      className: "mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-500",
+   460→   909→   909→                      children: "Your rating",
+   461→   910→   910→                    }),
+   462→   911→   911→                    (0, k.jsx)("div", {
+   463→   912→   912→                      className: "flex gap-1",
+   464→   913→   913→                      children: [1, 2, 3, 4, 5].map((e) =>
+   465→   914→   914→                        (0, k.jsx)(
+   466→   915→   915→                          "button",
+   467→   916→   916→                          {
+   468→   917→   917→                            type: "button",
+   469→   918→   918→                            onClick: () => $(e),
+   470→   919→   919→                            "aria-label": `${e} star${e > 1 ? "s" : ""}`,
+   471→   920→   920→                            className: "p-1 transition hover:scale-110",
+   472→   921→   921→                            children: (0, k.jsx)("svg", {
+   473→   922→   922→                              width: "26",
+   474→   923→   923→                              height: "26",
+   475→   924→   924→                              viewBox: "0 0 24 24",
+   476→   925→   925→                              className: e <= L ? "fill-[#B08968]" : "fill-stone-200",
+   477→   926→   926→                              children: (0, k.jsx)("path", {
+   478→   927→   927→                                d: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
+   479→   928→   928→                              }),
+   480→   929→   929→                            }),
+   481→
+   482→[showing lines 450-929 of 1397; use offset=930 with limit to continue reading]

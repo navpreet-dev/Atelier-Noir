@@ -1,6 +1,7 @@
 "use client";
 
 import { CircleQuestionMark } from "lucide-react";
+import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,6 +13,26 @@ const CX = "text-[10px] font-semibold uppercase tracking-[0.25em] text-stone-400
 const CF = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-10";
 
 const FAQ_TABS = ["All", "Shipping & Returns", "Product & Fit", "Orders & Payment"];
+
+/* Original primary button (`cb`) — exact class string and merge order. */
+function PrimaryButton({
+  children,
+  onClick,
+  className = "",
+}: {
+  children: ReactNode;
+  onClick?: () => void;
+  className?: string;
+}) {
+  return (
+    <Button
+      onClick={onClick}
+      className={`h-12 rounded-none bg-stone-900 px-10 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition-colors hover:bg-stone-700 ${className}`}
+    >
+      {children}
+    </Button>
+  );
+}
 
 export function FaqView() {
   const navigate = useStore((s) => s.navigate);
@@ -43,7 +64,11 @@ export function FaqView() {
             ))}
           </TabsList>
           {FAQ_TABS.map((tab) => {
-            const items = FAQ_ITEMS.filter((item) => tab === "All" || item.cat === tab);
+            const items = FAQ_ITEMS.map((item, i) => ({
+              ...item,
+              category:
+                i <= 2 ? "Shipping & Returns" : i <= 5 ? "Product & Fit" : "Orders & Payment",
+            })).filter((item) => tab === "All" || item.category === tab);
             return (
               <TabsContent key={tab} value={tab} className="mt-10">
                 <Accordion type="single" collapsible className="border-t border-stone-200">
@@ -79,12 +104,9 @@ export function FaqView() {
             Our customer care team replies within one business day — or visit us at the Paris
             flagship for fit advice in person.
           </p>
-          <Button
-            className="mt-8 h-12 rounded-none bg-stone-900 px-10 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition-colors hover:bg-stone-700"
-            onClick={() => navigate({ name: "contact" })}
-          >
+          <PrimaryButton className="mt-8" onClick={() => navigate({ name: "contact" })}>
             Contact Us
-          </Button>
+          </PrimaryButton>
         </div>
       </section>
     </div>

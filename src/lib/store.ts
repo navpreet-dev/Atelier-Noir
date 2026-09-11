@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 export type Route =
   | { name: "home" }
@@ -135,11 +135,7 @@ export const useStore = create<StoreState>()(
           set({ route: r, cartOpen: false, searchOpen: false, mobileMenuOpen: false });
           window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
         } else {
-          try {
-            window.history.replaceState({ route: get().route }, "");
-          } catch {
-            /* noop */
-          }
+          set({ route: { name: "home" } });
         }
       },
 
@@ -164,7 +160,6 @@ export const useStore = create<StoreState>()(
           /* noop */
         }
         set({ user: null });
-        get().navigate({ name: "home" });
       },
 
       hydrateCart: async () => {
@@ -182,19 +177,19 @@ export const useStore = create<StoreState>()(
       },
 
       addToCart: async (product, size, color, qty = 1) => {
-        const { sessionId, cartItems } = get();
+        if (!get().requireSignIn()) return false;
+        const { sessionId } = get();
         try {
           const res = await fetch("/api/cart", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ sessionId, productId: product.id, size, color, qty }),
           });
-          if (!res.ok) throw new Error("failed");
+          if (!res.ok) return false;
           const json = await res.json();
-          set({ cartItems: json.items, cartOpen: true });
+          set({ cartItems: json.items ?? [] });
           return true;
         } catch {
-          set({ cartItems });
           return false;
         }
       },
@@ -266,7 +261,7 @@ export const useStore = create<StoreState>()(
         if (get().user) return true;
         const route = get().route;
         set({ pendingRoute: route.name === "account" ? null : route });
-        toast({ title: "Please sign in to continue." });
+        toast("Please sign in to continue.");
         get().navigate({ name: "account" });
         return false;
       },
@@ -296,9 +291,8 @@ export const useStore = create<StoreState>()(
 );
 
 export const formatPrice = (n: number) =>
-  new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: n % 1 === 0 ? 0 : 2,
-    maximumFractionDigits: 2,
-  }).format(n);
+  "$" +
+  n.toLocaleString("en-US", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });

@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { useStore } from "@/lib/store";
 import { CONTACT_CHANNELS, CONTACT_SUBJECTS } from "@/lib/site-data";
 
@@ -41,14 +41,13 @@ export function ContactView() {
       setSending(true);
       window.setTimeout(() => {
         setSending(false);
-        toast({
-          title: "Message sent — we reply within one business day",
+        toast.success("Message sent — we reply within one business day", {
           description: `A confirmation will arrive at ${form.email}.`,
         });
         setForm(EMPTY_FORM);
       }, 600);
     } else {
-      toast({ title: "Please fill in your name, email and message." });
+      toast.error("Please fill in your name, email and message.");
     }
   };
 

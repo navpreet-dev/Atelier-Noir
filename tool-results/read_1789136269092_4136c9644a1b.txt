@@ -1,0 +1,661 @@
+     1→"use client";
+     2→
+     3→import { useEffect, useRef, useState } from "react";
+     4→import { ArrowRight, Volume2, VolumeX } from "lucide-react";
+     5→import { ProductCard, type Product } from "@/components/site/product-card";
+     6→import { StarRating } from "@/components/site/star-rating";
+     7→import { COLLECTION_TILES, INSTAGRAM_IMAGES, LOOKBOOK_LOOKS, PRESS_NAMES, TESTIMONIALS } from "@/lib/site-data";
+     8→import { useStore } from "@/lib/store";
+     9→
+    10→const PAGE_COUNT = 3;
+    11→
+    12→export function HomeView() {
+    13→  const navigate = useStore((s) => s.navigate);
+    14→  return (
+    15→    <div>
+    16→      <Hero />
+    17→      <CategoryCards />
+    18→      <ProductRail
+    19→        eyebrow="Just Landed"
+    20→        title="New Arrivals"
+    21→        subtitle="The first light of SS25 — small runs, quiet details, honest fabrics."
+    22→        cta="View All"
+    23→        onCta={() => navigate({ name: "shop", tag: "new", title: "New Arrivals" })}
+    24→        query="/api/products?new=true&sort=newest&limit=8"
+    25→        layout="grid"
+    26→      />
+    27→      <CampaignFilm />
+    28→      <CraftSection />
+    29→      <ProductRail
+    30→        eyebrow="Community Favourites"
+    31→        title="The Bestsellers"
+    32→        subtitle="The pieces our customers re-order, gift, and write poems about."
+    33→        cta="Shop All Bestsellers"
+    34→        onCta={() => navigate({ name: "shop", tag: "bestsellers", title: "Bestsellers" })}
+    35→        query="/api/products?bestseller=true&sort=popular&limit=4"
+    36→        layout="bestsellers"
+    37→      />
+    38→      <LookbookBanner />
+    39→      <CollectionTiles />
+    40→      <QuoteSection />
+    41→      <Testimonials />
+    42→      <WornByYou />
+    43→      <FabricFilm />
+    44→      <PressBar />
+    45→    </div>
+    46→  );
+    47→}
+    48→
+    49→function Hero() {
+    50→  const navigate = useStore((s) => s.navigate);
+    51→  return (
+    52→    <section className="relative flex min-h-[88vh] items-center justify-center overflow-hidden bg-stone-900 text-white">
+    53→      <MediaBg src="/videos/hero.mp4" poster="/images/editorial/editorial-8.jpg" imgClassName="opacity-60" eager />
+    54→      <div className="absolute inset-0 bg-gradient-to-b from-stone-950/50 via-stone-950/20 to-stone-950/60" />
+    55→      <div className="an-fade-up relative z-10 max-w-3xl px-6 text-center">
+    56→        <h1 className="font-display text-5xl leading-[1.05] tracking-tight md:text-7xl">
+    57→          Dress Like You
+    58→          <br />
+    59→          <em className="text-[#E3C9A8]">Mean It</em>
+    60→        </h1>
+    61→        <p className="mx-auto mt-6 max-w-xl text-[15px] leading-relaxed text-stone-200">
+    62→          Considered clothing cut in small runs from responsible materials — designed to be worn
+    63→          for decades, not seasons.
+    64→        </p>
+    65→        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+    66→          <button
+    67→            onClick={() => navigate({ name: "shop", gender: "women", title: "Women" })}
+    68→            className="group flex items-center gap-3 bg-white px-9 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 transition hover:bg-stone-200"
+    69→          >
+    70→            Shop Women
+    71→            <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" aria-hidden />
+    72→          </button>
+    73→          <button
+    74→            onClick={() => navigate({ name: "shop", gender: "men", title: "Men" })}
+    75→            className="border border-white/70 px-9 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-white hover:text-stone-900"
+    76→          >
+    77→            Shop Men
+    78→          </button>
+    79→        </div>
+    80→      </div>
+    81→    </section>
+    82→  );
+    83→}
+    84→
+    85→export function MediaBg({
+    86→  src,
+    87→  poster,
+    88→  imgClassName = "",
+    89→  eager = false,
+    90→  videoClassName = "",
+    91→}: {
+    92→  src: string;
+    93→  poster: string;
+    94→  imgClassName?: string;
+    95→  eager?: boolean;
+    96→  videoClassName?: string;
+    97→}) {
+    98→  const ref = useRef<HTMLVideoElement>(null);
+    99→  const [ready, setReady] = useState(false);
+   100→  useEffect(() => {
+   101→    const v = ref.current;
+   102→    if (!v) return;
+   103→    const on = () => setReady(true);
+   104→    v.addEventListener("playing", on);
+   105→    return () => v.removeEventListener("playing", on);
+   106→  }, []);
+   107→  return (
+   108→    <>
+   109→      <video
+   110→        ref={ref}
+   111→        src={src}
+   112→        poster={poster}
+   113→        autoPlay
+   114→        muted
+   115→        loop
+   116→        playsInline
+   117→        preload={eager ? "auto" : "metadata"}
+   118→        disablePictureInPicture
+   119→        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${videoClassName}`}
+   120→        style={{ opacity: ready ? 1 : 0 }}
+   121→      />
+   122→      <img
+   123→        src={poster}
+   124→        alt=""
+   125→        aria-hidden
+   126→        className={`pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${imgClassName}`}
+   127→        style={{ opacity: ready ? 0 : imgClassName.includes("opacity-") ? undefined : 1 }}
+   128→      />
+   129→    </>
+   130→  );
+   131→}
+   132→
+   133→function CategoryCards() {
+   134→  const navigate = useStore((s) => s.navigate);
+   135→  const cards = [
+   136→    { title: "Women", image: "/images/editorial/editorial-3.jpg", route: { name: "shop", gender: "women", title: "Women" } as const },
+   137→    { title: "Men", image: "/images/blazers/blazers-2.jpg", route: { name: "shop", gender: "men", title: "Men" } as const },
+   138→    { title: "Accessories", image: "/images/bags/bags-3.jpg", route: { name: "shop", gender: "all", category: ["bags", "shoes", "accessories"] as string[], title: "Accessories" } as const },
+   139→  ];
+   140→  return (
+   141→    <section className="mx-auto max-w-7xl px-4 py-20 md:px-6 lg:px-10">
+   142→      <div className="grid gap-4 md:grid-cols-3 md:gap-6">
+   143→        {cards.map((c) => (
+   144→          <button
+   145→            key={c.title}
+   146→            onClick={() => navigate(c.route)}
+   147→            className="group relative aspect-[3/4] overflow-hidden text-left md:aspect-[4/5]"
+   148→          >
+   149→            <img
+   150→              src={c.image}
+   151→              alt={`Shop ${c.title}`}
+   152→              loading="lazy"
+   153→              className="h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
+   154→            />
+   155→            <div className="absolute inset-0 bg-gradient-to-t from-stone-950/60 via-transparent to-transparent" />
+   156→            <div className="absolute bottom-7 left-7">
+   157→              <p className="font-display text-3xl text-white">{c.title}</p>
+   158→              <p className="mt-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/85">
+   159→                Shop Now
+   160→                <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1.5" aria-hidden />
+   161→              </p>
+   162→            </div>
+   163→          </button>
+   164→        ))}
+   165→      </div>
+   166→    </section>
+   167→  );
+   168→}
+   169→
+   170→function ProductRail({
+   171→  eyebrow,
+   172→  title,
+   173→  subtitle,
+   174→  cta,
+   175→  onCta,
+   176→  query,
+   177→  layout,
+   178→}: {
+   179→  eyebrow: string;
+   180→  title: string;
+   181→  subtitle: string;
+   182→  cta?: string;
+   183→  onCta?: () => void;
+   184→  query: string;
+   185→  layout: "grid" | "bestsellers";
+   186→}) {
+   187→  const [products, setProducts] = useState<Product[] | null>(null);
+   188→
+   189→  useEffect(() => {
+   190→    let live = true;
+   191→    fetch(query)
+   192→      .then((r) => r.json())
+   193→      .then((d) => {
+   194→        if (live) setProducts(d.products ?? []);
+   195→      })
+   196→      .catch(() => live && setProducts([]));
+   197→    return () => {
+   198→      live = false;
+   199→    };
+   200→  }, [query]);
+   201→
+   202→  return (
+   203→    <section className="mx-auto max-w-7xl px-4 pb-20 md:px-6 lg:px-10">
+   204→      <div
+   205→        className={`mb-10 ${
+   206→          layout === "grid"
+   207→            ? "flex items-end justify-between"
+   208→            : "flex flex-col gap-6 md:flex-row md:items-end md:justify-between"
+   209→        }`}
+   210→      >
+   211→        <div className="mb-10 max-w-2xl text-left md:mb-14">
+   212→          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#B08968]">
+   213→            {eyebrow}
+   214→          </p>
+   215→          <h2 className="font-display text-3xl leading-tight tracking-tight text-stone-900 md:text-[2.75rem]">
+   216→            {title}
+   217→          </h2>
+   218→          <p className="mt-4 text-sm leading-relaxed text-stone-500 md:text-[15px]">{subtitle}</p>
+   219→        </div>
+   220→        {cta && layout === "grid" && (
+   221→          <button
+   222→            onClick={onCta}
+   223→            className="mb-10 hidden shrink-0 items-center gap-2 border-b border-stone-900 pb-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 hover:text-stone-500 md:flex"
+   224→          >
+   225→            {cta} <ArrowRight size={14} aria-hidden />
+   226→          </button>
+   227→        )}
+   228→      </div>
+   229→      <div className={layout === "grid" ? "grid grid-cols-2 gap-6 md:grid-cols-4" : "grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4 md:gap-x-6"}>
+   230→        {products === null
+   231→          ? [0, 1, 2, 3].map((i) => (
+   232→              <div key={i}>
+   233→                <div className="aspect-[3/4] animate-pulse bg-stone-100" />
+   234→              </div>
+   235→            ))
+   236→          : products.map((p, i) => <ProductCard key={p.id} product={p} eager={i < 4} />)}
+   237→      </div>
+   238→      {cta && layout === "bestsellers" && (
+   239→        <div className="mt-12 text-center">
+   240→          <button
+   241→            onClick={onCta}
+   242→            className="border border-stone-900 px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 transition hover:bg-stone-900 hover:text-white"
+   243→          >
+   244→            {cta}
+   245→          </button>
+   246→        </div>
+   247→      )}
+   248→    </section>
+   249→  );
+   250→}
+   251→
+   252→function CampaignFilm() {
+   253→  const navigate = useStore((s) => s.navigate);
+   254→  const [muted, setMuted] = useState(true);
+   255→  const videoRef = useRef<HTMLVideoElement>(null);
+   256→  return (
+   257→    <section className="mx-auto max-w-7xl px-4 pb-20 md:px-6 lg:px-10">
+   258→      <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+   259→        <div className="mb-10 max-w-2xl text-left md:mb-14">
+   260→          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#B08968]">
+   261→            The Campaign Film
+   262→          </p>
+   263→          <h2 className="font-display text-3xl leading-tight tracking-tight text-stone-900 md:text-[2.75rem]">
+   264→            Worn in Motion
+   265→          </h2>
+   266→          <p className="mt-4 text-sm leading-relaxed text-stone-500 md:text-[15px]">
+   267→            Sixteen seconds of SS25 — shot in Madrid, cut to nothing but the clothes.
+   268→          </p>
+   269→        </div>
+   270→        <button
+   271→          onClick={() => navigate({ name: "lookbook" })}
+   272→          className="mb-10 hidden shrink-0 items-center gap-2 border-b border-stone-900 pb-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 hover:text-stone-500 md:flex"
+   273→        >
+   274→          Shop the Film <ArrowRight size={14} aria-hidden />
+   275→        </button>
+   276→      </div>
+   277→      <div className="group relative -mx-4 h-[calc(100svh-4rem)] overflow-hidden bg-stone-950 md:mx-0 md:aspect-video md:h-auto md:border md:border-stone-200">
+   278→        <MediaBg src="/videos/film-ss25.mp4" poster="/images/film-poster.jpg" eager />
+   279→        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-stone-950/55 via-transparent to-transparent" />
+   280→        <div className="absolute bottom-5 left-6 max-w-[70%]">
+   281→          <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-white/90">
+   282→            Atelier Noir — SS25
+   283→          </p>
+   284→          <p className="mt-1.5 font-display text-xl text-white md:text-2xl">“Second Nature”</p>
+   285→        </div>
+   286→        <button
+   287→          aria-label={muted ? "Unmute film" : "Mute film"}
+   288→          onClick={() => {
+   289→            const v = videoRef.current;
+   290→            setMuted((m) => {
+   291→              if (v) v.muted = !m;
+   292→              return !m;
+   293→            });
+   294→          }}
+   295→          className="absolute bottom-5 right-5 flex h-11 w-11 items-center justify-center border border-white/50 text-white backdrop-blur-sm transition hover:bg-white hover:text-stone-900"
+   296→        >
+   297→          {muted ? <VolumeX size={17} aria-hidden /> : <Volume2 size={17} aria-hidden />}
+   298→        </button>
+   299→      </div>
+   300→    </section>
+   301→  );
+   302→}
+   303→
+   304→function CraftSection() {
+   305→  const navigate = useStore((s) => s.navigate);
+   306→  return (
+   307→    <section className="bg-stone-100">
+   308→      <div className="mx-auto grid max-w-7xl items-center gap-0 lg:grid-cols-2">
+   309→        <div className="relative aspect-[4/3] overflow-hidden lg:aspect-auto lg:h-full lg:min-h-[560px]">
+   310→          <MediaBg src="/videos/editorial-1.mp4" poster="/images/boutique/boutique-2.jpg" />
+   311→        </div>
+   312→        <div className="px-8 py-14 lg:px-16 lg:py-24">
+   313→          <p className="text-[11px] font-semibold uppercase tracking-[0.35em] text-[#B08968]">
+   314→            The Craft
+   315→          </p>
+   316→          <h2 className="mt-4 font-display text-3xl leading-tight tracking-tight text-stone-900 md:text-5xl">
+   317→            Made Slowly,
+   318→            <br />
+   319→            On Purpose
+   320→          </h2>
+   321→          <p className="mt-6 max-w-md text-[15px] leading-relaxed text-stone-600">
+   322→            Every Atelier Noir piece begins as a hand-cut paper pattern in our Florence workshop. We
+   323→            produce in runs of 300 or fewer, inspect every bolt of fabric, and design for the third
+   324→            decade — not the third wash.
+   325→          </p>
+   326→          <ul className="mt-8 space-y-3.5">
+   327→            {[
+   328→              "Small-run production — never more than 300 pieces per style",
+   329→              "GOTS organic cotton, RWS wool, stone-washed silk",
+   330→              "10-year repair guarantee on every single garment",
+   331→            ].map((t) => (
+   332→              <li key={t} className="flex items-start gap-3 text-sm text-stone-700">
+   333→                <span className="mt-[7px] h-1 w-4 shrink-0 bg-[#B08968]" />
+   334→                {t}
+   335→              </li>
+   336→            ))}
+   337→          </ul>
+   338→          <button
+   339→            onClick={() => navigate({ name: "about" })}
+   340→            className="mt-10 inline-flex items-center gap-3 bg-stone-900 px-9 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700"
+   341→          >
+   342→            Our Story <ArrowRight size={15} aria-hidden />
+   343→          </button>
+   344→        </div>
+   345→      </div>
+   346→    </section>
+   347→  );
+   348→}
+   349→
+   350→function LookbookBanner() {
+   351→  const navigate = useStore((s) => s.navigate);
+   352→  return (
+   353→    <section className="group relative h-[70vh] min-h-[480px] overflow-hidden">
+   354→      <img
+   355→        src="/images/campaign/campaign-2.jpg"
+   356→        alt="The SS25 lookbook"
+   357→        loading="lazy"
+   358→        className="h-full w-full object-cover transition-transform duration-[2s] group-hover:scale-105"
+   359→      />
+   360→      <div className="absolute inset-0 bg-stone-950/45" />
+   361→      <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-white">
+   362→        <p className="text-[11px] font-semibold uppercase tracking-[0.4em] text-stone-200">
+   363→          Nine Looks. One Attitude.
+   364→        </p>
+   365→        <h2 className="mt-5 max-w-2xl font-display text-4xl leading-tight md:text-6xl">
+   366→          The SS25 Lookbook
+   367→        </h2>
+   368→        <p className="mt-5 max-w-lg text-[15px] text-stone-200">
+   369→          Shot over three days in Madrid — layering, light and the pieces that make getting dressed
+   370→          feel like getting it right.
+   371→        </p>
+   372→        <button
+   373→          onClick={() => navigate({ name: "lookbook" })}
+   374→          className="mt-9 border border-white/80 px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] transition hover:bg-white hover:text-stone-900"
+   375→        >
+   376→          View the Lookbook
+   377→        </button>
+   378→      </div>
+   379→    </section>
+   380→  );
+   381→}
+   382→
+   383→function CollectionTiles() {
+   384→  const navigate = useStore((s) => s.navigate);
+   385→  return (
+   386→    <section className="mx-auto max-w-7xl px-4 py-20 md:px-6 lg:px-10">
+   387→      <div className="mx-auto mb-10 max-w-2xl text-center md:mb-14">
+   388→        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#B08968]">
+   389→          Collections
+   390→        </p>
+   391→        <h2 className="font-display text-3xl leading-tight tracking-tight text-stone-900 md:text-[2.75rem]">
+   392→          Shop by Collection
+   393→        </h2>
+   394→      </div>
+   395→      <div className="grid gap-4 md:grid-cols-2 md:gap-6">
+   396→        <button
+   397→          onClick={() => navigate({ name: "shop", tag: "new", title: "New Arrivals" })}
+   398→          className="group relative aspect-[4/3] overflow-hidden md:row-span-2 md:aspect-auto md:h-full"
+   399→        >
+   400→          <img
+   401→            src={COLLECTION_TILES[0].image}
+   402→            alt="New Arrivals"
+   403→            loading="lazy"
+   404→            className="h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
+   405→          />
+   406→          <div className="absolute inset-0 bg-gradient-to-t from-stone-950/55 via-stone-950/5 to-transparent" />
+   407→          <div className="absolute bottom-6 left-6">
+   408→            <p className="font-display text-2xl text-white md:text-3xl">New Arrivals</p>
+   409→            <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/80">
+   410→              Explore →
+   411→            </p>
+   412→          </div>
+   413→        </button>
+   414→        <button
+   415→          onClick={() => navigate({ name: "shop", tag: "bestsellers", title: "Bestsellers" })}
+   416→          className="group relative aspect-[4/3] overflow-hidden"
+   417→        >
+   418→          <img
+   419→            src={COLLECTION_TILES[1].image}
+   420→            alt="Bestsellers"
+   421→            loading="lazy"
+   422→            className="h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
+   423→          />
+   424→          <div className="absolute inset-0 bg-gradient-to-t from-stone-950/55 via-stone-950/5 to-transparent" />
+   425→          <div className="absolute bottom-6 left-6">
+   426→            <p className="font-display text-2xl text-white md:text-3xl">Bestsellers</p>
+   427→            <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/80">
+   428→              Explore →
+   429→            </p>
+   430→          </div>
+   431→        </button>
+   432→        <button
+   433→          onClick={() => navigate({ name: "shop", sale: true, title: "The Sale" })}
+   434→          className="group relative aspect-[4/3] overflow-hidden"
+   435→        >
+   436→          <img
+   437→            src={COLLECTION_TILES[2].image}
+   438→            alt="The Sale"
+   439→            loading="lazy"
+   440→            className="h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
+   441→          />
+   442→          <div className="absolute inset-0 bg-gradient-to-t from-stone-950/55 via-stone-950/5 to-transparent" />
+   443→          <div className="absolute bottom-6 left-6">
+   444→            <p className="font-display text-2xl text-white md:text-3xl">The Sale</p>
+   445→            <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/80">
+   446→              Explore →
+   447→            </p>
+   448→          </div>
+   449→          <span className="absolute right-5 top-5 bg-[#9A3B26] px-3 py-1.5 text-[10px] font-bold tracking-[0.2em] text-white">
+   450→            UP TO −40%
+   451→          </span>
+   452→        </button>
+   453→      </div>
+   454→    </section>
+   455→  );
+   456→}
+   457→
+   458→function QuoteSection() {
+   459→  return (
+   460→    <section className="relative h-[65vh] min-h-[440px] overflow-hidden bg-stone-900">
+   461→      <MediaBg src="/videos/editorial-2.mp4" poster="/images/editorial/editorial-5.jpg" imgClassName="opacity-55" />
+   462→      <div className="absolute inset-0 flex items-center justify-center px-6">
+   463→        <blockquote className="max-w-3xl text-center text-white">
+   464→          <QuoteIcon />
+   465→          <p className="font-display text-2xl leading-snug md:text-4xl">
+   466→            “Buy less, choose well, make it last. We built Atelier Noir on those five words.”
+   467→          </p>
+   468→          <footer className="mt-6 text-[11px] font-semibold uppercase tracking-[0.3em] text-stone-300">
+   469→            — Elena Marchetti, Founder
+   470→          </footer>
+   471→        </blockquote>
+   472→      </div>
+   473→    </section>
+   474→  );
+   475→}
+   476→
+   477→function QuoteIcon() {
+   478→  return (
+   479→    <svg
+   480→      xmlns="http://www.w3.org/2000/svg"
+   481→      width="28"
+   482→      height="28"
+   483→      viewBox="0 0 24 24"
+   484→      fill="none"
+   485→      stroke="currentColor"
+   486→      strokeWidth="2"
+   487→      strokeLinecap="round"
+   488→      strokeLinejoin="round"
+   489→      className="mx-auto mb-6 text-[#E3C9A8]"
+   490→      aria-hidden
+   491→    >
+   492→      <path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z" />
+   493→      <path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z" />
+   494→    </svg>
+   495→  );
+   496→}
+   497→
+   498→function Testimonials() {
+   499→  const [page, setPage] = useState(0);
+   500→  const pageCount = Math.ceil(TESTIMONIALS.length / PAGE_COUNT);
+   501→  const items = TESTIMONIALS.slice(page * PAGE_COUNT, page * PAGE_COUNT + PAGE_COUNT);
+   502→  return (
+   503→    <section className="border-y border-stone-100 bg-stone-50">
+   504→      <div className="mx-auto max-w-7xl px-4 py-20 md:px-6 lg:px-10">
+   505→        <div className="mx-auto mb-10 max-w-2xl text-center md:mb-14">
+   506→          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#B08968]">
+   507→            Kind Words
+   508→          </p>
+   509→          <h2 className="font-display text-3xl leading-tight tracking-tight text-stone-900 md:text-[2.75rem]">
+   510→            From Our Community
+   511→          </h2>
+   512→        </div>
+   513→        <div className="relative">
+   514→          <div className="grid gap-6 md:grid-cols-3">
+   515→            {items.map((t) => (
+   516→              <figure key={t.name} className="border border-stone-200 bg-white p-8">
+   517→                <StarRating rating={t.rating} />
+   518→                <blockquote className="mt-4 text-[15px] leading-relaxed text-stone-700">
+   519→                  “{t.text}”
+   520→                </blockquote>
+   521→                <figcaption className="mt-6 border-t border-stone-100 pt-4 text-sm">
+   522→                  <span className="font-semibold text-stone-900">{t.name}</span>
+   523→                  <span className="ml-2 text-stone-400">{t.location}</span>
+   524→                </figcaption>
+   525→              </figure>
+   526→            ))}
+   527→          </div>
+   528→          <div className="mt-8 flex items-center justify-center gap-4">
+   529→            <button
+   530→              onClick={() => setPage((p) => (p - 1 + pageCount) % pageCount)}
+   531→              aria-label="Previous testimonials"
+   532→              className="flex h-10 w-10 items-center justify-center border border-stone-300 transition hover:border-stone-900"
+   533→            >
+   534→              <ArrowRight size={16} className="rotate-180" aria-hidden />
+   535→            </button>
+   536→            <div className="flex gap-1.5">
+   537→              {Array.from({ length: pageCount }).map((_, i) => (
+   538→                <button
+   539→                  key={i}
+   540→                  onClick={() => setPage(i)}
+   541→                  aria-label={`Testimonials page ${i + 1}`}
+   542→                  className={`h-1.5 w-6 transition ${i === page ? "bg-stone-900" : "bg-stone-300"}`}
+   543→                />
+   544→              ))}
+   545→            </div>
+   546→            <button
+   547→              onClick={() => setPage((p) => (p + 1) % pageCount)}
+   548→              aria-label="Next testimonials"
+   549→              className="flex h-10 w-10 items-center justify-center border border-stone-300 transition hover:border-stone-900"
+   550→            >
+   551→              <ArrowRight size={16} aria-hidden />
+   552→            </button>
+   553→          </div>
+   554→        </div>
+   555→      </div>
+   556→    </section>
+   557→  );
+   558→}
+   559→
+   560→function WornByYou() {
+   561→  return (
+   562→    <section className="mx-auto max-w-7xl px-4 py-20 md:px-6 lg:px-10">
+   563→      <div className="mx-auto mb-10 max-w-2xl text-center md:mb-14">
+   564→        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#B08968]">
+   565→          @ateliernoir
+   566→        </p>
+   567→        <h2 className="font-display text-3xl leading-tight tracking-tight text-stone-900 md:text-[2.75rem]">
+   568→          Worn by You
+   569→        </h2>
+   570→        <p className="mt-4 text-[15px] leading-relaxed text-stone-500">
+   571→          Tag @ateliernoir to be featured — the best looks we see every week come from you.
+   572→        </p>
+   573→      </div>
+   574→      <div className="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-3">
+   575→        {INSTAGRAM_IMAGES.map((img, i) => (
+   576→          <button
+   577→            key={img}
+   578→            onClick={() => window.open("https://instagram.com", "_blank")}
+   579→            aria-label={`Instagram post ${i + 1}`}
+   580→            className="group relative aspect-square overflow-hidden bg-stone-100"
+   581→          >
+   582→            <img
+   583→              src={img}
+   584→              alt={`Community look ${i + 1}`}
+   585→              loading="lazy"
+   586→              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+   587→            />
+   588→            <span className="absolute inset-0 flex items-center justify-center bg-stone-950/0 opacity-0 transition group-hover:bg-stone-950/30 group-hover:opacity-100">
+   589→              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white" aria-hidden>
+   590→                <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+   591→                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+   592→                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+   593→              </svg>
+   594→            </span>
+   595→          </button>
+   596→        ))}
+   597→      </div>
+   598→    </section>
+   599→  );
+   600→}
+   601→
+   602→function FabricFilm() {
+   603→  const videoRef = useRef<HTMLVideoElement>(null);
+   604→  const [ending, setEnding] = useState(false);
+   605→  useEffect(() => {
+   606→    const v = videoRef.current;
+   607→    if (!v) return;
+   608→    const onTime = () => {
+   609→      if (!v.duration) return;
+   610→      const left = v.duration - v.currentTime;
+   611→      setEnding(left <= 3 && left > 0.05);
+   612→    };
+   613→    v.addEventListener("timeupdate", onTime);
+   614→    return () => v.removeEventListener("timeupdate", onTime);
+   615→  }, []);
+   616→  return (
+   617→    <section
+   618→      aria-label="Fabric detail film"
+   619→      className="relative h-[50vh] min-h-[380px] w-full overflow-hidden bg-stone-400"
+   620→    >
+   621→      <video
+   622→        ref={videoRef}
+   623→        src="/videos/fabric-detail.mp4"
+   624→        poster="/images/fabric/fabric-4.jpg"
+   625→        autoPlay
+   626→        muted
+   627→        loop
+   628→        playsInline
+   629→        preload="auto"
+   630→        disablePictureInPicture
+   631→        className="absolute inset-0 h-full w-full object-cover"
+   632→      />
+   633→      <div
+   634→        aria-hidden={!ending}
+   635→        className={`pointer-events-none absolute inset-0 flex items-center justify-center bg-stone-950/30 transition-opacity duration-1000 ${
+   636→          ending ? "opacity-100" : "opacity-0"
+   637→        }`}
+   638→      >
+   639→        <p className="font-display text-4xl tracking-[0.4em] text-white md:text-6xl">ATELIER</p>
+   640→      </div>
+   641→    </section>
+   642→  );
+   643→}
+   644→
+   645→function PressBar() {
+   646→  return (
+   647→    <section className="border-t border-stone-100">
+   648→      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-14 gap-y-4 px-6 py-10">
+   649→        <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-stone-400">
+   650→          As seen in
+   651→        </p>
+   652→        {PRESS_NAMES.map((n) => (
+   653→          <span key={n} className="font-display text-lg tracking-[0.2em] text-stone-400">
+   654→            {n}
+   655→          </span>
+   656→        ))}
+   657→      </div>
+   658→    </section>
+   659→  );
+   660→}
+   661→

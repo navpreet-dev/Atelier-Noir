@@ -62,6 +62,11 @@ export async function GET(req: NextRequest) {
   if (isNew === 'true') where.isNew = true
   if (bestseller === 'true') where.bestseller = true
   if (sale === 'true') where.isSale = true
+  const tag = sp.get('tag')
+  if (tag === 'new') where.isNew = true
+  else if (tag === 'bestsellers') where.bestseller = true
+  else if (tag === 'sale') where.isSale = true
+  else if (tag) where.tags = { contains: `"${tag}"` }
 
   let orderBy: Record<string, 'asc' | 'desc'> = { createdAt: 'desc' }
   if (sort === 'newest') orderBy = { createdAt: 'desc' }

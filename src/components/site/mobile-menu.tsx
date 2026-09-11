@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import {
   ACCESSORIES_CATEGORIES,
   MEN_CATEGORIES,
@@ -23,13 +23,10 @@ export function MobileMenu() {
 
   return (
     <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-      <SheetContent
-        side="left"
-        className="w-[85vw] max-w-sm overflow-y-auto bg-white p-0 [&>button]:hidden"
-      >
-        <div className="border-b border-stone-100 px-6 py-5 font-display text-lg tracking-[0.25em]">
+      <SheetContent side="left" className="w-[85vw] max-w-sm overflow-y-auto bg-white p-0">
+        <SheetTitle className="border-b border-stone-100 px-6 py-5 font-display text-lg tracking-[0.25em]">
           ATELIER <span className="text-[#B08968]">NOIR</span>
-        </div>
+        </SheetTitle>
         <div className="px-6 py-4">
           <Accordion type="single" collapsible>
             <AccordionItem value="women" className="border-stone-100">

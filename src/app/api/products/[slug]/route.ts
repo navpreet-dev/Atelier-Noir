@@ -11,5 +11,9 @@ export async function GET(
   if (!product) {
     return NextResponse.json({ error: 'Product not found' }, { status: 404 })
   }
-  return NextResponse.json({ product: serializeProduct(product) })
+  const reviews = await db.review.findMany({
+    where: { productId: product.id },
+    orderBy: { createdAt: 'desc' },
+  })
+  return NextResponse.json({ product: serializeProduct(product), reviews })
 }

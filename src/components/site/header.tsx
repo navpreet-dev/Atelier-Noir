@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Heart, Menu, Search, ShoppingBag, User } from "lucide-react";
 import {
   ACCESSORIES_CATEGORIES as AccessoriesCategories,
@@ -74,7 +74,7 @@ function PromoCard({
           className="h-full w-full object-cover transition-transform duration-700 group-hover/promo:scale-105"
         />
       </div>
-      <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.25em] text-[#B08968]">
+      <p className="mt-3 text-[10px] font-semibold tracking-[0.25em] text-[#B08968] uppercase">
         {eyebrow}
       </p>
       <p className="mt-1 font-display text-lg text-stone-900 group-hover/promo:underline">
@@ -124,8 +124,32 @@ export function SiteHeader() {
   const setCartOpen = useStore((s) => s.setCartOpen);
   const setSearchOpen = useStore((s) => s.setSearchOpen);
   const setMobileMenuOpen = useStore((s) => s.setMobileMenuOpen);
+  const route = useStore((s) => s.route);
 
   const [openMenu, setOpenMenu] = useState<"women" | "men" | "accessories" | null>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const closeWithDelay = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setOpenMenu(null), 180);
+  };
+  const hoverProps = (menu: "women" | "men" | "accessories") => ({
+    onMouseEnter: () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+      setOpenMenu(menu);
+    },
+    onMouseLeave: closeWithDelay,
+  });
+
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    setOpenMenu(null);
+  }, [route]);
 
   const g = useStore.getState().navigate;
 
@@ -143,14 +167,10 @@ export function SiteHeader() {
             </button>
             <div className="hidden items-center gap-3.5 xl:flex">
               {/* WOMEN */}
-              <div
-                className="group/nav"
-                onMouseEnter={() => setOpenMenu("women")}
-                onMouseLeave={() => setOpenMenu(null)}
-              >
+              <div className="group/nav" {...hoverProps("women")}>
                 <button
                   onClick={() => g({ name: "shop", gender: "women", title: "Women" })}
-                  className="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors text-stone-800 hover:text-stone-500"
+                  className="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500"
                 >
                   <NavLinkLabel active={openMenu === "women"}>Women</NavLinkLabel>
                 </button>
@@ -179,7 +199,7 @@ export function SiteHeader() {
                 >
                   <div className="grid grid-cols-2 gap-x-16">
                     <div>
-                      <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-stone-400">
+                      <p className="mb-3 text-[10px] font-semibold tracking-[0.3em] text-stone-400 uppercase">
                         Shop by Category
                       </p>
                       {WomenCategories.map((c) => (
@@ -193,7 +213,7 @@ export function SiteHeader() {
                       ))}
                     </div>
                     <div>
-                      <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-stone-400">
+                      <p className="mb-3 text-[10px] font-semibold tracking-[0.3em] text-stone-400 uppercase">
                         Discover
                       </p>
                       {DISCOVER_LINKS.map((c) => (
@@ -214,14 +234,10 @@ export function SiteHeader() {
               </div>
 
               {/* MEN */}
-              <div
-                className="group/nav"
-                onMouseEnter={() => setOpenMenu("men")}
-                onMouseLeave={() => setOpenMenu(null)}
-              >
+              <div className="group/nav" {...hoverProps("men")}>
                 <button
                   onClick={() => g({ name: "shop", gender: "men", title: "Men" })}
-                  className="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors text-stone-800 hover:text-stone-500"
+                  className="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500"
                 >
                   <NavLinkLabel active={openMenu === "men"}>Men</NavLinkLabel>
                 </button>
@@ -250,7 +266,7 @@ export function SiteHeader() {
                 >
                   <div className="grid grid-cols-2 gap-x-16">
                     <div>
-                      <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-stone-400">
+                      <p className="mb-3 text-[10px] font-semibold tracking-[0.3em] text-stone-400 uppercase">
                         Shop by Category
                       </p>
                       {MenCategories.map((c) => (
@@ -264,7 +280,7 @@ export function SiteHeader() {
                       ))}
                     </div>
                     <div>
-                      <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-stone-400">
+                      <p className="mb-3 text-[10px] font-semibold tracking-[0.3em] text-stone-400 uppercase">
                         Discover
                       </p>
                       {DISCOVER_LINKS.map((c) => (
@@ -285,21 +301,17 @@ export function SiteHeader() {
               </div>
 
               {/* ACCESSORIES */}
-              <div
-                className="group/nav"
-                onMouseEnter={() => setOpenMenu("accessories")}
-                onMouseLeave={() => setOpenMenu(null)}
-              >
+              <div className="group/nav" {...hoverProps("accessories")}>
                 <button
                   onClick={() =>
                     g({
                       name: "shop",
                       gender: "all",
-                      category: ["bags", "shoes", "accessories"],
+                      category: "bags,shoes,accessories",
                       title: "Accessories",
                     })
                   }
-                  className="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors text-stone-800 hover:text-stone-500"
+                  className="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500"
                 >
                   <NavLinkLabel active={openMenu === "accessories"}>Accessories</NavLinkLabel>
                 </button>
@@ -310,12 +322,12 @@ export function SiteHeader() {
                       image="/images/bags/bags-6.jpg"
                       eyebrow="Carry All"
                       title="Bags Built for Decades"
-                      onClick={() => g({ name: "shop", gender: "all", category: ["bags"], title: "Bags" })}
+                      onClick={() => g({ name: "shop", gender: "all", category: "bags", title: "Bags" })}
                     />
                   }
                 >
                   <div>
-                    <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-stone-400">
+                    <p className="mb-3 text-[10px] font-semibold tracking-[0.3em] text-stone-400 uppercase">
                       Shop by Category
                     </p>
                     {AccessoriesCategories.map((c) => (
@@ -323,7 +335,7 @@ export function SiteHeader() {
                         key={c.key}
                         label={c.label}
                         onClick={() =>
-                          g({ name: "shop", gender: "all", category: [c.key], title: c.label })
+                          g({ name: "shop", gender: "all", category: c.key, title: c.label })
                         }
                       />
                     ))}
@@ -333,25 +345,25 @@ export function SiteHeader() {
 
               <button
                 onClick={() => g({ name: "shop", sale: true, title: "The Sale" })}
-                className="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors text-[#9A3B26]"
+                className="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-[#9A3B26]"
               >
                 <NavLinkLabel>Sale</NavLinkLabel>
               </button>
               <button
                 onClick={() => g({ name: "lookbook" })}
-                className="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors text-stone-800 hover:text-stone-500"
+                className="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500"
               >
                 <NavLinkLabel>Lookbook</NavLinkLabel>
               </button>
               <button
                 onClick={() => g({ name: "journal" })}
-                className="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors text-stone-800 hover:text-stone-500"
+                className="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500"
               >
                 <NavLinkLabel>Journal</NavLinkLabel>
               </button>
               <button
                 onClick={() => g({ name: "about" })}
-                className="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors text-stone-800 hover:text-stone-500"
+                className="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500"
               >
                 <NavLinkLabel>About</NavLinkLabel>
               </button>
@@ -386,10 +398,9 @@ export function SiteHeader() {
             >
               <Heart size={19} aria-hidden />
               {wishlistCount > 0 && (
-                <span
-                  className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-[#B08968]"
-                  aria-hidden
-                />
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#9A3B26] px-1 text-[9px] font-bold text-white">
+                  {wishlistCount}
+                </span>
               )}
             </button>
             <button

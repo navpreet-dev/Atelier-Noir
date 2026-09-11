@@ -1,7 +1,9 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
+import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
+import { MediaVideo } from "@/components/site/media-video";
 import { useStore } from "@/lib/store";
 import { LOOKBOOK_LOOKS, type Look } from "@/lib/site-data";
 
@@ -21,6 +23,26 @@ const ASPECTS = [
   "aspect-[3/4]",
   "aspect-[4/5]",
 ];
+
+/* Original primary button (`cb`) — exact class string and merge order. */
+function PrimaryButton({
+  children,
+  onClick,
+  className = "",
+}: {
+  children: ReactNode;
+  onClick?: () => void;
+  className?: string;
+}) {
+  return (
+    <Button
+      onClick={onClick}
+      className={`h-12 rounded-none bg-stone-900 px-10 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition-colors hover:bg-stone-700 ${className}`}
+    >
+      {children}
+    </Button>
+  );
+}
 
 function LookCard({ look, aspect, eager = false }: { look: Look; aspect: string; eager?: boolean }) {
   const navigate = useStore((s) => s.navigate);
@@ -87,16 +109,11 @@ export function LookbookView() {
 
       {/* Campaign film banner */}
       <section className="relative my-14 h-[55vh] min-h-[420px] overflow-hidden md:my-20">
-        <video
+        <MediaVideo
           src="/videos/editorial-1.mp4"
           poster="/images/editorial/editorial-4.jpg"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          disablePictureInPicture
-          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms]"
+          className="absolute inset-0 h-full w-full object-cover"
+          coverClassName="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-stone-900/40" aria-hidden />
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white">
@@ -106,12 +123,12 @@ export function LookbookView() {
           <h2 className="mt-4 max-w-2xl font-display text-3xl leading-tight tracking-tight md:text-5xl">
             SS25: A Study in Softness
           </h2>
-          <Button
+          <PrimaryButton
+            className="mt-8 bg-white text-stone-900 hover:bg-white hover:text-[#B08968]"
             onClick={() => navigate({ name: "shop", title: "SS25 Collection" })}
-            className="mt-8 h-12 rounded-none bg-white px-10 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 transition-colors hover:bg-white hover:text-[#B08968]"
           >
             Shop the Collection
-          </Button>
+          </PrimaryButton>
         </div>
       </section>
 

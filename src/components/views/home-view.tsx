@@ -1,48 +1,89 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Volume2, VolumeX } from "lucide-react";
+import {
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  Instagram,
+  Quote,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
+import { MediaVideo } from "@/components/site/media-video";
 import { ProductCard, type Product } from "@/components/site/product-card";
 import { StarRating } from "@/components/site/star-rating";
-import { COLLECTION_TILES, INSTAGRAM_IMAGES, LOOKBOOK_LOOKS, PRESS_NAMES, TESTIMONIALS } from "@/lib/site-data";
+import { COLLECTION_TILES, INSTAGRAM_IMAGES, PRESS_NAMES, TESTIMONIALS } from "@/lib/site-data";
 import { useStore } from "@/lib/store";
 
 const PAGE_COUNT = 3;
 
-export function HomeView() {
-  const navigate = useStore((s) => s.navigate);
+/* Section header — matches the original's shared intro header component */
+function SectionHeader({
+  eyebrow,
+  title,
+  subtitle,
+  align = "center",
+  dark = false,
+}: {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  align?: "center" | "left";
+  dark?: boolean;
+}) {
   return (
-    <div>
+    <div
+      className={`${
+        align === "center" ? "text-center mx-auto" : "text-left"
+      } max-w-2xl mb-10 md:mb-14`}
+    >
+      {eyebrow && (
+        <p
+          className={`text-[11px] font-semibold tracking-[0.3em] uppercase mb-3 ${
+            dark ? "text-stone-400" : "text-[#B08968]"
+          }`}
+        >
+          {eyebrow}
+        </p>
+      )}
+      <h2
+        className={`font-display text-3xl md:text-[2.75rem] leading-tight tracking-tight ${
+          dark ? "text-white" : "text-stone-900"
+        }`}
+      >
+        {title}
+      </h2>
+      {subtitle && (
+        <p
+          className={`mt-4 text-sm md:text-[15px] leading-relaxed ${
+            dark ? "text-stone-400" : "text-stone-500"
+          }`}
+        >
+          {subtitle}
+        </p>
+      )}
+    </div>
+  );
+}
+
+export function HomeView() {
+  return (
+    <>
       <Hero />
       <CategoryCards />
-      <ProductRail
-        eyebrow="Just Landed"
-        title="New Arrivals"
-        subtitle="The first light of SS25 — small runs, quiet details, honest fabrics."
-        cta="View All"
-        onCta={() => navigate({ name: "shop", tag: "new", title: "New Arrivals" })}
-        query="/api/products?new=true&sort=newest&limit=8"
-        layout="grid"
-      />
+      <NewArrivals />
       <CampaignFilm />
       <CraftSection />
-      <ProductRail
-        eyebrow="Community Favourites"
-        title="The Bestsellers"
-        subtitle="The pieces our customers re-order, gift, and write poems about."
-        cta="Shop All Bestsellers"
-        onCta={() => navigate({ name: "shop", tag: "bestsellers", title: "Bestsellers" })}
-        query="/api/products?bestseller=true&sort=popular&limit=4"
-        layout="bestsellers"
-      />
+      <Bestsellers />
       <LookbookBanner />
       <CollectionTiles />
       <QuoteSection />
       <Testimonials />
       <WornByYou />
-      <FabricFilm />
       <PressBar />
-    </div>
+      <FabricFilm />
+    </>
   );
 }
 
@@ -50,9 +91,14 @@ function Hero() {
   const navigate = useStore((s) => s.navigate);
   return (
     <section className="relative flex min-h-[88vh] items-center justify-center overflow-hidden bg-stone-900 text-white">
-      <MediaBg src="/videos/hero.mp4" poster="/images/editorial/editorial-8.jpg" imgClassName="opacity-60" eager />
+      <MediaVideo
+        src="/videos/hero.mp4"
+        poster="/images/editorial/editorial-8.jpg"
+        className="absolute inset-0 h-full w-full object-cover opacity-60"
+        coverClassName="h-full w-full object-cover opacity-60"
+      />
       <div className="absolute inset-0 bg-gradient-to-b from-stone-950/50 via-stone-950/20 to-stone-950/60" />
-      <div className="an-fade-up relative z-10 max-w-3xl px-6 text-center">
+      <div className="relative z-10 max-w-3xl px-6 text-center">
         <h1 className="font-display text-5xl leading-[1.05] tracking-tight md:text-7xl">
           Dress Like You
           <br />
@@ -68,7 +114,7 @@ function Hero() {
             className="group flex items-center gap-3 bg-white px-9 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 transition hover:bg-stone-200"
           >
             Shop Women
-            <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" aria-hidden />
+            <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
           </button>
           <button
             onClick={() => navigate({ name: "shop", gender: "men", title: "Men" })}
@@ -82,60 +128,12 @@ function Hero() {
   );
 }
 
-export function MediaBg({
-  src,
-  poster,
-  imgClassName = "",
-  eager = false,
-  videoClassName = "",
-}: {
-  src: string;
-  poster: string;
-  imgClassName?: string;
-  eager?: boolean;
-  videoClassName?: string;
-}) {
-  const ref = useRef<HTMLVideoElement>(null);
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
-    const v = ref.current;
-    if (!v) return;
-    const on = () => setReady(true);
-    v.addEventListener("playing", on);
-    return () => v.removeEventListener("playing", on);
-  }, []);
-  return (
-    <>
-      <video
-        ref={ref}
-        src={src}
-        poster={poster}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload={eager ? "auto" : "metadata"}
-        disablePictureInPicture
-        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${videoClassName}`}
-        style={{ opacity: ready ? 1 : 0 }}
-      />
-      <img
-        src={poster}
-        alt=""
-        aria-hidden
-        className={`pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${imgClassName}`}
-        style={{ opacity: ready ? 0 : imgClassName.includes("opacity-") ? undefined : 1 }}
-      />
-    </>
-  );
-}
-
 function CategoryCards() {
   const navigate = useStore((s) => s.navigate);
   const cards = [
     { title: "Women", image: "/images/editorial/editorial-3.jpg", route: { name: "shop", gender: "women", title: "Women" } as const },
     { title: "Men", image: "/images/blazers/blazers-2.jpg", route: { name: "shop", gender: "men", title: "Men" } as const },
-    { title: "Accessories", image: "/images/bags/bags-3.jpg", route: { name: "shop", gender: "all", category: ["bags", "shoes", "accessories"] as string[], title: "Accessories" } as const },
+    { title: "Accessories", image: "/images/bags/bags-3.jpg", route: { name: "shop", gender: "all", category: "bags,shoes,accessories", title: "Accessories" } as const },
   ];
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 md:px-6 lg:px-10">
@@ -156,8 +154,7 @@ function CategoryCards() {
             <div className="absolute bottom-7 left-7">
               <p className="font-display text-3xl text-white">{c.title}</p>
               <p className="mt-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/85">
-                Shop Now
-                <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1.5" aria-hidden />
+                Shop Now <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1.5" />
               </p>
             </div>
           </button>
@@ -167,82 +164,54 @@ function CategoryCards() {
   );
 }
 
-function ProductRail({
-  eyebrow,
-  title,
-  subtitle,
-  cta,
-  onCta,
-  query,
-  layout,
-}: {
-  eyebrow: string;
-  title: string;
-  subtitle: string;
-  cta?: string;
-  onCta?: () => void;
-  query: string;
-  layout: "grid" | "bestsellers";
-}) {
-  const [products, setProducts] = useState<Product[] | null>(null);
+function NewArrivals() {
+  const navigate = useStore((s) => s.navigate);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     let live = true;
-    fetch(query)
+    fetch("/api/products?new=true&sort=newest&limit=8")
       .then((r) => r.json())
       .then((d) => {
         if (live) setProducts(d.products ?? []);
       })
-      .catch(() => live && setProducts([]));
+      .catch(() => {});
     return () => {
       live = false;
     };
-  }, [query]);
+  }, []);
 
   return (
     <section className="mx-auto max-w-7xl px-4 pb-20 md:px-6 lg:px-10">
-      <div
-        className={`mb-10 ${
-          layout === "grid"
-            ? "flex items-end justify-between"
-            : "flex flex-col gap-6 md:flex-row md:items-end md:justify-between"
-        }`}
-      >
-        <div className="mb-10 max-w-2xl text-left md:mb-14">
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#B08968]">
-            {eyebrow}
-          </p>
-          <h2 className="font-display text-3xl leading-tight tracking-tight text-stone-900 md:text-[2.75rem]">
-            {title}
-          </h2>
-          <p className="mt-4 text-sm leading-relaxed text-stone-500 md:text-[15px]">{subtitle}</p>
+      <div className="mb-10 flex items-end justify-between">
+        <SectionHeader
+          align="left"
+          eyebrow="Just Landed"
+          title="New Arrivals"
+          subtitle="The first light of SS25 — small runs, quiet details, honest fabrics."
+        />
+        <button
+          onClick={() => navigate({ name: "shop", tag: "new", title: "New Arrivals" })}
+          className="mb-10 hidden shrink-0 items-center gap-2 border-b border-stone-900 pb-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 hover:text-stone-500 md:flex"
+        >
+          View All <ArrowRight size={14} />
+        </button>
+      </div>
+      {products.length > 0 ? (
+        <div className="-mx-4 flex snap-x gap-5 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-4 md:overflow-visible md:px-0 lg:grid-cols-4">
+          {products.slice(0, 8).map((p, i) => (
+            <div key={p.id} className="w-64 shrink-0 snap-start md:w-auto">
+              <ProductCard product={p} eager={i < 4} />
+            </div>
+          ))}
         </div>
-        {cta && layout === "grid" && (
-          <button
-            onClick={onCta}
-            className="mb-10 hidden shrink-0 items-center gap-2 border-b border-stone-900 pb-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 hover:text-stone-500 md:flex"
-          >
-            {cta} <ArrowRight size={14} aria-hidden />
-          </button>
-        )}
-      </div>
-      <div className={layout === "grid" ? "grid grid-cols-2 gap-6 md:grid-cols-4" : "grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4 md:gap-x-6"}>
-        {products === null
-          ? [0, 1, 2, 3].map((i) => (
-              <div key={i}>
-                <div className="aspect-[3/4] animate-pulse bg-stone-100" />
-              </div>
-            ))
-          : products.map((p, i) => <ProductCard key={p.id} product={p} eager={i < 4} />)}
-      </div>
-      {cta && layout === "bestsellers" && (
-        <div className="mt-12 text-center">
-          <button
-            onClick={onCta}
-            className="border border-stone-900 px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 transition hover:bg-stone-900 hover:text-white"
-          >
-            {cta}
-          </button>
+      ) : (
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i}>
+              <div className="aspect-[3/4] animate-pulse bg-stone-100" />
+            </div>
+          ))}
         </div>
       )}
     </section>
@@ -251,31 +220,32 @@ function ProductRail({
 
 function CampaignFilm() {
   const navigate = useStore((s) => s.navigate);
-  const [muted, setMuted] = useState(true);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [unmuted, setUnmuted] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   return (
     <section className="mx-auto max-w-7xl px-4 pb-20 md:px-6 lg:px-10">
       <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-        <div className="mb-10 max-w-2xl text-left md:mb-14">
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#B08968]">
-            The Campaign Film
-          </p>
-          <h2 className="font-display text-3xl leading-tight tracking-tight text-stone-900 md:text-[2.75rem]">
-            Worn in Motion
-          </h2>
-          <p className="mt-4 text-sm leading-relaxed text-stone-500 md:text-[15px]">
-            Sixteen seconds of SS25 — shot in Madrid, cut to nothing but the clothes.
-          </p>
-        </div>
+        <SectionHeader
+          align="left"
+          eyebrow="The Campaign Film"
+          title="Worn in Motion"
+          subtitle="Sixteen seconds of SS25 — shot in Madrid, cut to nothing but the clothes."
+        />
         <button
-          onClick={() => navigate({ name: "lookbook" })}
+          onClick={() => navigate({ name: "shop", gender: "women", title: "Women" })}
           className="mb-10 hidden shrink-0 items-center gap-2 border-b border-stone-900 pb-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 hover:text-stone-500 md:flex"
         >
-          Shop the Film <ArrowRight size={14} aria-hidden />
+          Shop the Film <ArrowRight size={14} />
         </button>
       </div>
       <div className="group relative -mx-4 h-[calc(100svh-4rem)] overflow-hidden bg-stone-950 md:mx-0 md:aspect-video md:h-auto md:border md:border-stone-200">
-        <MediaBg src="/videos/film-ss25.mp4" poster="/images/film-poster.jpg" eager />
+        <MediaVideo
+          src="/videos/film-ss25.mp4"
+          poster="/images/film-poster.jpg"
+          className="absolute inset-0 h-full w-full object-cover"
+          coverClassName="h-full w-full object-cover"
+          onVideoRef={(v) => (videoRef.current = v)}
+        />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-stone-950/55 via-transparent to-transparent" />
         <div className="absolute bottom-5 left-6 max-w-[70%]">
           <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-white/90">
@@ -284,17 +254,18 @@ function CampaignFilm() {
           <p className="mt-1.5 font-display text-xl text-white md:text-2xl">“Second Nature”</p>
         </div>
         <button
-          aria-label={muted ? "Unmute film" : "Mute film"}
           onClick={() => {
             const v = videoRef.current;
-            setMuted((m) => {
-              if (v) v.muted = !m;
-              return !m;
-            });
+            if (v) {
+              v.muted = unmuted;
+              setUnmuted(!unmuted);
+              if (unmuted) v.play().catch(() => {});
+            }
           }}
+          aria-label={unmuted ? "Mute film" : "Unmute film"}
           className="absolute bottom-5 right-5 flex h-11 w-11 items-center justify-center border border-white/50 text-white backdrop-blur-sm transition hover:bg-white hover:text-stone-900"
         >
-          {muted ? <VolumeX size={17} aria-hidden /> : <Volume2 size={17} aria-hidden />}
+          {unmuted ? <Volume2 size={17} /> : <VolumeX size={17} />}
         </button>
       </div>
     </section>
@@ -307,7 +278,12 @@ function CraftSection() {
     <section className="bg-stone-100">
       <div className="mx-auto grid max-w-7xl items-center gap-0 lg:grid-cols-2">
         <div className="relative aspect-[4/3] overflow-hidden lg:aspect-auto lg:h-full lg:min-h-[560px]">
-          <MediaBg src="/videos/editorial-1.mp4" poster="/images/boutique/boutique-2.jpg" />
+          <MediaVideo
+            src="/videos/editorial-1.mp4"
+            poster="/images/boutique/boutique-2.jpg"
+            className="absolute inset-0 h-full w-full object-cover"
+            coverClassName="h-full w-full object-cover"
+          />
         </div>
         <div className="px-8 py-14 lg:px-16 lg:py-24">
           <p className="text-[11px] font-semibold uppercase tracking-[0.35em] text-[#B08968]">
@@ -339,9 +315,57 @@ function CraftSection() {
             onClick={() => navigate({ name: "about" })}
             className="mt-10 inline-flex items-center gap-3 bg-stone-900 px-9 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700"
           >
-            Our Story <ArrowRight size={15} aria-hidden />
+            Our Story <ArrowRight size={15} />
           </button>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function Bestsellers() {
+  const navigate = useStore((s) => s.navigate);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    let live = true;
+    fetch("/api/products?bestseller=true&sort=popular&limit=4")
+      .then((r) => r.json())
+      .then((d) => {
+        if (live) setProducts(d.products ?? []);
+      })
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
+  }, []);
+
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-20 md:px-6 lg:px-10">
+      <SectionHeader
+        eyebrow="Community Favourites"
+        title="The Bestsellers"
+        subtitle="The pieces our customers re-order, gift, and write poems about."
+      />
+      <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4 md:gap-x-6">
+        {(products.length
+          ? products
+          : Array.from({ length: 4 }).map(() => null)
+        ).map((p, i) =>
+          p ? (
+            <ProductCard key={p.id} product={p} />
+          ) : (
+            <div key={i} className="aspect-[3/4] animate-pulse bg-stone-100" />
+          )
+        )}
+      </div>
+      <div className="mt-12 text-center">
+        <button
+          onClick={() => navigate({ name: "shop", tag: "bestsellers", title: "Bestsellers" })}
+          className="border border-stone-900 px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 transition hover:bg-stone-900 hover:text-white"
+        >
+          Shop All Bestsellers
+        </button>
       </div>
     </section>
   );
@@ -382,74 +406,41 @@ function LookbookBanner() {
 
 function CollectionTiles() {
   const navigate = useStore((s) => s.navigate);
+  const spanClass: Record<string, string> = {
+    tall: "md:row-span-2 md:aspect-auto",
+    wide: "md:col-span-2",
+    normal: "",
+  };
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 md:px-6 lg:px-10">
-      <div className="mx-auto mb-10 max-w-2xl text-center md:mb-14">
-        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#B08968]">
-          Collections
-        </p>
-        <h2 className="font-display text-3xl leading-tight tracking-tight text-stone-900 md:text-[2.75rem]">
-          Shop by Collection
-        </h2>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2 md:gap-6">
-        <button
-          onClick={() => navigate({ name: "shop", tag: "new", title: "New Arrivals" })}
-          className="group relative aspect-[4/3] overflow-hidden md:row-span-2 md:aspect-auto md:h-full"
-        >
-          <img
-            src={COLLECTION_TILES[0].image}
-            alt="New Arrivals"
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-stone-950/55 via-stone-950/5 to-transparent" />
-          <div className="absolute bottom-6 left-6">
-            <p className="font-display text-2xl text-white md:text-3xl">New Arrivals</p>
-            <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/80">
-              Explore →
-            </p>
-          </div>
-        </button>
-        <button
-          onClick={() => navigate({ name: "shop", tag: "bestsellers", title: "Bestsellers" })}
-          className="group relative aspect-[4/3] overflow-hidden"
-        >
-          <img
-            src={COLLECTION_TILES[1].image}
-            alt="Bestsellers"
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-stone-950/55 via-stone-950/5 to-transparent" />
-          <div className="absolute bottom-6 left-6">
-            <p className="font-display text-2xl text-white md:text-3xl">Bestsellers</p>
-            <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/80">
-              Explore →
-            </p>
-          </div>
-        </button>
-        <button
-          onClick={() => navigate({ name: "shop", sale: true, title: "The Sale" })}
-          className="group relative aspect-[4/3] overflow-hidden"
-        >
-          <img
-            src={COLLECTION_TILES[2].image}
-            alt="The Sale"
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-stone-950/55 via-stone-950/5 to-transparent" />
-          <div className="absolute bottom-6 left-6">
-            <p className="font-display text-2xl text-white md:text-3xl">The Sale</p>
-            <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/80">
-              Explore →
-            </p>
-          </div>
-          <span className="absolute right-5 top-5 bg-[#9A3B26] px-3 py-1.5 text-[10px] font-bold tracking-[0.2em] text-white">
-            UP TO −40%
-          </span>
-        </button>
+      <SectionHeader eyebrow="Curated For You" title="Shop by Collection" />
+      <div className="grid gap-4 md:grid-cols-3 md:grid-rows-2 md:gap-6">
+        {COLLECTION_TILES.map((t) => (
+          <button
+            key={t.title}
+            onClick={() => navigate({ name: "shop", tag: t.tag, title: t.title })}
+            className={`group relative aspect-[4/3] overflow-hidden ${spanClass[t.span] ?? ""}`}
+          >
+            <img
+              src={t.image}
+              alt={t.title}
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-stone-950/55 via-stone-950/5 to-transparent" />
+            <div className="absolute bottom-6 left-6">
+              <p className="font-display text-2xl text-white md:text-3xl">{t.title}</p>
+              <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/80">
+                Explore →
+              </p>
+            </div>
+            {t.tag === "sale" && (
+              <span className="absolute right-5 top-5 bg-[#9A3B26] px-3 py-1.5 text-[10px] font-bold tracking-[0.2em] text-white">
+                UP TO −40%
+              </span>
+            )}
+          </button>
+        ))}
       </div>
     </section>
   );
@@ -458,10 +449,15 @@ function CollectionTiles() {
 function QuoteSection() {
   return (
     <section className="relative h-[65vh] min-h-[440px] overflow-hidden bg-stone-900">
-      <MediaBg src="/videos/editorial-2.mp4" poster="/images/editorial/editorial-5.jpg" imgClassName="opacity-55" />
+      <MediaVideo
+        src="/videos/editorial-2.mp4"
+        poster="/images/editorial/editorial-5.jpg"
+        className="absolute inset-0 h-full w-full object-cover opacity-55"
+        coverClassName="h-full w-full object-cover opacity-55"
+      />
       <div className="absolute inset-0 flex items-center justify-center px-6">
         <blockquote className="max-w-3xl text-center text-white">
-          <QuoteIcon />
+          <Quote size={28} className="mx-auto mb-6 text-[#E3C9A8]" />
           <p className="font-display text-2xl leading-snug md:text-4xl">
             “Buy less, choose well, make it last. We built Atelier Noir on those five words.”
           </p>
@@ -474,27 +470,6 @@ function QuoteSection() {
   );
 }
 
-function QuoteIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="28"
-      height="28"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="mx-auto mb-6 text-[#E3C9A8]"
-      aria-hidden
-    >
-      <path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z" />
-      <path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z" />
-    </svg>
-  );
-}
-
 function Testimonials() {
   const [page, setPage] = useState(0);
   const pageCount = Math.ceil(TESTIMONIALS.length / PAGE_COUNT);
@@ -502,14 +477,7 @@ function Testimonials() {
   return (
     <section className="border-y border-stone-100 bg-stone-50">
       <div className="mx-auto max-w-7xl px-4 py-20 md:px-6 lg:px-10">
-        <div className="mx-auto mb-10 max-w-2xl text-center md:mb-14">
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#B08968]">
-            Kind Words
-          </p>
-          <h2 className="font-display text-3xl leading-tight tracking-tight text-stone-900 md:text-[2.75rem]">
-            From Our Community
-          </h2>
-        </div>
+        <SectionHeader eyebrow="Kind Words" title="From Our Community" />
         <div className="relative">
           <div className="grid gap-6 md:grid-cols-3">
             {items.map((t) => (
@@ -531,7 +499,7 @@ function Testimonials() {
               aria-label="Previous testimonials"
               className="flex h-10 w-10 items-center justify-center border border-stone-300 transition hover:border-stone-900"
             >
-              <ArrowRight size={16} className="rotate-180" aria-hidden />
+              <ChevronLeft size={16} />
             </button>
             <div className="flex gap-1.5">
               {Array.from({ length: pageCount }).map((_, i) => (
@@ -548,7 +516,7 @@ function Testimonials() {
               aria-label="Next testimonials"
               className="flex h-10 w-10 items-center justify-center border border-stone-300 transition hover:border-stone-900"
             >
-              <ArrowRight size={16} aria-hidden />
+              <ChevronRight size={16} />
             </button>
           </div>
         </div>
@@ -560,21 +528,15 @@ function Testimonials() {
 function WornByYou() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 md:px-6 lg:px-10">
-      <div className="mx-auto mb-10 max-w-2xl text-center md:mb-14">
-        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#B08968]">
-          @ateliernoir
-        </p>
-        <h2 className="font-display text-3xl leading-tight tracking-tight text-stone-900 md:text-[2.75rem]">
-          Worn by You
-        </h2>
-        <p className="mt-4 text-[15px] leading-relaxed text-stone-500">
-          Tag @ateliernoir to be featured — the best looks we see every week come from you.
-        </p>
-      </div>
+      <SectionHeader
+        eyebrow="@ateliernoir"
+        title="Worn by You"
+        subtitle="Tag @ateliernoir to be featured — the best looks we see every week come from you."
+      />
       <div className="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-3">
         {INSTAGRAM_IMAGES.map((img, i) => (
           <button
-            key={img}
+            key={`${img}-${i}`}
             onClick={() => window.open("https://instagram.com", "_blank")}
             aria-label={`Instagram post ${i + 1}`}
             className="group relative aspect-square overflow-hidden bg-stone-100"
@@ -586,11 +548,7 @@ function WornByYou() {
               className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
             <span className="absolute inset-0 flex items-center justify-center bg-stone-950/0 opacity-0 transition group-hover:bg-stone-950/30 group-hover:opacity-100">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white" aria-hidden>
-                <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-              </svg>
+              <Instagram size={22} className="text-white" />
             </span>
           </button>
         ))}
@@ -600,7 +558,7 @@ function WornByYou() {
 }
 
 function FabricFilm() {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const [ending, setEnding] = useState(false);
   useEffect(() => {
     const v = videoRef.current;
@@ -618,17 +576,13 @@ function FabricFilm() {
       aria-label="Fabric detail film"
       className="relative h-[50vh] min-h-[380px] w-full overflow-hidden bg-stone-400"
     >
-      <video
-        ref={videoRef}
+      <MediaVideo
         src="/videos/fabric-detail.mp4"
         poster="/images/fabric/fabric-4.jpg"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        disablePictureInPicture
         className="absolute inset-0 h-full w-full object-cover"
+        coverClassName="h-full w-full object-cover"
+        onVideoRef={(v) => (videoRef.current = v)}
+        alt="Close-up film of a tailored jacket being crafted in the workshop"
       />
       <div
         aria-hidden={!ending}

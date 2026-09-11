@@ -1,0 +1,894 @@
+     1→"use client";
+     2→
+     3→import { useEffect, useState, type FormEvent } from "react";
+     4→import { formatPrice, useStore } from "@/lib/store";
+     5→import { COUNTRIES } from "@/lib/site-data";
+     6→import { Input } from "@/components/ui/input";
+     7→import { Label } from "@/components/ui/label";
+     8→import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+     9→import {
+    10→  Select,
+    11→  SelectContent,
+    12→  SelectItem,
+    13→  SelectTrigger,
+    14→  SelectValue,
+    15→} from "@/components/ui/select";
+    16→import { toast } from "@/hooks/use-toast";
+    17→
+    18→type PaymentMethod = "card" | "upi" | "cod";
+    19→
+    20→type PlacedOrderItem = {
+    21→  productId: string;
+    22→  name: string;
+    23→  image: string;
+    24→  size: string;
+    25→  color: string;
+    26→  qty: number;
+    27→  price: number;
+    28→};
+    29→
+    30→type PlacedOrder = {
+    31→  orderNumber: string;
+    32→  firstName: string;
+    33→  email: string;
+    34→  items: PlacedOrderItem[];
+    35→  name: string;
+    36→  address: string;
+    37→  city: string;
+    38→  postalCode: string;
+    39→  country: string;
+    40→  paymentDetail: string;
+    41→  subtotal: number;
+    42→  total: number;
+    43→  promo: boolean;
+    44→};
+    45→
+    46→const INPUT_CLS =
+    47→  "h-12 rounded-none border-stone-300 bg-white focus-visible:border-stone-900 focus-visible:ring-stone-900/20";
+    48→const LABEL_CLS = "text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-500";
+    49→const SECTION_CLS = "space-y-6 border border-stone-200 p-6 md:p-8";
+    50→const SECTION_TITLE_CLS = "text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900";
+    51→
+    52→const STEPS = ["Shipping", "Payment", "Confirmation"];
+    53→
+    54→const PAYMENT_OPTIONS: { value: PaymentMethod; title: string; desc: string }[] = [
+    55→  {
+    56→    value: "card",
+    57→    title: "Card",
+    58→    desc: "Visa, Mastercard, American Express — pay securely online",
+    59→  },
+    60→  {
+    61→    value: "upi",
+    62→    title: "UPI",
+    63→    desc: "Pay from any UPI app using your UPI ID",
+    64→  },
+    65→  {
+    66→    value: "cod",
+    67→    title: "Cash on Delivery",
+    68→    desc: "Pay in cash when your order arrives",
+    69→  },
+    70→];
+    71→
+    72→const scrollTop = () => {
+    73→  try {
+    74→    window.scrollTo({ top: 0, behavior: "smooth" });
+    75→  } catch {
+    76→    /* noop */
+    77→  }
+    78→};
+    79→
+    80→const formatCardNumber = (v: string) =>
+    81→  v
+    82→    .replace(/\D/g, "")
+    83→    .slice(0, 16)
+    84→    .replace(/(\d{4})(?=\d)/g, "$1 ");
+    85→
+    86→const formatExpiry = (v: string) => {
+    87→  const digits = v.replace(/\D/g, "").slice(0, 4);
+    88→  if (digits.length <= 2) return digits;
+    89→  return `${digits.slice(0, 2)}/${digits.slice(2)}`;
+    90→};
+    91→
+    92→export function CheckoutView() {
+    93→  const user = useStore((s) => s.user);
+    94→  const userReady = useStore((s) => s.userReady);
+    95→  const cartItems = useStore((s) => s.cartItems);
+    96→  const promoCode = useStore((s) => s.promoCode);
+    97→  const sessionId = useStore((s) => s.sessionId);
+    98→  const clearCart = useStore((s) => s.clearCart);
+    99→  const requireSignIn = useStore((s) => s.requireSignIn);
+   100→  const navigate = useStore((s) => s.navigate);
+   101→
+   102→  const [step, setStep] = useState<1 | 2 | 3>(1);
+   103→  const [placing, setPlacing] = useState(false);
+   104→  const [placed, setPlaced] = useState<PlacedOrder | null>(null);
+   105→
+   106→  // Contact + shipping
+   107→  const [name, setName] = useState("");
+   108→  const [email, setEmail] = useState("");
+   109→  const [phone, setPhone] = useState("");
+   110→  const [address, setAddress] = useState("");
+   111→  const [city, setCity] = useState("");
+   112→  const [postalCode, setPostalCode] = useState("");
+   113→  const [country, setCountry] = useState("India");
+   114→
+   115→  // Payment
+   116→  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("card");
+   117→  const [upiId, setUpiId] = useState("");
+   118→  const [cardName, setCardName] = useState("");
+   119→  const [cardNumber, setCardNumber] = useState("");
+   120→  const [cardExpiry, setCardExpiry] = useState("");
+   121→  const [cardCvv, setCardCvv] = useState("");
+   122→
+   123→  // Prefill contact fields from the signed-in user.
+   124→  useEffect(() => {
+   125→    if (!user) return;
+   126→    setName((n) => n || user.name);
+   127→    setEmail((e) => e || user.email);
+   128→    setCardName((c) => c || user.name);
+   129→  }, [user]);
+   130→
+   131→  const subtotal = cartItems.reduce((n, i) => n + i.qty * i.product.price, 0);
+   132→  const total = promoCode ? subtotal * 0.9 : subtotal;
+   133→
+   134→  if (!userReady) {
+   135→    return <div className="min-h-[50vh]" aria-hidden />;
+   136→  }
+   137→
+   138→  if (!user) {
+   139→    return <AuthPanel />;
+   140→  }
+   141→
+   142→  // Step 3 — order confirmation
+   143→  if (step === 3 && placed) {
+   144→    return <Confirmation placed={placed} />;
+   145→  }
+   146→
+   147→  // Empty bag guard (steps 1–2)
+   148→  if (cartItems.length === 0) {
+   149→    return (
+   150→      <div className="mx-auto max-w-7xl px-4 pb-24 pt-10 md:px-6 lg:px-10">
+   151→        <h1 className="font-display text-3xl tracking-tight md:text-4xl">Checkout</h1>
+   152→        <div className="py-28 text-center">
+   153→          <p className="font-display text-2xl">Your bag is empty</p>
+   154→          <p className="mt-2 text-sm text-stone-500">
+   155→            Beautiful things take up little space — but they do need a bag.
+   156→          </p>
+   157→          <button
+   158→            onClick={() => navigate({ name: "shop", title: "All Clothing" })}
+   159→            className="mt-8 border border-stone-900 px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.25em] transition hover:bg-stone-900 hover:text-white"
+   160→          >
+   161→            Continue Shopping
+   162→          </button>
+   163→        </div>
+   164→      </div>
+   165→    );
+   166→  }
+   167→
+   168→  function handleContinueToPayment() {
+   169→    if (!phone.trim() || !address.trim() || !city.trim() || !postalCode.trim()) {
+   170→      toast({
+   171→        title: "Please fill in your contact and shipping details.",
+   172→        variant: "destructive",
+   173→      });
+   174→      return;
+   175→    }
+   176→    setStep(2);
+   177→    scrollTop();
+   178→  }
+   179→
+   180→  async function handlePlaceOrder() {
+   181→    if (placing) return;
+   182→    if (!user) {
+   183→      requireSignIn();
+   184→      return;
+   185→    }
+   186→    if (paymentMethod === "card") {
+   187→      const digits = cardNumber.replace(/\s/g, "");
+   188→      if (digits.length !== 16 || !/^\d{2}\/\d{2}$/.test(cardExpiry) || cardCvv.length < 3) {
+   189→        toast({ title: "Please complete your card details.", variant: "destructive" });
+   190→        return;
+   191→      }
+   192→    }
+   193→    if (paymentMethod === "upi" && !upiId.trim()) {
+   194→      toast({ title: "Please enter your UPI ID.", variant: "destructive" });
+   195→      return;
+   196→    }
+   197→
+   198→    const items: PlacedOrderItem[] = cartItems.map((i) => ({
+   199→      productId: i.productId,
+   200→      name: i.product.name,
+   201→      image: i.product.images[0],
+   202→      size: i.size,
+   203→      color: i.color,
+   204→      qty: i.qty,
+   205→      price: i.product.price,
+   206→    }));
+   207→    const paymentDetail =
+   208→      paymentMethod === "card"
+   209→        ? `Card — Visa ending in ${cardNumber.replace(/\s/g, "").slice(-4)}`
+   210→        : paymentMethod === "upi"
+   211→          ? `UPI — ${upiId.trim()}`
+   212→          : "Cash on Delivery";
+   213→
+   214→    setPlacing(true);
+   215→    try {
+   216→      const res = await fetch("/api/orders", {
+   217→        method: "POST",
+   218→        headers: { "Content-Type": "application/json" },
+   219→        body: JSON.stringify({
+   220→          items,
+   221→          email: email.trim() || user.email,
+   222→          name: name.trim() || user.name,
+   223→          phone: phone.trim(),
+   224→          address: address.trim(),
+   225→          city: city.trim(),
+   226→          postalCode: postalCode.trim(),
+   227→          country,
+   228→          paymentMethod,
+   229→          paymentDetail,
+   230→          subtotal,
+   231→          shipping: 0,
+   232→          total,
+   233→          sessionId,
+   234→        }),
+   235→      });
+   236→      if (res.status === 401) {
+   237→        requireSignIn();
+   238→        return;
+   239→      }
+   240→      const json = await res.json().catch(() => ({}));
+   241→      if (!res.ok || !json.order) {
+   242→        toast({
+   243→          title: json.error ?? "Something went wrong placing your order.",
+   244→          variant: "destructive",
+   245→        });
+   246→        return;
+   247→      }
+   248→      setPlaced({
+   249→        orderNumber: json.order.orderNumber,
+   250→        firstName: (user.name ?? "").split(" ")[0] ?? "",
+   251→        email: email.trim() || user.email,
+   252→        items,
+   253→        name: name.trim() || user.name,
+   254→        address: address.trim(),
+   255→        city: city.trim(),
+   256→        postalCode: postalCode.trim(),
+   257→        country,
+   258→        paymentDetail,
+   259→        subtotal,
+   260→        total,
+   261→        promo: Boolean(promoCode),
+   262→      });
+   263→      await clearCart();
+   264→      setStep(3);
+   265→      scrollTop();
+   266→      toast({ title: "Order placed — thank you." });
+   267→    } catch {
+   268→      toast({
+   269→        title: "Something went wrong placing your order.",
+   270→        variant: "destructive",
+   271→      });
+   272→    } finally {
+   273→      setPlacing(false);
+   274→    }
+   275→  }
+   276→
+   277→  return (
+   278→    <div className="mx-auto max-w-7xl px-4 pb-24 pt-10 md:px-6 lg:px-10">
+   279→      <h1 className="font-display text-3xl tracking-tight md:text-4xl">Checkout</h1>
+   280→
+   281→      {/* Step indicator */}
+   282→      <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] font-semibold uppercase tracking-[0.2em]">
+   283→        {STEPS.map((label, idx) => {
+   284→          const n = idx + 1;
+   285→          const cls =
+   286→            n < step ? "text-[#5C6B4F]" : n === step ? "text-stone-900" : "text-stone-400";
+   287→          return (
+   288→            <span key={label} className={cls} aria-current={n === step ? "step" : undefined}>
+   289→              {n < step ? `✓ ${label}` : `0${n} — ${label}`}
+   290→            </span>
+   291→          );
+   292→        })}
+   293→        <button
+   294→          onClick={() => navigate({ name: "cart" })}
+   295→          className="ml-auto text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-500 underline transition hover:text-stone-900"
+   296→        >
+   297→          Return to Bag
+   298→        </button>
+   299→      </div>
+   300→
+   301→      <div className="mt-8 grid gap-12 lg:grid-cols-[1fr_380px]">
+   302→        {/* Left — current step */}
+   303→        <div>
+   304→          {step === 1 ? (
+   305→            <div className="space-y-8">
+   306→              {/* Contact */}
+   307→              <section className={SECTION_CLS}>
+   308→                <h2 className={SECTION_TITLE_CLS}>Contact</h2>
+   309→                <div className="space-y-5">
+   310→                  <div className="space-y-2">
+   311→                    <Label className={LABEL_CLS}>Full Name</Label>
+   312→                    <Input
+   313→                      value={name}
+   314→                      onChange={(e) => setName(e.target.value)}
+   315→                      placeholder="Jane Moreau"
+   316→                      autoComplete="name"
+   317→                      className={INPUT_CLS}
+   318→                    />
+   319→                  </div>
+   320→                  <div className="space-y-2">
+   321→                    <Label className={LABEL_CLS}>Email</Label>
+   322→                    <Input
+   323→                      type="email"
+   324→                      value={email}
+   325→                      onChange={(e) => setEmail(e.target.value)}
+   326→                      placeholder="you@example.com"
+   327→                      autoComplete="email"
+   328→                      className={INPUT_CLS}
+   329→                    />
+   330→                  </div>
+   331→                  <div className="space-y-2">
+   332→                    <Label className={LABEL_CLS}>Phone</Label>
+   333→                    <Input
+   334→                      type="tel"
+   335→                      value={phone}
+   336→                      onChange={(e) => setPhone(e.target.value)}
+   337→                      placeholder="+91 98765 43210"
+   338→                      autoComplete="tel"
+   339→                      className={INPUT_CLS}
+   340→                    />
+   341→                  </div>
+   342→                </div>
+   343→              </section>
+   344→
+   345→              {/* Shipping address */}
+   346→              <section className={SECTION_CLS}>
+   347→                <h2 className={SECTION_TITLE_CLS}>Shipping Address</h2>
+   348→                <div className="space-y-5">
+   349→                  <div className="space-y-2">
+   350→                    <Label className={LABEL_CLS}>Address</Label>
+   351→                    <Input
+   352→                      value={address}
+   353→                      onChange={(e) => setAddress(e.target.value)}
+   354→                      placeholder="Street and number, apartment, suite"
+   355→                      autoComplete="street-address"
+   356→                      className={INPUT_CLS}
+   357→                    />
+   358→                  </div>
+   359→                  <div className="grid gap-5 sm:grid-cols-2">
+   360→                    <div className="space-y-2">
+   361→                      <Label className={LABEL_CLS}>City</Label>
+   362→                      <Input
+   363→                        value={city}
+   364→                        onChange={(e) => setCity(e.target.value)}
+   365→                        placeholder="City"
+   366→                        autoComplete="address-level2"
+   367→                        className={INPUT_CLS}
+   368→                      />
+   369→                    </div>
+   370→                    <div className="space-y-2">
+   371→                      <Label className={LABEL_CLS}>Pin / Postal Code</Label>
+   372→                      <Input
+   373→                        value={postalCode}
+   374→                        onChange={(e) => setPostalCode(e.target.value)}
+   375→                        placeholder="560001"
+   376→                        autoComplete="postal-code"
+   377→                        className={INPUT_CLS}
+   378→                      />
+   379→                    </div>
+   380→                  </div>
+   381→                  <div className="space-y-2">
+   382→                    <Label className={LABEL_CLS}>Country</Label>
+   383→                    <Select value={country} onValueChange={setCountry}>
+   384→                      <SelectTrigger
+   385→                        className={`${INPUT_CLS} w-full [&>svg]:size-4`}
+   386→                        aria-label="Country"
+   387→                      >
+   388→                        <SelectValue placeholder="Country" />
+   389→                      </SelectTrigger>
+   390→                      <SelectContent className="rounded-none border-stone-200">
+   391→                        {COUNTRIES.map((c) => (
+   392→                          <SelectItem key={c} value={c} className="rounded-none">
+   393→                            {c}
+   394→                          </SelectItem>
+   395→                        ))}
+   396→                      </SelectContent>
+   397→                    </Select>
+   398→                  </div>
+   399→                </div>
+   400→              </section>
+   401→
+   402→              {/* Payment method */}
+   403→              <section className={SECTION_CLS}>
+   404→                <h2 className={SECTION_TITLE_CLS}>Payment Method</h2>
+   405→                <p className="text-sm text-stone-500">
+   406→                  Select the account you want to pay with.
+   407→                </p>
+   408→                <RadioGroup
+   409→                  value={paymentMethod}
+   410→                  onValueChange={(v) => setPaymentMethod(v as PaymentMethod)}
+   411→                  className="gap-3"
+   412→                >
+   413→                  {PAYMENT_OPTIONS.map((opt) => (
+   414→                    <div
+   415→                      key={opt.value}
+   416→                      onClick={() => setPaymentMethod(opt.value)}
+   417→                      className={`flex cursor-pointer items-start gap-3 rounded-none border p-4 transition ${
+   418→                        paymentMethod === opt.value
+   419→                          ? "border-stone-900"
+   420→                          : "border-stone-200 hover:border-stone-400"
+   421→                      }`}
+   422→                    >
+   423→                      <RadioGroupItem value={opt.value} className="mt-1" />
+   424→                      <div>
+   425→                        <p className="text-sm font-medium">{opt.title}</p>
+   426→                        <p className="text-xs text-stone-500">{opt.desc}</p>
+   427→                      </div>
+   428→                    </div>
+   429→                  ))}
+   430→                </RadioGroup>
+   431→                {paymentMethod === "upi" && (
+   432→                  <div className="space-y-2">
+   433→                    <Label className={LABEL_CLS}>UPI ID</Label>
+   434→                    <Input
+   435→                      value={upiId}
+   436→                      onChange={(e) => setUpiId(e.target.value)}
+   437→                      placeholder="yourname@upi"
+   438→                      className={INPUT_CLS}
+   439→                    />
+   440→                  </div>
+   441→                )}
+   442→              </section>
+   443→
+   444→              <button
+   445→                onClick={handleContinueToPayment}
+   446→                className="h-12 w-full bg-stone-900 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700"
+   447→              >
+   448→                Continue to Payment
+   449→              </button>
+   450→            </div>
+   451→          ) : (
+   452→            <div className="space-y-8">
+   453→              <section className={SECTION_CLS}>
+   454→                <h2 className={SECTION_TITLE_CLS}>
+   455→                  {paymentMethod === "card"
+   456→                    ? "Card Details"
+   457→                    : paymentMethod === "upi"
+   458→                      ? "UPI Details"
+   459→                      : "Cash on Delivery"}
+   460→                </h2>
+   461→                {paymentMethod === "card" && (
+   462→                  <p className="text-sm text-stone-500">
+   463→                    Your card details are encrypted end to end.
+   464→                  </p>
+   465→                )}
+   466→                {paymentMethod === "cod" && (
+   467→                  <p className="text-sm text-stone-500">
+   468→                    Pay in cash when your order arrives.
+   469→                  </p>
+   470→                )}
+   471→
+   472→                {paymentMethod === "card" && (
+   473→                  <div className="space-y-5">
+   474→                    <div className="space-y-2">
+   475→                      <Label className={LABEL_CLS}>Name on Card</Label>
+   476→                      <Input
+   477→                        value={cardName}
+   478→                        onChange={(e) => setCardName(e.target.value)}
+   479→                        placeholder="JANE MOREAU"
+   480→                        autoComplete="cc-name"
+   481→                        className={INPUT_CLS}
+   482→                      />
+   483→                    </div>
+   484→                    <div className="space-y-2">
+   485→                      <Label className={LABEL_CLS}>Card Number</Label>
+   486→                      <Input
+   487→                        value={cardNumber}
+   488→                        onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+   489→                        placeholder="4242 4242 4242 4242"
+   490→                        inputMode="numeric"
+   491→                        maxLength={19}
+   492→                        autoComplete="cc-number"
+   493→                        className={`${INPUT_CLS} tracking-[0.08em]`}
+   494→                      />
+   495→                    </div>
+   496→                    <div className="grid gap-5 sm:grid-cols-2">
+   497→                      <div className="space-y-2">
+   498→                        <Label className={LABEL_CLS}>Expiry (MM/YY)</Label>
+   499→                        <Input
+   500→                          value={cardExpiry}
+   501→                          onChange={(e) => setCardExpiry(formatExpiry(e.target.value))}
+   502→                          placeholder="08/27"
+   503→                          inputMode="numeric"
+   504→                          maxLength={5}
+   505→                          autoComplete="cc-exp"
+   506→                          className={INPUT_CLS}
+   507→                        />
+   508→                      </div>
+   509→                      <div className="space-y-2">
+   510→                        <Label className={LABEL_CLS}>Security Code</Label>
+   511→                        <Input
+   512→                          type="password"
+   513→                          value={cardCvv}
+   514→                          onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, "").slice(0, 4))}
+   515→                          placeholder="3–4 digits"
+   516→                          inputMode="numeric"
+   517→                          maxLength={4}
+   518→                          autoComplete="cc-csc"
+   519→                          className={INPUT_CLS}
+   520→                        />
+   521→                      </div>
+   522→                    </div>
+   523→                  </div>
+   524→                )}
+   525→
+   526→                {paymentMethod === "upi" && (
+   527→                  <div className="space-y-2">
+   528→                    <Label className={LABEL_CLS}>UPI ID</Label>
+   529→                    <Input
+   530→                      value={upiId}
+   531→                      onChange={(e) => setUpiId(e.target.value)}
+   532→                      placeholder="yourname@upi"
+   533→                      className={INPUT_CLS}
+   534→                    />
+   535→                  </div>
+   536→                )}
+   537→              </section>
+   538→
+   539→              <div className="flex flex-col gap-3 sm:flex-row">
+   540→                <button
+   541→                  onClick={() => {
+   542→                    setStep(1);
+   543→                    scrollTop();
+   544→                  }}
+   545→                  className="h-12 flex-1 border border-stone-300 bg-transparent text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 transition hover:border-stone-900"
+   546→                >
+   547→                  Return to Shipping
+   548→                </button>
+   549→                <button
+   550→                  onClick={handlePlaceOrder}
+   551→                  disabled={placing}
+   552→                  className="h-12 flex-1 bg-stone-900 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700 disabled:opacity-60"
+   553→                >
+   554→                  {placing ? "Placing Order…" : `Place Order — ${formatPrice(total)}`}
+   555→                </button>
+   556→              </div>
+   557→            </div>
+   558→          )}
+   559→        </div>
+   560→
+   561→        {/* Right — read-only order summary */}
+   562→        <SummaryAside items={cartItems} subtotal={subtotal} total={total} promo={promoCode} />
+   563→      </div>
+   564→    </div>
+   565→  );
+   566→}
+   567→
+   568→/* ---------- Order summary (read-only, checkout) ---------- */
+   569→
+   570→function SummaryAside({
+   571→  items,
+   572→  subtotal,
+   573→  total,
+   574→  promo,
+   575→}: {
+   576→  items: { id: string; qty: number; size: string; color: string; product: { id: string; name: string; images: string[]; price: number } }[];
+   577→  subtotal: number;
+   578→  total: number;
+   579→  promo: string | null;
+   580→}) {
+   581→  return (
+   582→    <aside className="h-fit border border-stone-200 p-6 lg:sticky lg:top-24">
+   583→      <h2 className="font-display text-lg tracking-[0.1em]">ORDER SUMMARY</h2>
+   584→      <div className="thin-scrollbar mt-6 max-h-72 space-y-5 overflow-y-auto pr-1">
+   585→        {items.map((i) => (
+   586→          <div key={i.id} className="flex items-center gap-4">
+   587→            <div className="h-16 w-14 shrink-0 overflow-hidden bg-stone-100">
+   588→              <img
+   589→                alt={i.product.name}
+   590→                className="h-full w-full object-cover"
+   591→                src={i.product.images[0]}
+   592→              />
+   593→            </div>
+   594→            <div className="min-w-0 flex-1">
+   595→              <p className="truncate text-sm font-medium text-stone-900">{i.product.name}</p>
+   596→              <p className="mt-0.5 text-xs text-stone-500">
+   597→                {i.color} · Size {i.size} · Qty {i.qty}
+   598→              </p>
+   599→            </div>
+   600→            <p className="shrink-0 text-sm font-semibold text-stone-900">
+   601→              {formatPrice(i.product.price * i.qty)}
+   602→            </p>
+   603→          </div>
+   604→        ))}
+   605→      </div>
+   606→      <div className="mt-6 space-y-3 border-t border-stone-100 pt-5 text-sm">
+   607→        <div className="flex justify-between">
+   608→          <span className="text-stone-500">Subtotal</span>
+   609→          <span className="text-stone-900">{formatPrice(subtotal)}</span>
+   610→        </div>
+   611→        {promo && (
+   612→          <div className="flex justify-between">
+   613→            <span className="text-stone-500">Promo — {promo}</span>
+   614→            <span className="text-[#5C6B4F]">−10%</span>
+   615→          </div>
+   616→        )}
+   617→        <div className="flex justify-between">
+   618→          <span className="text-stone-500">Shipping</span>
+   619→          <span className="text-stone-900">Free</span>
+   620→        </div>
+   621→        <div className="flex justify-between border-t border-stone-200 pt-4 text-base font-semibold">
+   622→          <span>Total</span>
+   623→          <span>{formatPrice(total)}</span>
+   624→        </div>
+   625→        <p className="text-xs text-stone-400">
+   626→          Or 4 interest-free payments of {formatPrice(Math.round((total / 4) * 100) / 100)}
+   627→        </p>
+   628→      </div>
+   629→      <p className="mt-6 border-t border-stone-100 pt-5 text-[11px] leading-relaxed text-stone-400">
+   630→        Secure 256-bit encrypted checkout · Free 30-day returns · 10-year repair guarantee
+   631→      </p>
+   632→    </aside>
+   633→  );
+   634→}
+   635→
+   636→/* ---------- Step 3 — confirmation ---------- */
+   637→
+   638→function Confirmation({ placed }: { placed: PlacedOrder }) {
+   639→  const navigate = useStore((s) => s.navigate);
+   640→
+   641→  const fmt = (d: Date) =>
+   642→    d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+   643→  const from = new Date();
+   644→  from.setDate(from.getDate() + 5);
+   645→  const to = new Date();
+   646→  to.setDate(to.getDate() + 7);
+   647→
+   648→  return (
+   649→    <div className="mx-auto max-w-3xl px-4 pb-24 pt-16 md:px-6">
+   650→      <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#B08968]">
+   651→        Order Confirmed
+   652→      </p>
+   653→      <h1 className="mt-3 font-display text-3xl md:text-5xl">Thank you, {placed.firstName}.</h1>
+   654→      <p className="mt-4 text-sm text-stone-500">
+   655→        Order <strong className="font-semibold text-stone-900">{placed.orderNumber}</strong> is
+   656→        confirmed. A receipt has been sent to {placed.email}. Your pieces will be prepared and
+   657→        dispatched within two business days.
+   658→      </p>
+   659→
+   660→      <div className="mt-10 grid gap-6 md:grid-cols-3">
+   661→        <div className="border border-stone-200 p-5">
+   662→          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-stone-400">
+   663→            Arriving
+   664→          </p>
+   665→          <p className="mt-2 text-sm">
+   666→            {fmt(from)} – {fmt(to)}
+   667→          </p>
+   668→        </div>
+   669→        <div className="border border-stone-200 p-5">
+   670→          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-stone-400">
+   671→            Delivering To
+   672→          </p>
+   673→          <p className="mt-2 text-sm leading-relaxed">
+   674→            {placed.name}
+   675→            <br />
+   676→            {placed.address}
+   677→            <br />
+   678→            {placed.city} {placed.postalCode}
+   679→            <br />
+   680→            {placed.country}
+   681→          </p>
+   682→        </div>
+   683→        <div className="border border-stone-200 p-5">
+   684→          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-stone-400">
+   685→            Payment
+   686→          </p>
+   687→          <p className="mt-2 text-sm">{placed.paymentDetail}</p>
+   688→        </div>
+   689→      </div>
+   690→
+   691→      <h2 className="mt-12 font-display text-xl tracking-[0.1em]">Your Order</h2>
+   692→      <div className="mt-4 divide-y divide-stone-100 border-y border-stone-100">
+   693→        {placed.items.map((item, idx) => (
+   694→          <div key={`${item.productId}-${idx}`} className="flex gap-4 py-4">
+   695→            <img
+   696→              src={item.image}
+   697→              alt={item.name}
+   698→              className="aspect-[3/4] w-16 shrink-0 bg-stone-100 object-cover"
+   699→            />
+   700→            <div className="min-w-0 flex-1">
+   701→              <p className="text-sm font-medium">{item.name}</p>
+   702→              <p className="mt-0.5 text-xs text-stone-500">
+   703→                {item.color} · Size {item.size} · Qty {item.qty}
+   704→              </p>
+   705→            </div>
+   706→            <p className="text-sm font-semibold">{formatPrice(item.price * item.qty)}</p>
+   707→          </div>
+   708→        ))}
+   709→      </div>
+   710→
+   711→      <div className="ml-auto mt-5 max-w-xs space-y-3 text-sm">
+   712→        <div className="flex justify-between">
+   713→          <span className="text-stone-500">Subtotal</span>
+   714→          <span>{formatPrice(placed.subtotal)}</span>
+   715→        </div>
+   716→        {placed.promo && (
+   717→          <div className="flex justify-between">
+   718→            <span className="text-stone-500">Promo — ATELIER10</span>
+   719→            <span className="text-[#5C6B4F]">−10%</span>
+   720→          </div>
+   721→        )}
+   722→        <div className="flex justify-between">
+   723→          <span className="text-stone-500">Shipping</span>
+   724→          <span className="text-[#5C6B4F]">Free</span>
+   725→        </div>
+   726→        <div className="flex justify-between border-t border-stone-200 pt-4 text-base font-semibold">
+   727→          <span>Total</span>
+   728→          <span>{formatPrice(placed.total)}</span>
+   729→        </div>
+   730→      </div>
+   731→
+   732→      <div className="mt-10 text-center">
+   733→        <button
+   734→          onClick={() => navigate({ name: "home" })}
+   735→          className="border border-stone-900 px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] transition hover:bg-stone-900 hover:text-white"
+   736→        >
+   737→          Continue Shopping
+   738→        </button>
+   739→        <p className="mt-6 text-center text-xs text-stone-400">
+   740→          Questions about your order? Write to us at care@ateliernoir.com with your order number.
+   741→        </p>
+   742→      </div>
+   743→    </div>
+   744→  );
+   745→}
+   746→
+   747→/* ---------- Auth gate (sign in / create account) ---------- */
+   748→
+   749→function AuthPanel() {
+   750→  const setUser = useStore((s) => s.setUser);
+   751→  const navigate = useStore((s) => s.navigate);
+   752→
+   753→  const [mode, setMode] = useState<"login" | "register">("login");
+   754→  const [name, setName] = useState("");
+   755→  const [email, setEmail] = useState("");
+   756→  const [password, setPassword] = useState("");
+   757→  const [error, setError] = useState<string | null>(null);
+   758→  const [busy, setBusy] = useState(false);
+   759→
+   760→  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+   761→    e.preventDefault();
+   762→    if (busy) return;
+   763→    setError(null);
+   764→    if (!email.trim() || !password || (mode === "register" && !name.trim())) {
+   765→      setError("Please fill in all fields.");
+   766→      return;
+   767→    }
+   768→    setBusy(true);
+   769→    try {
+   770→      const res = await fetch(mode === "login" ? "/api/auth/login" : "/api/auth/register", {
+   771→        method: "POST",
+   772→        headers: { "Content-Type": "application/json" },
+   773→        body: JSON.stringify(
+   774→          mode === "login"
+   775→            ? { email: email.trim(), password }
+   776→            : { name: name.trim(), email: email.trim(), password }
+   777→        ),
+   778→      });
+   779→      const json = await res.json().catch(() => ({}));
+   780→      if (!res.ok || !json.user) {
+   781→        setError(json.error ?? "Something went wrong. Please try again.");
+   782→        return;
+   783→      }
+   784→      setUser(json.user);
+   785→      const first = String(json.user.name ?? "").split(" ")[0] ?? "";
+   786→      toast({
+   787→        title:
+   788→          mode === "login" ? `Welcome back, ${first}.` : `Welcome to Atelier Noir, ${first}.`,
+   789→      });
+   790→      const pending = useStore.getState().pendingRoute;
+   791→      if (pending) {
+   792→        useStore.setState({ pendingRoute: null });
+   793→        navigate(pending);
+   794→      }
+   795→    } catch {
+   796→      setError("Something went wrong. Please try again.");
+   797→    } finally {
+   798→      setBusy(false);
+   799→    }
+   800→  }
+   801→
+   802→  return (
+   803→    <div className="mx-auto max-w-md px-4 pb-24 pt-14">
+   804→      <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em] text-stone-400">
+   805→        Atelier Noir
+   806→      </p>
+   807→      <h1 className="mt-3 text-center font-display text-3xl md:text-4xl">
+   808→        {mode === "login" ? "Sign In" : "Create Account"}
+   809→      </h1>
+   810→      <p className="mt-3 text-center text-sm text-stone-500">
+   811→        {mode === "login"
+   812→          ? "Welcome back. Sign in to see your saved activity, wishlist and bag."
+   813→          : "One account for everything — your recently viewed pieces, wishlist and bag are kept in one place."}
+   814→      </p>
+   815→
+   816→      <div className="mt-8 grid grid-cols-2 border border-stone-200">
+   817→        <button
+   818→          type="button"
+   819→          onClick={() => {
+   820→            setMode("login");
+   821→            setError(null);
+   822→          }}
+   823→          className={`py-3 text-[11px] font-semibold uppercase tracking-[0.2em] transition ${
+   824→            mode === "login" ? "bg-stone-900 text-white" : "text-stone-600 hover:text-stone-900"
+   825→          }`}
+   826→        >
+   827→          Sign In
+   828→        </button>
+   829→        <button
+   830→          type="button"
+   831→          onClick={() => {
+   832→            setMode("register");
+   833→            setError(null);
+   834→          }}
+   835→          className={`py-3 text-[11px] font-semibold uppercase tracking-[0.2em] transition ${
+   836→            mode === "register" ? "bg-stone-900 text-white" : "text-stone-600 hover:text-stone-900"
+   837→          }`}
+   838→        >
+   839→          Create Account
+   840→        </button>
+   841→      </div>
+   842→
+   843→      <form onSubmit={handleSubmit} className="mt-8 space-y-5" noValidate>
+   844→        {mode === "register" && (
+   845→          <div className="space-y-2">
+   846→            <Label className={LABEL_CLS}>Full Name</Label>
+   847→            <Input
+   848→              value={name}
+   849→              onChange={(e) => setName(e.target.value)}
+   850→              placeholder="Jane Moreau"
+   851→              autoComplete="name"
+   852→              className={INPUT_CLS}
+   853→            />
+   854→          </div>
+   855→        )}
+   856→        <div className="space-y-2">
+   857→          <Label className={LABEL_CLS}>Email</Label>
+   858→          <Input
+   859→            type="email"
+   860→            value={email}
+   861→            onChange={(e) => setEmail(e.target.value)}
+   862→            placeholder="you@example.com"
+   863→            autoComplete="email"
+   864→            className={INPUT_CLS}
+   865→          />
+   866→        </div>
+   867→        <div className="space-y-2">
+   868→          <Label className={LABEL_CLS}>Password</Label>
+   869→          <Input
+   870→            type="password"
+   871→            value={password}
+   872→            onChange={(e) => setPassword(e.target.value)}
+   873→            placeholder={mode === "register" ? "At least 8 characters" : "Your password"}
+   874→            autoComplete={mode === "register" ? "new-password" : "current-password"}
+   875→            className={INPUT_CLS}
+   876→          />
+   877→        </div>
+   878→        <button
+   879→          type="submit"
+   880→          disabled={busy}
+   881→          className="h-12 w-full bg-stone-900 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700 disabled:opacity-60"
+   882→        >
+   883→          {busy ? "Please wait…" : mode === "login" ? "Sign In" : "Create Account"}
+   884→        </button>
+   885→        {error && <p className="mt-4 text-center text-sm text-[#9A3B26]">{error}</p>}
+   886→      </form>
+   887→
+   888→      <p className="mt-6 text-center text-xs text-stone-400">
+   889→        Your email and password are kept private and are never shared.
+   890→      </p>
+   891→    </div>
+   892→  );
+   893→}
+   894→

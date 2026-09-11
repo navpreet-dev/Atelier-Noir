@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import { toast } from "sonner";
 import {
   ACCESSORIES_CATEGORIES,
   MEN_CATEGORIES,
@@ -33,7 +34,7 @@ export function SiteFooter() {
 
   const col = (title: string, links: { label: string; onClick: () => void }[]) => (
     <div>
-      <h4 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.3em] text-stone-400">
+      <h4 className="mb-4 text-[11px] font-semibold tracking-[0.3em] text-stone-400 uppercase">
         {title}
       </h4>
       <ul className="space-y-2.5">
@@ -63,14 +64,15 @@ export function SiteFooter() {
             className="flex w-full max-w-md"
             onSubmit={(e) => {
               e.preventDefault();
-              if (!email.trim()) return;
-              import("@/hooks/use-toast").then(({ toast }) =>
-                toast({
-                  title: "Welcome to the Atelier List.",
-                  description: `A confirmation is on its way to ${email.trim()}.`,
-                })
-              );
-              setEmail("");
+              if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                toast.success("Welcome to the Atelier", {
+                  description:
+                    "You are on the list — expect first looks, private sales and 10% off your first order.",
+                });
+                setEmail("");
+              } else {
+                toast.error("Please enter a valid email address");
+              }
             }}
           >
             <input
@@ -83,7 +85,7 @@ export function SiteFooter() {
             />
             <button
               type="submit"
-              className="h-12 bg-white px-6 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 transition hover:bg-stone-200"
+              className="h-12 bg-white px-6 text-[11px] font-semibold tracking-[0.25em] text-stone-900 uppercase transition hover:bg-stone-200"
             >
               Subscribe
             </button>
@@ -109,10 +111,14 @@ export function SiteFooter() {
               <button
                 key={label}
                 aria-label={label}
-                onClick={() => window.open("https://instagram.com", "_blank")}
+                onClick={() =>
+                  toast.info(`${label} — coming soon`, {
+                    description: "We are not on socials just yet. Join the list instead.",
+                  })
+                }
                 className="flex h-9 w-9 items-center justify-center border border-stone-700 text-stone-400 transition hover:border-white hover:text-white"
               >
-                <Icon size={16} strokeWidth={1.75} aria-hidden />
+                <Icon size={16} aria-hidden />
               </button>
             ))}
           </div>

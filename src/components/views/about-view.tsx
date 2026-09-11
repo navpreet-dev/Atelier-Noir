@@ -2,7 +2,7 @@
 
 import { ArrowRight, HeartHandshake, Leaf, Recycle, Scissors } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SectionHeader } from "@/components/site/section-header";
+import { MediaVideo } from "@/components/site/media-video";
 import { useStore } from "@/lib/store";
 
 /* Shared strings from the original build. */
@@ -46,6 +46,53 @@ const GALLERY_IMAGES = [
   "/images/campaign/campaign-9.jpg",
   "/images/campaign/campaign-5.jpg",
 ];
+
+/* Original shared section header (`nT`) — exact class strings. */
+function SectionHeader({
+  eyebrow,
+  title,
+  subtitle,
+  align = "center",
+  dark = false,
+}: {
+  eyebrow: string;
+  title: string;
+  subtitle?: string;
+  align?: "center" | "left";
+  dark?: boolean;
+}) {
+  return (
+    <div
+      className={`${align === "center" ? "text-center mx-auto" : "text-left"} max-w-2xl mb-10 md:mb-14`}
+    >
+      {eyebrow ? (
+        <p
+          className={`text-[11px] font-semibold tracking-[0.3em] uppercase mb-3 ${
+            dark ? "text-stone-400" : "text-[#B08968]"
+          }`}
+        >
+          {eyebrow}
+        </p>
+      ) : null}
+      <h2
+        className={`font-display text-3xl md:text-[2.75rem] leading-tight tracking-tight ${
+          dark ? "text-white" : "text-stone-900"
+        }`}
+      >
+        {title}
+      </h2>
+      {subtitle ? (
+        <p
+          className={`mt-4 text-sm md:text-[15px] leading-relaxed ${
+            dark ? "text-stone-400" : "text-stone-500"
+          }`}
+        >
+          {subtitle}
+        </p>
+      ) : null}
+    </div>
+  );
+}
 
 export function AboutView() {
   const navigate = useStore((s) => s.navigate);
@@ -115,16 +162,12 @@ export function AboutView() {
         aria-label="Atelier film"
         className="relative h-[50vh] min-h-[380px] w-full overflow-hidden bg-stone-400"
       >
-        <video
+        <MediaVideo
           src="/videos/atelier-film.mp4"
           poster="/images/about-film-poster.jpg"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          disablePictureInPicture
-          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms]"
+          className="absolute inset-0 h-full w-full object-cover"
+          coverClassName="h-full w-full object-cover"
+          alt="Atelier Noir studio film — a model in the leather jacket collection"
         />
       </section>
 
