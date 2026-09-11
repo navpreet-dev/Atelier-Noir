@@ -266,3 +266,17 @@ Work Log:
 
 Stage Summary:
 - White empty band between homepage hero and the Women/Men/Accessories cards is gone; layout now matches the original bundle exactly (cards begin immediately under the hero). Single-line, single-class change; zero visual impact anywhere else.
+
+---
+Task ID: 9
+Agent: orchestrator (main)
+Task: REVERT Task 8's change per user instruction; restore previous homepage spacing exactly, then reduce the white space between hero and next section by exactly 6px (max 8px). No overlap, no hero movement/resize.
+
+Work Log:
+- Reverted Task 8's removal of the CategoryCards top padding (user perceived the 0-gap result as the hero overlapping the next section and wanted the previous spacing baseline restored).
+- Note: measured DOM proof showed the hero itself never moved/resized/overlapped in Task 8 (hero rect byte-identical before/after; sections in normal flow); the change only removed the next section's top padding. Reverted regardless per user's explicit instruction.
+- Applied the tiny spacing fix on the NEXT section only (home-view.tsx CategoryCards): `py-20` -> `pt-[74px] pb-20`, i.e. previous 80px top padding minus exactly 6px. Bottom padding kept 80px. No negative margins, transforms, z-index, absolute positioning, or hero edits.
+- Verified in agent-browser: hero rect identical to pre-Task-8 state (top 65 / height 507.75 / bottom 572.75); next section top = hero bottom (572.75, normal flow, NO overlap, nothing behind hero); nextPaddingTop 74px, paddingBottom 80px unchanged; first card top 646.75 (= hero bottom + 74); horizontal overflow 0; page height 10155 = pre-change 10161 - 6 (page 6px SHORTER, no added scroll); screenshot /tmp/gap-final-6px.png; `bun run lint` clean.
+
+Stage Summary:
+- Homepage restored to the user-approved layout; the only change vs. that baseline is the white empty space between hero image bottom and the Women/Men/Accessories cards reduced from 80px to 74px (exactly 6px, within the 6-8px limit). Hero, navbar, hero content, image, and all other sections untouched.

@@ -136,7 +136,7 @@ function CategoryCards() {
     { title: "Accessories", image: "/images/bags/bags-3.jpg", route: { name: "shop", gender: "all", category: "bags,shoes,accessories", title: "Accessories" } as const },
   ];
   return (
-    <section className="mx-auto max-w-7xl px-4 pb-20 md:px-6 lg:px-10">
+    <section className="mx-auto max-w-7xl px-4 pt-[74px] pb-20 md:px-6 lg:px-10">
       <div className="grid gap-4 md:grid-cols-3 md:gap-6">
         {cards.map((c) => (
           <button
