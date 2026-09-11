@@ -293,3 +293,15 @@ Work Log:
 
 Stage Summary:
 - Hero now reaches the bottom of the visible viewport on load (6px viewport-fill correction, within the 5-8px budget). Hero content pixel-identical, next section still fully below the hero in normal flow, no scroll/overflow changes. Only line changed: Hero section className (min-h calc + pb-[6px]).
+
+---
+Task ID: 11
+Agent: orchestrator (main)
+Task: FINAL 2px hero viewport-fill micro-fix — extend hero's visible bottom extent by exactly 2px (max 3px). Do not undo current version; no other changes.
+
+Work Log:
+- Kept Task 10's approach and only extended the existing calculation by the minimum amount (home-view.tsx Hero section, one line): `min-h-[calc(88vh+6px)] pb-[6px]` -> `min-h-[calc(88vh+8px)] pb-[8px]`. The +2px min-height with matching +2px padding-bottom keeps the flex content box at 88vh, so no hero content can move; image/video/overlays (absolute inset-0) fill the extra 2px automatically.
+- Verified before/after via getBoundingClientRect at scrollTop=0 (1280x577): hero grew by exactly 2px vs previous version; hero top delta 0; h1/subtitle/both buttons delta 0.000px; white below hero at fold now -3.75px (fold fully covered, no white sliver); next section moved DOWN exactly 2px in normal flow, heroOverlapsNext=false; doc height +2px (~0.02%, imperceptible); horizontal overflow 0. Fold strip screenshot /tmp/hero-fold-2px-strip.png confirms hero imagery reaches the viewport bottom. `bun run lint` clean.
+
+Stage Summary:
+- Hero bottom edge now covers the full visible viewport on load. Total viewport-fill correction across Tasks 10+11 = 8px, applied in two user-approved steps (6px + 2px). Hero content, navbar, image, overlay, next section layout all pixel-verified unchanged apart from the normal-flow 2px shift. No other files touched.
