@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  password     String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  orders       Order[]
+  reviews      Review[]
+  activities   Activity[]
+  sessions     Session[]
+}
+
+model Product {
+  id           String   @id
+  slug         String   @unique
+  name         String
+  gender       String
+  category     String
+  price        Float
+  comparePrice Float?
+  description  String
+  details      String
+  materials    String
+  colors       String
+  sizes        String
+  images       String
+  video        String?
+  rating       Float    @default(0)
+  reviewCount  Int      @default(0)
+  sold         Int      @default(0)
+  featured     Boolean  @default(false)
+  isNew        Boolean  @default(false)
+  isSale       Boolean  @default(false)
+  bestseller   Boolean  @default(false)
+  stock        Int      @default(0)
+  tags         String
+  createdAt    DateTime @default(now())
+  cartItems    CartItem[]
+  reviews      Review[]
+  orderItems   OrderItem[]
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  sessionId String
+  productId String
+  size      String
+  color     String
+  qty       Int      @default(1)
+  createdAt DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  orderNumber String      @unique
+  userId      String?
+  user        User?       @relation(fields: [userId], references: [id])
+  email       String
+  name        String
+  phone       String
+  address     String
+  city        String
+  postalCode  String
+  country     String
+  paymentMethod String
+  paymentDetail String?
+  subtotal    Float
+  shipping    Float       @default(0)
+  total       Float
+  status      String      @default("confirmed")
+  createdAt   DateTime    @default(now())
+  items       OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  name      String
+  image     String
+  size      String
+  color     String
+  qty       Int
+  price     Float
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  author    String
+  location  String?
+  rating    Int
+  title     String
+  body      String
+  verified  Boolean  @default(true)
+  helpful   Int      @default(0)
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Activity {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  sessionId String?
+  type      String
+  meta      String?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}

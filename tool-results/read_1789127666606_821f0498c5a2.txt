@@ -1,0 +1,925 @@
+     1→<body class="inter_fe8b9d92-module__LINzvG__variable playfair_display_fa003182-module__E_H7JW__variable antialiased bg-white text-stone-900 font-sans">
+     2→<div hidden="">
+     3→<!--$-->
+     4→<!--/$-->
+     5→</div>
+     6→<div data-preloader="" role="status" aria-label="Atelier Noir is loading" class="fixed inset-0 z-[100] flex items-center justify-center bg-white/95 transition-opacity duration-s] ease-[cubic-bezier(0.33,0,0.2,1)] motion-reduce:transition-none opacity-100">
+     7→<span class="sr-only">Loading</span>
+     8→<div class="flex select-none flex-col items-center gap-6 transition-opacity duration-s] ease-out motion-reduce:transition-none opacity-100" aria-hidden="true">
+     9→<p class="font-display text-sm text-stone-900 transition-all duration-700 ease-out motion-reduce:transition-none tracking-[0.22em]">ATELIER<span class="ml-2 align-top text-[9px] font-bold tracking-[0.3em] text-[#B08968]">NOIR</span>
+    10→</p>
+    11→<div class="h-px w-24 overflow-hidden bg-stone-200">
+    12→<div class="h-full w-full origin-left bg-stone-900 transition-transform duration-s] ease-out motion-reduce:transition-none scale-x-0">
+    13→</div>
+    14→</div>
+    15→</div>
+    16→</div>
+    17→<div class="flex min-h-screen flex-col bg-white">
+    18→<header class="sticky top-0 z-50 w-full">
+    19→<div class="border-b border-stone-200 bg-white/95 backdrop-blur">
+    20→<nav class="relative mx-auto grid h-16 max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 md:px-6 lg:px-10">
+    21→<div class="flex items-center gap-6">
+    22→<button class="flex h-9 w-9 items-center justify-center xl:hidden" aria-label="Open menu">
+    23→<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu text-stone-800" aria-hidden="true">
+    24→<path d="M4 12h16">
+    25→</path>
+    26→<path d="M4 18h16">
+    27→</path>
+    28→<path d="M4 6h16">
+    29→</path>
+    30→</svg>
+    31→</button>
+    32→<div class="hidden items-center gap-3.5 xl:flex">
+    33→<div class="group/nav">
+    34→<button class="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500">Women<span class="absolute inset-x-0 bottom-0 h-px origin-left bg-stone-900 transition-transform duration-300 scale-x-0 group-hover/navlink:scale-x-100">
+    35→</span>
+    36→</button>
+    37→<div class="absolute inset-x-0 top-full z-40 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] transition-all duration-200 before:absolute before:inset-x-0 before:-top-10 before:h-10 before:pointer-events-none before:content-[&#x27;&#x27;] pointer-events-none opacity-0 [visibility:hidden]">
+    38→<div class="border-t border-stone-100 bg-white">
+    39→<div class="mx-auto flex max-w-7xl gap-10 px-6 py-10 lg:px-10">
+    40→<div class="grid grid-cols-2 gap-x-16">
+    41→<div>
+    42→<p class="mb-3 text-[10px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Shop by Category</p>
+    43→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    44→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Dresses</span>
+    45→</button>
+    46→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    47→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Tops &amp; Blouses</span>
+    48→</button>
+    49→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    50→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Knitwear</span>
+    51→</button>
+    52→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    53→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Coats &amp; Outerwear</span>
+    54→</button>
+    55→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    56→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Denim</span>
+    57→</button>
+    58→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    59→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Skirts</span>
+    60→</button>
+    61→</div>
+    62→<div>
+    63→<p class="mb-3 text-[10px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Discover</p>
+    64→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    65→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">New Arrivals</span>
+    66→</button>
+    67→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    68→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Bestsellers</span>
+    69→</button>
+    70→<button class="group/link block py-1.5 text-left text-[15px] transition-colors font-semibold text-[#9A3B26]">
+    71→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">The Sale</span>
+    72→</button>
+    73→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    74→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">The Lookbook</span>
+    75→</button>
+    76→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    77→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Journal</span>
+    78→</button>
+    79→</div>
+    80→</div>
+    81→<button class="group/promo block w-56 shrink-0 text-left">
+    82→<div class="relative aspect-[3/4] overflow-hidden bg-stone-100">
+    83→<img src="/images/editorial/editorial-5.jpg" alt="Coats for Every Autumn" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover/promo:scale-105"/>
+    84→</div>
+    85→<p class="mt-3 text-[10px] font-semibold tracking-[0.25em] text-[#B08968] uppercase">The Edit</p>
+    86→<p class="mt-1 font-display text-lg text-stone-900 group-hover/promo:underline">Coats for Every Autumn</p>
+    87→</button>
+    88→<button class="group/promo block w-56 shrink-0 text-left">
+    89→<div class="relative aspect-[3/4] overflow-hidden bg-stone-100">
+    90→<img src="/images/dresses/dresses-2.jpg" alt="Dresses Under the Sun" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover/promo:scale-105"/>
+    91→</div>
+    92→<p class="mt-3 text-[10px] font-semibold tracking-[0.25em] text-[#B08968] uppercase">New In</p>
+    93→<p class="mt-1 font-display text-lg text-stone-900 group-hover/promo:underline">Dresses Under the Sun</p>
+    94→</button>
+    95→</div>
+    96→</div>
+    97→</div>
+    98→</div>
+    99→<div class="group/nav">
+   100→<button class="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500">Men<span class="absolute inset-x-0 bottom-0 h-px origin-left bg-stone-900 transition-transform duration-300 scale-x-0 group-hover/navlink:scale-x-100">
+   101→</span>
+   102→</button>
+   103→<div class="absolute inset-x-0 top-full z-40 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] transition-all duration-200 before:absolute before:inset-x-0 before:-top-10 before:h-10 before:pointer-events-none before:content-[&#x27;&#x27;] pointer-events-none opacity-0 [visibility:hidden]">
+   104→<div class="border-t border-stone-100 bg-white">
+   105→<div class="mx-auto flex max-w-7xl gap-10 px-6 py-10 lg:px-10">
+   106→<div class="grid grid-cols-2 gap-x-16">
+   107→<div>
+   108→<p class="mb-3 text-[10px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Shop by Category</p>
+   109→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   110→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Shirts</span>
+   111→</button>
+   112→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   113→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Blazers &amp; Tailoring</span>
+   114→</button>
+   115→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   116→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Jackets</span>
+   117→</button>
+   118→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   119→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Knitwear</span>
+   120→</button>
+   121→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   122→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Trousers</span>
+   123→</button>
+   124→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   125→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Denim</span>
+   126→</button>
+   127→</div>
+   128→<div>
+   129→<p class="mb-3 text-[10px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Discover</p>
+   130→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   131→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">New Arrivals</span>
+   132→</button>
+   133→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   134→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Bestsellers</span>
+   135→</button>
+   136→<button class="group/link block py-1.5 text-left text-[15px] transition-colors font-semibold text-[#9A3B26]">
+   137→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">The Sale</span>
+   138→</button>
+   139→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   140→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">The Lookbook</span>
+   141→</button>
+   142→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   143→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Journal</span>
+   144→</button>
+   145→</div>
+   146→</div>
+   147→<button class="group/promo block w-56 shrink-0 text-left">
+   148→<div class="relative aspect-[3/4] overflow-hidden bg-stone-100">
+   149→<img src="/images/blazers/blazers-5.jpg" alt="The Soft Blazer" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover/promo:scale-105"/>
+   150→</div>
+   151→<p class="mt-3 text-[10px] font-semibold tracking-[0.25em] text-[#B08968] uppercase">Tailoring</p>
+   152→<p class="mt-1 font-display text-lg text-stone-900 group-hover/promo:underline">The Soft Blazer</p>
+   153→</button>
+   154→<button class="group/promo block w-56 shrink-0 text-left">
+   155→<div class="relative aspect-[3/4] overflow-hidden bg-stone-100">
+   156→<img src="/images/mshirts/mshirts-1.jpg" alt="Shirting, Reconsidered" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover/promo:scale-105"/>
+   157→</div>
+   158→<p class="mt-3 text-[10px] font-semibold tracking-[0.25em] text-[#B08968] uppercase">Wardrobe Staples</p>
+   159→<p class="mt-1 font-display text-lg text-stone-900 group-hover/promo:underline">Shirting, Reconsidered</p>
+   160→</button>
+   161→</div>
+   162→</div>
+   163→</div>
+   164→</div>
+   165→<div class="group/nav">
+   166→<button class="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500">Accessories<span class="absolute inset-x-0 bottom-0 h-px origin-left bg-stone-900 transition-transform duration-300 scale-x-0 group-hover/navlink:scale-x-100">
+   167→</span>
+   168→</button>
+   169→<div class="absolute inset-x-0 top-full z-40 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] transition-all duration-200 before:absolute before:inset-x-0 before:-top-10 before:h-10 before:pointer-events-none before:content-[&#x27;&#x27;] pointer-events-none opacity-0 [visibility:hidden]">
+   170→<div class="border-t border-stone-100 bg-white">
+   171→<div class="mx-auto flex max-w-7xl gap-10 px-6 py-10 lg:px-10">
+   172→<div>
+   173→<p class="mb-3 text-[10px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Shop by Category</p>
+   174→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   175→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Bags</span>
+   176→</button>
+   177→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   178→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Shoes</span>
+   179→</button>
+   180→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   181→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Jewelry &amp; Accessories</span>
+   182→</button>
+   183→</div>
+   184→<button class="group/promo block w-56 shrink-0 text-left">
+   185→<div class="relative aspect-[3/4] overflow-hidden bg-stone-100">
+   186→<img src="/images/bags/bags-6.jpg" alt="Bags Built for Decades" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover/promo:scale-105"/>
+   187→</div>
+   188→<p class="mt-3 text-[10px] font-semibold tracking-[0.25em] text-[#B08968] uppercase">Carry All</p>
+   189→<p class="mt-1 font-display text-lg text-stone-900 group-hover/promo:underline">Bags Built for Decades</p>
+   190→</button>
+   191→</div>
+   192→</div>
+   193→</div>
+   194→</div>
+   195→<button class="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-[#9A3B26]">Sale<span class="absolute inset-x-0 bottom-0 h-px origin-left bg-stone-900 transition-transform duration-300 scale-x-0 group-hover/navlink:scale-x-100">
+   196→</span>
+   197→</button>
+   198→<button class="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500">Lookbook<span class="absolute inset-x-0 bottom-0 h-px origin-left bg-stone-900 transition-transform duration-300 scale-x-0 group-hover/navlink:scale-x-100">
+   199→</span>
+   200→</button>
+   201→<button class="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500">Journal<span class="absolute inset-x-0 bottom-0 h-px origin-left bg-stone-900 transition-transform duration-300 scale-x-0 group-hover/navlink:scale-x-100">
+   202→</span>
+   203→</button>
+   204→<button class="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500">About<span class="absolute inset-x-0 bottom-0 h-px origin-left bg-stone-900 transition-transform duration-300 scale-x-0 group-hover/navlink:scale-x-100">
+   205→</span>
+   206→</button>
+   207→</div>
+   208→</div>
+   209→<button class="justify-self-center px-2 text-center md:px-4" aria-label="Atelier Noir home">
+   210→<span class="font-display text-xl tracking-[0.28em] text-stone-900 md:text-2xl">ATELIER</span>
+   211→<span class="ml-2 align-top text-[9px] font-bold tracking-[0.3em] text-[#B08968]">NOIR</span>
+   212→</button>
+   213→<div class="flex items-center justify-end gap-1.5 md:gap-2">
+   214→<button class="flex h-10 w-10 items-center justify-center text-stone-800 transition hover:text-stone-500" aria-label="Search">
+   215→<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search" aria-hidden="true">
+   216→<path d="m21 21-4.34-4.34">
+   217→</path>
+   218→<circle cx="11" cy="11" r="8">
+   219→</circle>
+   220→</svg>
+   221→</button>
+   222→<button class="relative hidden h-10 w-10 items-center justify-center text-stone-800 transition hover:text-stone-500 sm:flex" aria-label="Wishlist, 0 items">
+   223→<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart" aria-hidden="true">
+   224→<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z">
+   225→</path>
+   226→</svg>
+   227→</button>
+   228→<button class="relative flex h-10 w-10 items-center justify-center text-stone-800 transition hover:text-stone-500" aria-label="Shopping bag, 0 items">
+   229→<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-bag" aria-hidden="true">
+   230→<path d="M16 10a4 4 0 0 1-8 0">
+   231→</path>
+   232→<path d="M3.103 6.034h17.794">
+   233→</path>
+   234→<path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z">
+   235→</path>
+   236→</svg>
+   237→</button>
+   238→<button class="relative flex h-10 w-10 items-center justify-center text-stone-800 transition hover:text-stone-500" aria-label="Sign in to your account">
+   239→<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user" aria-hidden="true">
+   240→<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2">
+   241→</path>
+   242→<circle cx="12" cy="7" r="4">
+   243→</circle>
+   244→</svg>
+   245→</button>
+   246→</div>
+   247→</nav>
+   248→</div>
+   249→</header>
+   250→<main class="flex-1 animate-in fade-in duration-300">
+   251→<section class="relative flex min-h-[88vh] items-center justify-center overflow-hidden bg-stone-900 text-white">
+   252→<video src="/videos/hero.mp4" poster="/images/editorial/editorial-8.jpg" autoPlay="" muted="" loop="" playsInline="" preload="auto" disablePictureInPicture="" class="absolute inset-0 h-full w-full object-cover opacity-60 transition-opacity duration-s]" style="opacity:0">
+   253→</video>
+   254→<img src="/images/editorial/editorial-8.jpg" alt="" aria-hidden="true" fetchPriority="high" class="animate-cover-enter animate-cover-settle pointer-events-none absolute inset-0 transition-opacity duration-s] h-full w-full object-cover opacity-60"/>
+   255→<div class="absolute inset-0 bg-gradient-to-b from-stone-950/50 via-stone-950/20 to-stone-950/60">
+   256→</div>
+   257→<div class="relative z-10 max-w-3xl px-6 text-center">
+   258→<h1 class="font-display text-5xl leading-[1.05] tracking-tight md:text-7xl">Dress Like You<br/>
+   259→<em class="text-[#E3C9A8]">Mean It</em>
+   260→</h1>
+   261→<p class="mx-auto mt-6 max-w-xl text-[15px] leading-relaxed text-stone-200">Considered clothing cut in small runs from responsible materials — designed to be worn for decades, not seasons.</p>
+   262→<div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+   263→<button class="group flex items-center gap-3 bg-white px-9 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 transition hover:bg-stone-200">Shop Women<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right transition-transform group-hover:translate-x-1" aria-hidden="true">
+   264→<path d="M5 12h14">
+   265→</path>
+   266→<path d="m12 5 7 7-7 7">
+   267→</path>
+   268→</svg>
+   269→</button>
+   270→<button class="border border-white/70 px-9 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-white hover:text-stone-900">Shop Men</button>
+   271→</div>
+   272→</div>
+   273→</section>
+   274→<section class="mx-auto max-w-7xl px-4 py-20 md:px-6 lg:px-10">
+   275→<div class="grid gap-4 md:grid-cols-3 md:gap-6">
+   276→<button class="group relative aspect-[3/4] overflow-hidden text-left md:aspect-[4/5]">
+   277→<img src="/images/editorial/editorial-3.jpg" alt="Shop Women" loading="lazy" class="h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"/>
+   278→<div class="absolute inset-0 bg-gradient-to-t from-stone-950/60 via-transparent to-transparent">
+   279→</div>
+   280→<div class="absolute bottom-7 left-7">
+   281→<p class="font-display text-3xl text-white">Women</p>
+   282→<p class="mt-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/85">Shop Now <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right transition-transform duration-300 group-hover:translate-x-1.5" aria-hidden="true">
+   283→<path d="M5 12h14">
+   284→</path>
+   285→<path d="m12 5 7 7-7 7">
+   286→</path>
+   287→</svg>
+   288→</p>
+   289→</div>
+   290→</button>
+   291→<button class="group relative aspect-[3/4] overflow-hidden text-left md:aspect-[4/5]">
+   292→<img src="/images/blazers/blazers-2.jpg" alt="Shop Men" loading="lazy" class="h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"/>
+   293→<div class="absolute inset-0 bg-gradient-to-t from-stone-950/60 via-transparent to-transparent">
+   294→</div>
+   295→<div class="absolute bottom-7 left-7">
+   296→<p class="font-display text-3xl text-white">Men</p>
+   297→<p class="mt-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/85">Shop Now <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right transition-transform duration-300 group-hover:translate-x-1.5" aria-hidden="true">
+   298→<path d="M5 12h14">
+   299→</path>
+   300→<path d="m12 5 7 7-7 7">
+   301→</path>
+   302→</svg>
+   303→</p>
+   304→</div>
+   305→</button>
+   306→<button class="group relative aspect-[3/4] overflow-hidden text-left md:aspect-[4/5]">
+   307→<img src="/images/bags/bags-3.jpg" alt="Shop Accessories" loading="lazy" class="h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"/>
+   308→<div class="absolute inset-0 bg-gradient-to-t from-stone-950/60 via-transparent to-transparent">
+   309→</div>
+   310→<div class="absolute bottom-7 left-7">
+   311→<p class="font-display text-3xl text-white">Accessories</p>
+   312→<p class="mt-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/85">Shop Now <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right transition-transform duration-300 group-hover:translate-x-1.5" aria-hidden="true">
+   313→<path d="M5 12h14">
+   314→</path>
+   315→<path d="m12 5 7 7-7 7">
+   316→</path>
+   317→</svg>
+   318→</p>
+   319→</div>
+   320→</button>
+   321→</div>
+   322→</section>
+   323→<section class="mx-auto max-w-7xl px-4 pb-20 md:px-6 lg:px-10">
+   324→<div class="mb-10 flex items-end justify-between">
+   325→<div class="text-left max-w-2xl mb-10 md:mb-14">
+   326→<p class="text-[11px] font-semibold tracking-[0.3em] uppercase mb-3 text-[#B08968]">Just Landed</p>
+   327→<h2 class="font-display text-3xl md:text-[2.75rem] leading-tight tracking-tight text-stone-900">New Arrivals</h2>
+   328→<p class="mt-4 text-sm md:text-[15px] leading-relaxed text-stone-500">The first light of SS25 — small runs, quiet details, honest fabrics.</p>
+   329→</div>
+   330→<button class="mb-10 hidden shrink-0 items-center gap-2 border-b border-stone-900 pb-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 hover:text-stone-500 md:flex">View All <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right" aria-hidden="true">
+   331→<path d="M5 12h14">
+   332→</path>
+   333→<path d="m12 5 7 7-7 7">
+   334→</path>
+   335→</svg>
+   336→</button>
+   337→</div>
+   338→<div class="grid grid-cols-2 gap-6 md:grid-cols-4">
+   339→<div>
+   340→<div class="aspect-[3/4] animate-pulse bg-stone-100">
+   341→</div>
+   342→</div>
+   343→<div>
+   344→<div class="aspect-[3/4] animate-pulse bg-stone-100">
+   345→</div>
+   346→</div>
+   347→<div>
+   348→<div class="aspect-[3/4] animate-pulse bg-stone-100">
+   349→</div>
+   350→</div>
+   351→<div>
+   352→<div class="aspect-[3/4] animate-pulse bg-stone-100">
+   353→</div>
+   354→</div>
+   355→</div>
+   356→</section>
+   357→<section class="mx-auto max-w-7xl px-4 pb-20 md:px-6 lg:px-10">
+   358→<div class="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+   359→<div class="text-left max-w-2xl mb-10 md:mb-14">
+   360→<p class="text-[11px] font-semibold tracking-[0.3em] uppercase mb-3 text-[#B08968]">The Campaign Film</p>
+   361→<h2 class="font-display text-3xl md:text-[2.75rem] leading-tight tracking-tight text-stone-900">Worn in Motion</h2>
+   362→<p class="mt-4 text-sm md:text-[15px] leading-relaxed text-stone-500">Sixteen seconds of SS25 — shot in Madrid, cut to nothing but the clothes.</p>
+   363→</div>
+   364→<button class="mb-10 hidden shrink-0 items-center gap-2 border-b border-stone-900 pb-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 hover:text-stone-500 md:flex">Shop the Film <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right" aria-hidden="true">
+   365→<path d="M5 12h14">
+   366→</path>
+   367→<path d="m12 5 7 7-7 7">
+   368→</path>
+   369→</svg>
+   370→</button>
+   371→</div>
+   372→<div class="group relative -mx-4 h-[calc(100svh-4rem)] overflow-hidden bg-stone-950 md:mx-0 md:aspect-video md:h-auto md:border md:border-stone-200">
+   373→<video src="/videos/film-ss25.mp4" poster="/images/film-poster.jpg" autoPlay="" muted="" loop="" playsInline="" preload="auto" disablePictureInPicture="" class="absolute inset-0 h-full w-full object-cover transition-opacity duration-s]" style="opacity:0">
+   374→</video>
+   375→<img src="/images/film-poster.jpg" alt="" aria-hidden="true" fetchPriority="high" class="animate-cover-enter animate-cover-settle pointer-events-none absolute inset-0 transition-opacity duration-s] h-full w-full object-cover"/>
+   376→<div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-stone-950/55 via-transparent to-transparent">
+   377→</div>
+   378→<div class="absolute bottom-5 left-6 max-w-[70%]">
+   379→<p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-white/90">Atelier Noir — SS25</p>
+   380→<p class="mt-1.5 font-display text-xl text-white md:text-2xl">“Second Nature”</p>
+   381→</div>
+   382→<button aria-label="Unmute film" class="absolute bottom-5 right-5 flex h-11 w-11 items-center justify-center border border-white/50 text-white backdrop-blur-sm transition hover:bg-white hover:text-stone-900">
+   383→<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume-x" aria-hidden="true">
+   384→<path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z">
+   385→</path>
+   386→<line x1="22" x2="16" y1="9" y2="15">
+   387→</line>
+   388→<line x1="16" x2="22" y1="9" y2="15">
+   389→</line>
+   390→</svg>
+   391→</button>
+   392→</div>
+   393→</section>
+   394→<section class="bg-stone-100">
+   395→<div class="mx-auto grid max-w-7xl items-center gap-0 lg:grid-cols-2">
+   396→<div class="relative aspect-[4/3] overflow-hidden lg:aspect-auto lg:h-full lg:min-h-[560px]">
+   397→<video src="/videos/editorial-1.mp4" poster="/images/boutique/boutique-2.jpg" autoPlay="" muted="" loop="" playsInline="" preload="auto" disablePictureInPicture="" class="absolute inset-0 h-full w-full object-cover transition-opacity duration-s]" style="opacity:0">
+   398→</video>
+   399→<img src="/images/boutique/boutique-2.jpg" alt="" aria-hidden="true" fetchPriority="high" class="animate-cover-enter animate-cover-settle pointer-events-none absolute inset-0 transition-opacity duration-s] h-full w-full object-cover"/>
+   400→</div>
+   401→<div class="px-8 py-14 lg:px-16 lg:py-24">
+   402→<p class="text-[11px] font-semibold uppercase tracking-[0.35em] text-[#B08968]">The Craft</p>
+   403→<h2 class="mt-4 font-display text-3xl leading-tight tracking-tight text-stone-900 md:text-5xl">Made Slowly,<br/>On Purpose</h2>
+   404→<p class="mt-6 max-w-md text-[15px] leading-relaxed text-stone-600">Every Atelier Noir piece begins as a hand-cut paper pattern in our Florence workshop. We produce in runs of 300 or fewer, inspect every bolt of fabric, and design for the third decade — not the third wash.</p>
+   405→<ul class="mt-8 space-y-3.5">
+   406→<li class="flex items-start gap-3 text-sm text-stone-700">
+   407→<span class="mt-[7px] h-1 w-4 shrink-0 bg-[#B08968]">
+   408→</span>Small-run production — never more than 300 pieces per style</li>
+   409→<li class="flex items-start gap-3 text-sm text-stone-700">
+   410→<span class="mt-[7px] h-1 w-4 shrink-0 bg-[#B08968]">
+   411→</span>GOTS organic cotton, RWS wool, stone-washed silk</li>
+   412→<li class="flex items-start gap-3 text-sm text-stone-700">
+   413→<span class="mt-[7px] h-1 w-4 shrink-0 bg-[#B08968]">
+   414→</span>10-year repair guarantee on every single garment</li>
+   415→</ul>
+   416→<button class="mt-10 inline-flex items-center gap-3 bg-stone-900 px-9 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-stone-700">Our Story <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right" aria-hidden="true">
+   417→<path d="M5 12h14">
+   418→</path>
+   419→<path d="m12 5 7 7-7 7">
+   420→</path>
+   421→</svg>
+   422→</button>
+   423→</div>
+   424→</div>
+   425→</section>
+   426→<section class="mx-auto max-w-7xl px-4 py-20 md:px-6 lg:px-10">
+   427→<div class="text-center mx-auto max-w-2xl mb-10 md:mb-14">
+   428→<p class="text-[11px] font-semibold tracking-[0.3em] uppercase mb-3 text-[#B08968]">Community Favourites</p>
+   429→<h2 class="font-display text-3xl md:text-[2.75rem] leading-tight tracking-tight text-stone-900">The Bestsellers</h2>
+   430→<p class="mt-4 text-sm md:text-[15px] leading-relaxed text-stone-500">The pieces our customers re-order, gift, and write poems about.</p>
+   431→</div>
+   432→<div class="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4 md:gap-x-6">
+   433→<div class="aspect-[3/4] animate-pulse bg-stone-100">
+   434→</div>
+   435→<div class="aspect-[3/4] animate-pulse bg-stone-100">
+   436→</div>
+   437→<div class="aspect-[3/4] animate-pulse bg-stone-100">
+   438→</div>
+   439→<div class="aspect-[3/4] animate-pulse bg-stone-100">
+   440→</div>
+   441→</div>
+   442→<div class="mt-12 text-center">
+   443→<button class="border border-stone-900 px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 transition hover:bg-stone-900 hover:text-white">Shop All Bestsellers</button>
+   444→</div>
+   445→</section>
+   446→<section class="group relative h-[70vh] min-h-[480px] overflow-hidden">
+   447→<img src="/images/campaign/campaign-2.jpg" alt="The SS25 lookbook" loading="lazy" class="h-full w-full object-cover transition-transform duration-[2s] group-hover:scale-105"/>
+   448→<div class="absolute inset-0 bg-stone-950/45">
+   449→</div>
+   450→<div class="absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-white">
+   451→<p class="text-[11px] font-semibold uppercase tracking-[0.4em] text-stone-200">Nine Looks. One Attitude.</p>
+   452→<h2 class="mt-5 max-w-2xl font-display text-4xl leading-tight md:text-6xl">The SS25 Lookbook</h2>
+   453→<p class="mt-5 max-w-lg text-[15px] text-stone-200">Shot over three days in Madrid — layering, light and the pieces that make getting dressed feel like getting it right.</p>
+   454→<button class="mt-9 border border-white/80 px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] transition hover:bg-white hover:text-stone-900">View the Lookbook</button>
+   455→</div>
+   456→</section>
+   457→<section class="mx-auto max-w-7xl px-4 py-20 md:px-6 lg:px-10">
+   458→<div class="text-center mx-auto max-w-2xl mb-10 md:mb-14">
+   459→<p class="text-[11px] font-semibold tracking-[0.3em] uppercase mb-3 text-[#B08968]">Curated For You</p>
+   460→<h2 class="font-display text-3xl md:text-[2.75rem] leading-tight tracking-tight text-stone-900">Shop by Collection</h2>
+   461→</div>
+   462→<div class="grid gap-4 md:grid-cols-3 md:grid-rows-2 md:gap-6">
+   463→<button class="group relative aspect-[4/3] overflow-hidden md:row-span-2 md:aspect-auto">
+   464→<img src="/images/editorial/editorial-11.jpg" alt="New Arrivals" loading="lazy" class="h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"/>
+   465→<div class="absolute inset-0 bg-gradient-to-t from-stone-950/55 via-stone-950/5 to-transparent">
+   466→</div>
+   467→<div class="absolute bottom-6 left-6">
+   468→<p class="font-display text-2xl text-white md:text-3xl">New Arrivals</p>
+   469→<p class="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/80">Explore →</p>
+   470→</div>
+   471→</button>
+   472→<button class="group relative aspect-[4/3] overflow-hidden md:col-span-2">
+   473→<img src="/images/campaign/campaign-1.jpg" alt="Bestsellers" loading="lazy" class="h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"/>
+   474→<div class="absolute inset-0 bg-gradient-to-t from-stone-950/55 via-stone-950/5 to-transparent">
+   475→</div>
+   476→<div class="absolute bottom-6 left-6">
+   477→<p class="font-display text-2xl text-white md:text-3xl">Bestsellers</p>
+   478→<p class="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/80">Explore →</p>
+   479→</div>
+   480→</button>
+   481→<button class="group relative aspect-[4/3] overflow-hidden ">
+   482→<img src="/images/street/street-3.jpg" alt="The Sale" loading="lazy" class="h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"/>
+   483→<div class="absolute inset-0 bg-gradient-to-t from-stone-950/55 via-stone-950/5 to-transparent">
+   484→</div>
+   485→<div class="absolute bottom-6 left-6">
+   486→<p class="font-display text-2xl text-white md:text-3xl">The Sale</p>
+   487→<p class="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/80">Explore →</p>
+   488→</div>
+   489→<span class="absolute right-5 top-5 bg-[#9A3B26] px-3 py-1.5 text-[10px] font-bold tracking-[0.2em] text-white">UP TO −40%</span>
+   490→</button>
+   491→</div>
+   492→</section>
+   493→<section class="relative h-[65vh] min-h-[440px] overflow-hidden bg-stone-900">
+   494→<video src="/videos/editorial-2.mp4" poster="/images/editorial/editorial-5.jpg" autoPlay="" muted="" loop="" playsInline="" preload="auto" disablePictureInPicture="" class="absolute inset-0 h-full w-full object-cover opacity-55 transition-opacity duration-s]" style="opacity:0">
+   495→</video>
+   496→<img src="/images/editorial/editorial-5.jpg" alt="" aria-hidden="true" fetchPriority="high" class="animate-cover-enter animate-cover-settle pointer-events-none absolute inset-0 transition-opacity duration-s] h-full w-full object-cover opacity-55"/>
+   497→<div class="absolute inset-0 flex items-center justify-center px-6">
+   498→<blockquote class="max-w-3xl text-center text-white">
+   499→<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-quote mx-auto mb-6 text-[#E3C9A8]" aria-hidden="true">
+   500→<path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
+   501→</path>
+   502→<path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
+   503→</path>
+   504→</svg>
+   505→<p class="font-display text-2xl leading-snug md:text-4xl">“Buy less, choose well, make it last. We built Atelier Noir on those five words.”</p>
+   506→<footer class="mt-6 text-[11px] font-semibold uppercase tracking-[0.3em] text-stone-300">— Elena Marchetti, Founder</footer>
+   507→</blockquote>
+   508→</div>
+   509→</section>
+   510→<section class="border-y border-stone-100 bg-stone-50">
+   511→<div class="mx-auto max-w-7xl px-4 py-20 md:px-6 lg:px-10">
+   512→<div class="text-center mx-auto max-w-2xl mb-10 md:mb-14">
+   513→<p class="text-[11px] font-semibold tracking-[0.3em] uppercase mb-3 text-[#B08968]">Kind Words</p>
+   514→<h2 class="font-display text-3xl md:text-[2.75rem] leading-tight tracking-tight text-stone-900">From Our Community</h2>
+   515→</div>
+   516→<div class="relative">
+   517→<div class="grid gap-6 md:grid-cols-3">
+   518→<figure class="border border-stone-200 bg-white p-8">
+   519→<span class="inline-flex items-center gap-0.5 " aria-label="Rated 5 out of 5">
+   520→<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star fill-[#B08968] text-[#B08968]" aria-hidden="true">
+   521→<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+   522→</path>
+   523→</svg>
+   524→<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star fill-[#B08968] text-[#B08968]" aria-hidden="true">
+   525→<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+   526→</path>
+   527→</svg>
+   528→<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star fill-[#B08968] text-[#B08968]" aria-hidden="true">
+   529→<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+   530→</path>
+   531→</svg>
+   532→<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star fill-[#B08968] text-[#B08968]" aria-hidden="true">
+   533→<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+   534→</path>
+   535→</svg>
+   536→<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star fill-[#B08968] text-[#B08968]" aria-hidden="true">
+   537→<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+   538→</path>
+   539→</svg>
+   540→</span>
+   541→<blockquote class="mt-4 text-[15px] leading-relaxed text-stone-700">“<!-- -->The trench coat is the single best piece of clothing I have ever owned. Three winters in and it still turns heads.<!-- -->”</blockquote>
+   542→<figcaption class="mt-6 border-t border-stone-100 pt-4 text-sm">
+   543→<span class="font-semibold text-stone-900">Amelia R.</span>
+   544→<span class="ml-2 text-stone-400">London</span>
+   545→</figcaption>
+   546→</figure>
+   547→<figure class="border border-stone-200 bg-white p-8">
+   548→<span class="inline-flex items-center gap-0.5 " aria-label="Rated 5 out of 5">
+   549→<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star fill-[#B08968] text-[#B08968]" aria-hidden="true">
+   550→<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+   551→</path>
+   552→</svg>
+   553→<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star fill-[#B08968] text-[#B08968]" aria-hidden="true">
+   554→<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+   555→</path>
+   556→</svg>
+   557→<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star fill-[#B08968] text-[#B08968]" aria-hidden="true">
+   558→<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+   559→</path>
+   560→</svg>
+   561→<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star fill-[#B08968] text-[#B08968]" aria-hidden="true">
+   562→<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+   563→</path>
+   564→</svg>
+   565→<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star fill-[#B08968] text-[#B08968]" aria-hidden="true">
+   566→<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+   567→</path>
+   568→</svg>
+   569→</span>
+   570→<blockquote class="mt-4 text-[15px] leading-relaxed text-stone-700">“<!-- -->Finally a brand that understands fit. The trousers feel bespoke at a fraction of the price.<!-- -->”</blockquote>
+   571→<figcaption class="mt-6 border-t border-stone-100 pt-4 text-sm">
+   572→<span class="font-semibold text-stone-900">Daniel K.</span>
+   573→<span class="ml-2 text-stone-400">New York</span>
+   574→</figcaption>
+   575→</figure>
+   576→<figure class="border border-stone-200 bg-white p-8">
+   577→<span class="inline-flex items-center gap-0.5 " aria-label="Rated 5 out of 5">
+   578→<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star fill-[#B08968] text-[#B08968]" aria-hidden="true">
+   579→<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+   580→</path>
+   581→</svg>
+   582→<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star fill-[#B08968] text-[#B08968]" aria-hidden="true">
+   583→<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+   584→</path>
+   585→</svg>
+   586→<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star fill-[#B08968] text-[#B08968]" aria-hidden="true">
+   587→<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+   588→</path>
+   589→</svg>
+   590→<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star fill-[#B08968] text-[#B08968]" aria-hidden="true">
+   591→<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+   592→</path>
+   593→</svg>
+   594→<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star fill-[#B08968] text-[#B08968]" aria-hidden="true">
+   595→<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+   596→</path>
+   597→</svg>
+   598→</span>
+   599→<blockquote class="mt-4 text-[15px] leading-relaxed text-stone-700">“<!-- -->The silk dress I wore to a wedding in Goa — four people asked where it was from. The packaging alone felt like a gift.<!-- -->”</blockquote>
+   600→<figcaption class="mt-6 border-t border-stone-100 pt-4 text-sm">
+   601→<span class="font-semibold text-stone-900">Priya S.</span>
+   602→<span class="ml-2 text-stone-400">Mumbai</span>
+   603→</figcaption>
+   604→</figure>
+   605→</div>
+   606→<div class="mt-8 flex items-center justify-center gap-4">
+   607→<button aria-label="Previous testimonials" class="flex h-10 w-10 items-center justify-center border border-stone-300 transition hover:border-stone-900">
+   608→<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left" aria-hidden="true">
+   609→<path d="m15 18-6-6 6-6">
+   610→</path>
+   611→</svg>
+   612→</button>
+   613→<div class="flex gap-1.5">
+   614→<button aria-label="Testimonials page 1" class="h-1.5 w-6 transition bg-stone-900">
+   615→</button>
+   616→<button aria-label="Testimonials page 2" class="h-1.5 w-6 transition bg-stone-300">
+   617→</button>
+   618→</div>
+   619→<button aria-label="Next testimonials" class="flex h-10 w-10 items-center justify-center border border-stone-300 transition hover:border-stone-900">
+   620→<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right" aria-hidden="true">
+   621→<path d="m9 18 6-6-6-6">
+   622→</path>
+   623→</svg>
+   624→</button>
+   625→</div>
+   626→</div>
+   627→</div>
+   628→</section>
+   629→<section class="mx-auto max-w-7xl px-4 py-20 md:px-6 lg:px-10">
+   630→<div class="text-center mx-auto max-w-2xl mb-10 md:mb-14">
+   631→<p class="text-[11px] font-semibold tracking-[0.3em] uppercase mb-3 text-[#B08968]">@ateliernoir</p>
+   632→<h2 class="font-display text-3xl md:text-[2.75rem] leading-tight tracking-tight text-stone-900">Worn by You</h2>
+   633→<p class="mt-4 text-sm md:text-[15px] leading-relaxed text-stone-500">Tag @ateliernoir to be featured — the best looks we see every week come from you.</p>
+   634→</div>
+   635→<div class="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-3">
+   636→<button aria-label="Instagram post 1" class="group relative aspect-square overflow-hidden bg-stone-100">
+   637→<img src="/images/editorial/editorial-12.jpg" alt="Community look 1" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+   638→<span class="absolute inset-0 flex items-center justify-center bg-stone-950/0 opacity-0 transition group-hover:bg-stone-950/30 group-hover:opacity-100">
+   639→<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram text-white" aria-hidden="true">
+   640→<rect width="20" height="20" x="2" y="2" rx="5" ry="5">
+   641→</rect>
+   642→<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+   643→</path>
+   644→<line x1="17.5" x2="17.51" y1="6.5" y2="6.5">
+   645→</line>
+   646→</svg>
+   647→</span>
+   648→</button>
+   649→<button aria-label="Instagram post 2" class="group relative aspect-square overflow-hidden bg-stone-100">
+   650→<img src="/images/street/street-4.jpg" alt="Community look 2" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+   651→<span class="absolute inset-0 flex items-center justify-center bg-stone-950/0 opacity-0 transition group-hover:bg-stone-950/30 group-hover:opacity-100">
+   652→<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram text-white" aria-hidden="true">
+   653→<rect width="20" height="20" x="2" y="2" rx="5" ry="5">
+   654→</rect>
+   655→<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+   656→</path>
+   657→<line x1="17.5" x2="17.51" y1="6.5" y2="6.5">
+   658→</line>
+   659→</svg>
+   660→</span>
+   661→</button>
+   662→<button aria-label="Instagram post 3" class="group relative aspect-square overflow-hidden bg-stone-100">
+   663→<img src="/images/dresses/dresses-3.jpg" alt="Community look 3" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+   664→<span class="absolute inset-0 flex items-center justify-center bg-stone-950/0 opacity-0 transition group-hover:bg-stone-950/30 group-hover:opacity-100">
+   665→<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram text-white" aria-hidden="true">
+   666→<rect width="20" height="20" x="2" y="2" rx="5" ry="5">
+   667→</rect>
+   668→<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+   669→</path>
+   670→<line x1="17.5" x2="17.51" y1="6.5" y2="6.5">
+   671→</line>
+   672→</svg>
+   673→</span>
+   674→</button>
+   675→<button aria-label="Instagram post 4" class="group relative aspect-square overflow-hidden bg-stone-100">
+   676→<img src="/images/bags/bags-1.jpg" alt="Community look 4" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+   677→<span class="absolute inset-0 flex items-center justify-center bg-stone-950/0 opacity-0 transition group-hover:bg-stone-950/30 group-hover:opacity-100">
+   678→<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram text-white" aria-hidden="true">
+   679→<rect width="20" height="20" x="2" y="2" rx="5" ry="5">
+   680→</rect>
+   681→<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+   682→</path>
+   683→<line x1="17.5" x2="17.51" y1="6.5" y2="6.5">
+   684→</line>
+   685→</svg>
+   686→</span>
+   687→</button>
+   688→<button aria-label="Instagram post 5" class="group relative aspect-square overflow-hidden bg-stone-100">
+   689→<img src="/images/campaign/campaign-5.jpg" alt="Community look 5" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+   690→<span class="absolute inset-0 flex items-center justify-center bg-stone-950/0 opacity-0 transition group-hover:bg-stone-950/30 group-hover:opacity-100">
+   691→<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram text-white" aria-hidden="true">
+   692→<rect width="20" height="20" x="2" y="2" rx="5" ry="5">
+   693→</rect>
+   694→<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+   695→</path>
+   696→<line x1="17.5" x2="17.51" y1="6.5" y2="6.5">
+   697→</line>
+   698→</svg>
+   699→</span>
+   700→</button>
+   701→<button aria-label="Instagram post 6" class="group relative aspect-square overflow-hidden bg-stone-100">
+   702→<img src="/images/shoes/shoes-1.jpg" alt="Community look 6" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+   703→<span class="absolute inset-0 flex items-center justify-center bg-stone-950/0 opacity-0 transition group-hover:bg-stone-950/30 group-hover:opacity-100">
+   704→<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram text-white" aria-hidden="true">
+   705→<rect width="20" height="20" x="2" y="2" rx="5" ry="5">
+   706→</rect>
+   707→<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+   708→</path>
+   709→<line x1="17.5" x2="17.51" y1="6.5" y2="6.5">
+   710→</line>
+   711→</svg>
+   712→</span>
+   713→</button>
+   714→<button aria-label="Instagram post 7" class="group relative aspect-square overflow-hidden bg-stone-100">
+   715→<img src="/images/knit/knit-1.jpg" alt="Community look 7" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+   716→<span class="absolute inset-0 flex items-center justify-center bg-stone-950/0 opacity-0 transition group-hover:bg-stone-950/30 group-hover:opacity-100">
+   717→<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram text-white" aria-hidden="true">
+   718→<rect width="20" height="20" x="2" y="2" rx="5" ry="5">
+   719→</rect>
+   720→<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+   721→</path>
+   722→<line x1="17.5" x2="17.51" y1="6.5" y2="6.5">
+   723→</line>
+   724→</svg>
+   725→</span>
+   726→</button>
+   727→<button aria-label="Instagram post 8" class="group relative aspect-square overflow-hidden bg-stone-100">
+   728→<img src="/images/mjackets/mjackets-1.jpg" alt="Community look 8" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+   729→<span class="absolute inset-0 flex items-center justify-center bg-stone-950/0 opacity-0 transition group-hover:bg-stone-950/30 group-hover:opacity-100">
+   730→<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram text-white" aria-hidden="true">
+   731→<rect width="20" height="20" x="2" y="2" rx="5" ry="5">
+   732→</rect>
+   733→<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+   734→</path>
+   735→<line x1="17.5" x2="17.51" y1="6.5" y2="6.5">
+   736→</line>
+   737→</svg>
+   738→</span>
+   739→</button>
+   740→</div>
+   741→</section>
+   742→<section class="border-t border-stone-100">
+   743→<div class="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-14 gap-y-4 px-6 py-10">
+   744→<p class="text-[10px] font-semibold uppercase tracking-[0.3em] text-stone-400">As seen in</p>
+   745→<span class="font-display text-lg tracking-[0.2em] text-stone-400">VOGUE</span>
+   746→<span class="font-display text-lg tracking-[0.2em] text-stone-400">ELLE</span>
+   747→<span class="font-display text-lg tracking-[0.2em] text-stone-400">GQ</span>
+   748→<span class="font-display text-lg tracking-[0.2em] text-stone-400">BAZAAR</span>
+   749→<span class="font-display text-lg tracking-[0.2em] text-stone-400">MONOCLE</span>
+   750→<span class="font-display text-lg tracking-[0.2em] text-stone-400">KINFOLK</span>
+   751→</div>
+   752→</section>
+   753→<section aria-label="Fabric detail film" class="relative h-[50vh] min-h-[380px] w-full overflow-hidden bg-stone-400">
+   754→<video src="/videos/fabric-detail.mp4" poster="/images/fabric/fabric-4.jpg" autoPlay="" muted="" loop="" playsInline="" preload="auto" disablePictureInPicture="" class="absolute inset-0 h-full w-full object-cover transition-opacity duration-s]" style="opacity:0">
+   755→</video>
+   756→<img src="/images/fabric/fabric-4.jpg" alt="Close-up film of a tailored jacket being crafted in the workshop" fetchPriority="high" class="animate-cover-enter animate-cover-settle pointer-events-none absolute inset-0 transition-opacity duration-s] h-full w-full object-cover"/>
+   757→<div aria-hidden="true" class="pointer-events-none absolute inset-0 flex items-center justify-center bg-stone-950/30 transition-opacity duration-1000 opacity-0">
+   758→<p class="font-display text-4xl tracking-[0.4em] text-white md:text-6xl">ATELIER</p>
+   759→</div>
+   760→</section>
+   761→</main>
+   762→<footer class="mt-auto bg-stone-900 text-stone-300">
+   763→<div class="border-b border-stone-800">
+   764→<div class="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 py-14 text-center lg:flex-row lg:justify-between lg:text-left">
+   765→<div>
+   766→<h3 class="font-display text-2xl text-white md:text-3xl">Join the Atelier List</h3>
+   767→<p class="mt-2 max-w-md text-sm text-stone-400">First looks, private sales and 10% off your first order. One considered email a week — never more.</p>
+   768→</div>
+   769→<form class="flex w-full max-w-md">
+   770→<input type="email" placeholder="Your email address" aria-label="Email address" class="h-12 min-w-0 flex-1 border border-stone-700 bg-stone-800/50 px-4 text-sm text-white placeholder:text-stone-500 focus:border-stone-400 focus:outline-none" value=""/>
+   771→<button type="submit" class="h-12 bg-white px-6 text-[11px] font-semibold tracking-[0.25em] text-stone-900 uppercase transition hover:bg-stone-200">Subscribe</button>
+   772→</form>
+   773→</div>
+   774→</div>
+   775→<div class="mx-auto grid max-w-7xl grid-cols-2 gap-10 px-6 py-14 md:grid-cols-3 lg:grid-cols-5 lg:px-10">
+   776→<div class="col-span-2 md:col-span-3 lg:col-span-1">
+   777→<p class="font-display text-xl tracking-[0.28em] text-white">ATELIER</p>
+   778→<p class="-mt-0.5 text-[10px] font-bold tracking-[0.4em] text-[#B08968]">NOIR</p>
+   779→<p class="mt-4 max-w-xs text-sm leading-relaxed text-stone-400">Considered clothing for a considered life. Cut in small runs from responsible materials, built to be repaired — never replaced.</p>
+   780→<div class="mt-6 flex gap-3">
+   781→<button aria-label="Instagram" class="flex h-9 w-9 items-center justify-center border border-stone-700 text-stone-400 transition hover:border-white hover:text-white">
+   782→<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram" aria-hidden="true">
+   783→<rect width="20" height="20" x="2" y="2" rx="5" ry="5">
+   784→</rect>
+   785→<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+   786→</path>
+   787→<line x1="17.5" x2="17.51" y1="6.5" y2="6.5">
+   788→</line>
+   789→</svg>
+   790→</button>
+   791→<button aria-label="Facebook" class="flex h-9 w-9 items-center justify-center border border-stone-700 text-stone-400 transition hover:border-white hover:text-white">
+   792→<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook" aria-hidden="true">
+   793→<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
+   794→</path>
+   795→</svg>
+   796→</button>
+   797→<button aria-label="Twitter" class="flex h-9 w-9 items-center justify-center border border-stone-700 text-stone-400 transition hover:border-white hover:text-white">
+   798→<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter" aria-hidden="true">
+   799→<path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z">
+   800→</path>
+   801→</svg>
+   802→</button>
+   803→<button aria-label="YouTube" class="flex h-9 w-9 items-center justify-center border border-stone-700 text-stone-400 transition hover:border-white hover:text-white">
+   804→<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-youtube" aria-hidden="true">
+   805→<path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17">
+   806→</path>
+   807→<path d="m10 15 5-3-5-3z">
+   808→</path>
+   809→</svg>
+   810→</button>
+   811→</div>
+   812→</div>
+   813→<div>
+   814→<h4 class="mb-4 text-[11px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Shop Women</h4>
+   815→<ul class="space-y-2.5">
+   816→<li>
+   817→<button class="text-sm text-stone-600 transition hover:text-white">Dresses</button>
+   818→</li>
+   819→<li>
+   820→<button class="text-sm text-stone-600 transition hover:text-white">Tops &amp; Blouses</button>
+   821→</li>
+   822→<li>
+   823→<button class="text-sm text-stone-600 transition hover:text-white">Knitwear</button>
+   824→</li>
+   825→<li>
+   826→<button class="text-sm text-stone-600 transition hover:text-white">Coats &amp; Outerwear</button>
+   827→</li>
+   828→<li>
+   829→<button class="text-sm text-stone-600 transition hover:text-white">Denim</button>
+   830→</li>
+   831→</ul>
+   832→</div>
+   833→<div>
+   834→<h4 class="mb-4 text-[11px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Shop Men</h4>
+   835→<ul class="space-y-2.5">
+   836→<li>
+   837→<button class="text-sm text-stone-600 transition hover:text-white">Shirts</button>
+   838→</li>
+   839→<li>
+   840→<button class="text-sm text-stone-600 transition hover:text-white">Blazers &amp; Tailoring</button>
+   841→</li>
+   842→<li>
+   843→<button class="text-sm text-stone-600 transition hover:text-white">Jackets</button>
+   844→</li>
+   845→<li>
+   846→<button class="text-sm text-stone-600 transition hover:text-white">Knitwear</button>
+   847→</li>
+   848→<li>
+   849→<button class="text-sm text-stone-600 transition hover:text-white">Trousers</button>
+   850→</li>
+   851→</ul>
+   852→</div>
+   853→<div>
+   854→<h4 class="mb-4 text-[11px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Accessories</h4>
+   855→<ul class="space-y-2.5">
+   856→<li>
+   857→<button class="text-sm text-stone-600 transition hover:text-white">Bags</button>
+   858→</li>
+   859→<li>
+   860→<button class="text-sm text-stone-600 transition hover:text-white">Shoes</button>
+   861→</li>
+   862→<li>
+   863→<button class="text-sm text-stone-600 transition hover:text-white">Jewelry &amp; Accessories</button>
+   864→</li>
+   865→</ul>
+   866→</div>
+   867→<div>
+   868→<h4 class="mb-4 text-[11px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Maison</h4>
+   869→<ul class="space-y-2.5">
+   870→<li>
+   871→<button class="text-sm text-stone-600 transition hover:text-white">About Us</button>
+   872→</li>
+   873→<li>
+   874→<button class="text-sm text-stone-600 transition hover:text-white">The Lookbook</button>
+   875→</li>
+   876→<li>
+   877→<button class="text-sm text-stone-600 transition hover:text-white">Journal</button>
+   878→</li>
+   879→<li>
+   880→<button class="text-sm text-stone-600 transition hover:text-white">Contact</button>
+   881→</li>
+   882→<li>
+   883→<button class="text-sm text-stone-600 transition hover:text-white">Help &amp; FAQ</button>
+   884→</li>
+   885→<li>
+   886→<button class="text-sm text-stone-600 transition hover:text-white">Wishlist</button>
+   887→</li>
+   888→</ul>
+   889→</div>
+   890→</div>
+   891→<div class="border-t border-stone-800">
+   892→<div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-6 pb-ax(1.5rem,env(safe-area-inset-bottom))] text-[12px] text-stone-500 md:flex-row lg:px-10">
+   893→<p>© <!-- -->2026<!-- --> Atelier Noir. All rights reserved. A fiction, lovingly crafted.</p>
+   894→<div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
+   895→<span>Privacy</span>
+   896→<span>Terms</span>
+   897→<span>Shipping</span>
+   898→<div class="flex items-center gap-2 text-stone-400">
+   899→<span class="border border-stone-700 px-2 py-1 text-[10px] font-semibold tracking-wider">VISA</span>
+   900→<span class="border border-stone-700 px-2 py-1 text-[10px] font-semibold tracking-wider">MC</span>
+   901→<span class="border border-stone-700 px-2 py-1 text-[10px] font-semibold tracking-wider">AMEX</span>
+   902→<span class="border border-stone-700 px-2 py-1 text-[10px] font-semibold tracking-wider">PAYPAL</span>
+   903→</div>
+   904→</div>
+   905→</div>
+   906→</div>
+   907→</footer>
+   908→<div data-orientation="horizontal" role="none" data-slot="separator" class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px hidden">
+   909→</div>
+   910→</div>
+   911→<!--$-->
+   912→<!--/$-->
+   913→<section aria-label="Notifications alt+T" tabindex="-1" aria-live="polite" aria-relevant="additions text" aria-atomic="false">
+   914→</section>
+   915→<script src="/_next/static/chunks/58c60a5fa6b544da.js" id="_R_" async="">
+   916→</script>
+   917→<script>(self.__next_f=self.__next_f||[]).push([0])</script>
+   918→<script>self.__next_f.push([1,"1:\"$Sreact.fragment\"\n2:I[66094,[\"/_next/static/chunks/395a53841c9f1464.js\"],\"Preloader\"]\n3:I[39756,[\"/_next/static/chunks/2f236954d6a65e12.js\"],\"default\"]\n4:I[37457,[\"/_next/static/chunks/2f236954d6a65e12.js\"],\"default\"]\n5:I[13354,[\"/_next/static/chunks/395a53841c9f1464.js\"],\"Toaster\"]\n6:I[92224,[\"/_next/static/chunks/395a53841c9f1464.js\",\"/_next/static/chunks/f0339a7586771414.js\"],\"Site\"]\n7:I[97367,[\"/_next/static/chunks/2f236954d6a65e12.js\"],\"OutletBoundary\"]\n8:\"$Sreact.suspense\"\na:I[97367,[\"/_next/static/chunks/2f236954d6a65e12.js\"],\"ViewportBoundary\"]\nc:I[97367,[\"/_next/static/chunks/2f236954d6a65e12.js\"],\"MetadataBoundary\"]\ne:I[68027,[\"/_next/static/chunks/2f236954d6a65e12.js\"],\"default\"]\n:HL[\"/_next/static/chunks/73fabd49ed15523e.css\",\"style\"]\n:HL[\"/_next/static/chunks/8aced570def43f7b.css\",\"style\"]\n:HL[\"/_next/static/media/2a65768255d6b625-s.p.d19752fb.woff2\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/woff2\"}]\n:HL[\"/_next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/woff2\"}]\n"])</script>
+   919→<script>self.__next_f.push([1,"0:{\"P\":null,\"b\":\"3Uwt8lvXU3y2WRZobpGpE\",\"c\":[\"\",\"\"],\"q\":\"\",\"i\":false,\"f\":[[[\"\",{\"children\":[\"__PAGE__\",{}]},\"$undefined\",\"$undefined\",true],[[\"$\",\"$1\",\"c\",{\"children\":[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/chunks/73fabd49ed15523e.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/chunks/8aced570def43f7b.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"}],[\"$\",\"script\",\"script-0\",{\"src\":\"/_next/static/chunks/395a53841c9f1464.js\",\"async\":true,\"nonce\":\"$undefined\"}]],[\"$\",\"html\",null,{\"lang\":\"en\",\"suppressHydrationWarning\":true,\"children\":[\"$\",\"body\",null,{\"className\":\"inter_fe8b9d92-module__LINzvG__variable playfair_display_fa003182-module__E_H7JW__variable antialiased bg-white text-stone-900 font-sans\",\"children\":[[\"$\",\"$L2\",null,{}],[\"$\",\"$L3\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L4\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":404}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],[]],\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}],[\"$\",\"$L5\",null,{\"position\":\"bottom-center\",\"richColors\":true}]]}]}]]}],{\"children\":[[\"$\",\"$1\",\"c\",{\"children\":[[\"$\",\"$L6\",null,{}],[[\"$\",\"script\",\"script-0\",{\"src\":\"/_next/static/chunks/f0339a7586771414.js\",\"async\":true,\"nonce\":\"$undefined\"}]],[\"$\",\"$L7\",null,{\"children\":[\"$\",\"$8\",null,{\"name\":\"Next.MetadataOutlet\",\"children\":\"$@9\"}]}]]}],{},null,false,false]},null,false,false],[\"$\",\"$1\",\"h\",{\"children\":[null,[\"$\",\"$La\",null,{\"children\":\"$Lb\"}],[\"$\",\"div\",null,{\"hidden\":true,\"children\":[\"$\",\"$Lc\",null,{\"children\":[\"$\",\"$8\",null,{\"name\":\"Next.Metadata\",\"children\":\"$Ld\"}]}]}],[\"$\",\"meta\",null,{\"name\":\"next-size-adjust\",\"content\":\"\"}]]}],false]],\"m\":\"$undefined\",\"G\":[\"$e\",[]],\"S\":true}\n"])</script>
+   920→<script>self.__next_f.push([1,"b:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"meta\",\"1\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}]]\n"])</script>
+   921→<script>self.__next_f.push([1,"f:I[27201,[\"/_next/static/chunks/2f236954d6a65e12.js\"],\"IconMark\"]\n9:null\nd:[[\"$\",\"title\",\"0\",{\"children\":\"Atelier Noir — Considered Clothing\"}],[\"$\",\"meta\",\"1\",{\"name\":\"description\",\"content\":\"Minimal, modern clothing made in small runs from responsible materials. Women's and men's dresses, coats, knitwear, denim and accessories.\"}],[\"$\",\"meta\",\"2\",{\"name\":\"keywords\",\"content\":\"fashion,clothing,minimal fashion,sustainable clothing,Atelier Noir\"}],[\"$\",\"link\",\"3\",{\"rel\":\"icon\",\"href\":\"https://z-cdn.chatglm.cn/z-ai/static/logo.svg\"}],[\"$\",\"$Lf\",\"4\",{}]]\n"])</script>
+   922→</body>
+   923→</html>
+   924→---try www---
+   925→EXIT: 6

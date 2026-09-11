@@ -1,0 +1,42 @@
+[
+ {
+  "q": "How long does delivery take?",
+  "a": "Standard delivery takes 2\u20134 business days and is complimentary on all orders over $150. Express delivery (1\u20132 business days) is available at checkout for $12. Every order ships carbon-neutral with tracked, plastic-free packaging.",
+  "cat": "Shipping & Returns"
+ },
+ {
+  "q": "What is your return policy?",
+  "a": "We offer free returns within 30 days of delivery \u2014 no questions asked. Items must be unworn with tags attached. Refunds are processed within 3 business days of the parcel reaching our warehouse.",
+  "cat": "Shipping & Returns"
+ },
+ {
+  "q": "Do you offer exchanges?",
+  "a": "Yes. Choose an instant exchange at checkout and we will ship the new size before we receive your return, subject to availability. Size exchanges are always free, including return postage.",
+  "cat": "Shipping & Returns"
+ },
+ {
+  "q": "How do your sizes run?",
+  "a": "Our fits are true to size with a modern, slightly relaxed cut. Each product page includes a detailed size guide with garment measurements. If you are between sizes, we generally recommend sizing down for tailoring and up for knitwear.",
+  "cat": "Product & Fit"
+ },
+ {
+  "q": "Where are your garments made?",
+  "a": "We produce in small runs across family-run workshops in Portugal, Italy and India \u2014 each audited annually for fair wages and working conditions. Our denim is woven in Kaihara, Japan; our silk is stone-washed in Como.",
+  "cat": "Product & Fit"
+ },
+ {
+  "q": "Do you repair garments?",
+  "a": "Every Atelier Noir piece carries a 10-year repair guarantee. Send us the garment with a note describing the issue and we will mend, reline or re-cut it free of charge \u2014 you only pay return postage once.",
+  "cat": "Product & Fit"
+ },
+ {
+  "q": "Is my payment secure?",
+  "a": "Absolutely. All transactions are encrypted end-to-end and processed by PCI-DSS compliant providers. We accept all major cards, PayPal, Apple Pay and Google Pay. We never store card details on our servers.",
+  "cat": "Orders & Payment"
+ },
+ {
+  "q": "Do you restock sold-out items?",
+  "a": "Core pieces (our Essentials line) restock every 6\u20138 weeks. Seasonal and limited pieces are produced once and retire forever \u2014 join the waitlist on any sold-out product and we will email you the moment it returns.",
+  "cat": "Orders & Payment"
+ }
+]

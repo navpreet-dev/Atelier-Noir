@@ -1,0 +1,588 @@
+     1→<body class="inter_fe8b9d92-module__LINzvG__variable playfair_display_fa003182-module__E_H7JW__variable antialiased bg-white text-stone-900 font-sans" style="">
+     2→<div hidden="">
+     3→<!--$-->
+     4→<!--/$-->
+     5→</div>
+     6→<div class="flex min-h-screen flex-col bg-white">
+     7→<header class="sticky top-0 z-50 w-full">
+     8→<div class="border-b border-stone-200 bg-white/95 backdrop-blur">
+     9→<nav class="relative mx-auto grid h-16 max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 md:px-6 lg:px-10">
+    10→<div class="flex items-center gap-6">
+    11→<button class="flex h-9 w-9 items-center justify-center xl:hidden" aria-label="Open menu">
+    12→<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu text-stone-800" aria-hidden="true">
+    13→<path d="M4 12h16">
+    14→</path>
+    15→<path d="M4 18h16">
+    16→</path>
+    17→<path d="M4 6h16">
+    18→</path>
+    19→</svg>
+    20→</button>
+    21→<div class="hidden items-center gap-3.5 xl:flex">
+    22→<div class="group/nav">
+    23→<button class="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500">Women<span class="absolute inset-x-0 bottom-0 h-px origin-left bg-stone-900 transition-transform duration-300 scale-x-0 group-hover/navlink:scale-x-100">
+    24→</span>
+    25→</button>
+    26→<div class="absolute inset-x-0 top-full z-40 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] transition-all duration-200 before:absolute before:inset-x-0 before:-top-10 before:h-10 before:pointer-events-none before:content-[''] pointer-events-none opacity-0 [visibility:hidden]">
+    27→<div class="border-t border-stone-100 bg-white">
+    28→<div class="mx-auto flex max-w-7xl gap-10 px-6 py-10 lg:px-10">
+    29→<div class="grid grid-cols-2 gap-x-16">
+    30→<div>
+    31→<p class="mb-3 text-[10px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Shop by Category</p>
+    32→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    33→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Dresses</span>
+    34→</button>
+    35→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    36→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Tops &amp; Blouses</span>
+    37→</button>
+    38→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    39→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Knitwear</span>
+    40→</button>
+    41→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    42→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Coats &amp; Outerwear</span>
+    43→</button>
+    44→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    45→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Denim</span>
+    46→</button>
+    47→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    48→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Skirts</span>
+    49→</button>
+    50→</div>
+    51→<div>
+    52→<p class="mb-3 text-[10px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Discover</p>
+    53→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    54→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">New Arrivals</span>
+    55→</button>
+    56→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    57→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Bestsellers</span>
+    58→</button>
+    59→<button class="group/link block py-1.5 text-left text-[15px] transition-colors font-semibold text-[#9A3B26]">
+    60→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">The Sale</span>
+    61→</button>
+    62→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    63→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">The Lookbook</span>
+    64→</button>
+    65→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    66→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Journal</span>
+    67→</button>
+    68→</div>
+    69→</div>
+    70→<button class="group/promo block w-56 shrink-0 text-left">
+    71→<div class="relative aspect-[3/4] overflow-hidden bg-stone-100">
+    72→<img src="/images/editorial/editorial-5.jpg" alt="Coats for Every Autumn" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover/promo:scale-105">
+    73→</div>
+    74→<p class="mt-3 text-[10px] font-semibold tracking-[0.25em] text-[#B08968] uppercase">The Edit</p>
+    75→<p class="mt-1 font-display text-lg text-stone-900 group-hover/promo:underline">Coats for Every Autumn</p>
+    76→</button>
+    77→<button class="group/promo block w-56 shrink-0 text-left">
+    78→<div class="relative aspect-[3/4] overflow-hidden bg-stone-100">
+    79→<img src="/images/dresses/dresses-2.jpg" alt="Dresses Under the Sun" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover/promo:scale-105">
+    80→</div>
+    81→<p class="mt-3 text-[10px] font-semibold tracking-[0.25em] text-[#B08968] uppercase">New In</p>
+    82→<p class="mt-1 font-display text-lg text-stone-900 group-hover/promo:underline">Dresses Under the Sun</p>
+    83→</button>
+    84→</div>
+    85→</div>
+    86→</div>
+    87→</div>
+    88→<div class="group/nav">
+    89→<button class="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500">Men<span class="absolute inset-x-0 bottom-0 h-px origin-left bg-stone-900 transition-transform duration-300 scale-x-0 group-hover/navlink:scale-x-100">
+    90→</span>
+    91→</button>
+    92→<div class="absolute inset-x-0 top-full z-40 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] transition-all duration-200 before:absolute before:inset-x-0 before:-top-10 before:h-10 before:pointer-events-none before:content-[''] pointer-events-none opacity-0 [visibility:hidden]">
+    93→<div class="border-t border-stone-100 bg-white">
+    94→<div class="mx-auto flex max-w-7xl gap-10 px-6 py-10 lg:px-10">
+    95→<div class="grid grid-cols-2 gap-x-16">
+    96→<div>
+    97→<p class="mb-3 text-[10px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Shop by Category</p>
+    98→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+    99→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Shirts</span>
+   100→</button>
+   101→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   102→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Blazers &amp; Tailoring</span>
+   103→</button>
+   104→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   105→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Jackets</span>
+   106→</button>
+   107→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   108→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Knitwear</span>
+   109→</button>
+   110→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   111→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Trousers</span>
+   112→</button>
+   113→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   114→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Denim</span>
+   115→</button>
+   116→</div>
+   117→<div>
+   118→<p class="mb-3 text-[10px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Discover</p>
+   119→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   120→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">New Arrivals</span>
+   121→</button>
+   122→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   123→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Bestsellers</span>
+   124→</button>
+   125→<button class="group/link block py-1.5 text-left text-[15px] transition-colors font-semibold text-[#9A3B26]">
+   126→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">The Sale</span>
+   127→</button>
+   128→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   129→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">The Lookbook</span>
+   130→</button>
+   131→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   132→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Journal</span>
+   133→</button>
+   134→</div>
+   135→</div>
+   136→<button class="group/promo block w-56 shrink-0 text-left">
+   137→<div class="relative aspect-[3/4] overflow-hidden bg-stone-100">
+   138→<img src="/images/blazers/blazers-5.jpg" alt="The Soft Blazer" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover/promo:scale-105">
+   139→</div>
+   140→<p class="mt-3 text-[10px] font-semibold tracking-[0.25em] text-[#B08968] uppercase">Tailoring</p>
+   141→<p class="mt-1 font-display text-lg text-stone-900 group-hover/promo:underline">The Soft Blazer</p>
+   142→</button>
+   143→<button class="group/promo block w-56 shrink-0 text-left">
+   144→<div class="relative aspect-[3/4] overflow-hidden bg-stone-100">
+   145→<img src="/images/mshirts/mshirts-1.jpg" alt="Shirting, Reconsidered" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover/promo:scale-105">
+   146→</div>
+   147→<p class="mt-3 text-[10px] font-semibold tracking-[0.25em] text-[#B08968] uppercase">Wardrobe Staples</p>
+   148→<p class="mt-1 font-display text-lg text-stone-900 group-hover/promo:underline">Shirting, Reconsidered</p>
+   149→</button>
+   150→</div>
+   151→</div>
+   152→</div>
+   153→</div>
+   154→<div class="group/nav">
+   155→<button class="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500">Accessories<span class="absolute inset-x-0 bottom-0 h-px origin-left bg-stone-900 transition-transform duration-300 scale-x-0 group-hover/navlink:scale-x-100">
+   156→</span>
+   157→</button>
+   158→<div class="absolute inset-x-0 top-full z-40 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] transition-all duration-200 before:absolute before:inset-x-0 before:-top-10 before:h-10 before:pointer-events-none before:content-[''] pointer-events-none opacity-0 [visibility:hidden]">
+   159→<div class="border-t border-stone-100 bg-white">
+   160→<div class="mx-auto flex max-w-7xl gap-10 px-6 py-10 lg:px-10">
+   161→<div>
+   162→<p class="mb-3 text-[10px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Shop by Category</p>
+   163→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   164→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Bags</span>
+   165→</button>
+   166→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   167→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Shoes</span>
+   168→</button>
+   169→<button class="group/link block py-1.5 text-left text-[15px] transition-colors text-stone-600 hover:text-stone-900">
+   170→<span class="bg-gradient-to-r from-stone-900 to-stone-900 bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover/link:bg-[length:100%_1px]">Jewelry &amp; Accessories</span>
+   171→</button>
+   172→</div>
+   173→<button class="group/promo block w-56 shrink-0 text-left">
+   174→<div class="relative aspect-[3/4] overflow-hidden bg-stone-100">
+   175→<img src="/images/bags/bags-6.jpg" alt="Bags Built for Decades" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover/promo:scale-105">
+   176→</div>
+   177→<p class="mt-3 text-[10px] font-semibold tracking-[0.25em] text-[#B08968] uppercase">Carry All</p>
+   178→<p class="mt-1 font-display text-lg text-stone-900 group-hover/promo:underline">Bags Built for Decades</p>
+   179→</button>
+   180→</div>
+   181→</div>
+   182→</div>
+   183→</div>
+   184→<button class="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-[#9A3B26]">Sale<span class="absolute inset-x-0 bottom-0 h-px origin-left bg-stone-900 transition-transform duration-300 scale-x-0 group-hover/navlink:scale-x-100">
+   185→</span>
+   186→</button>
+   187→<button class="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500">Lookbook<span class="absolute inset-x-0 bottom-0 h-px origin-left bg-stone-900 transition-transform duration-300 scale-x-0 group-hover/navlink:scale-x-100">
+   188→</span>
+   189→</button>
+   190→<button class="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500">Journal<span class="absolute inset-x-0 bottom-0 h-px origin-left bg-stone-900 transition-transform duration-300 scale-x-0 group-hover/navlink:scale-x-100">
+   191→</span>
+   192→</button>
+   193→<button class="group/navlink relative whitespace-nowrap py-2 text-[10px] font-semibold tracking-[0.14em] uppercase transition-colors text-stone-800 hover:text-stone-500">About<span class="absolute inset-x-0 bottom-0 h-px origin-left bg-stone-900 transition-transform duration-300 scale-x-0 group-hover/navlink:scale-x-100">
+   194→</span>
+   195→</button>
+   196→</div>
+   197→</div>
+   198→<button class="justify-self-center px-2 text-center md:px-4" aria-label="Atelier Noir home">
+   199→<span class="font-display text-xl tracking-[0.28em] text-stone-900 md:text-2xl">ATELIER</span>
+   200→<span class="ml-2 align-top text-[9px] font-bold tracking-[0.3em] text-[#B08968]">NOIR</span>
+   201→</button>
+   202→<div class="flex items-center justify-end gap-1.5 md:gap-2">
+   203→<button class="flex h-10 w-10 items-center justify-center text-stone-800 transition hover:text-stone-500" aria-label="Search">
+   204→<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search" aria-hidden="true">
+   205→<path d="m21 21-4.34-4.34">
+   206→</path>
+   207→<circle cx="11" cy="11" r="8">
+   208→</circle>
+   209→</svg>
+   210→</button>
+   211→<button class="relative hidden h-10 w-10 items-center justify-center text-stone-800 transition hover:text-stone-500 sm:flex" aria-label="Wishlist, 0 items">
+   212→<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart" aria-hidden="true">
+   213→<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z">
+   214→</path>
+   215→</svg>
+   216→</button>
+   217→<button class="relative flex h-10 w-10 items-center justify-center text-stone-800 transition hover:text-stone-500" aria-label="Shopping bag, 0 items">
+   218→<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-bag" aria-hidden="true">
+   219→<path d="M16 10a4 4 0 0 1-8 0">
+   220→</path>
+   221→<path d="M3.103 6.034h17.794">
+   222→</path>
+   223→<path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z">
+   224→</path>
+   225→</svg>
+   226→</button>
+   227→<button class="relative flex h-10 w-10 items-center justify-center text-stone-800 transition hover:text-stone-500" aria-label="Sign in to your account">
+   228→<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user" aria-hidden="true">
+   229→<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2">
+   230→</path>
+   231→<circle cx="12" cy="7" r="4">
+   232→</circle>
+   233→</svg>
+   234→</button>
+   235→</div>
+   236→</nav>
+   237→</div>
+   238→</header>
+   239→<main class="flex-1 animate-in fade-in duration-300">
+   240→<div>
+   241→<section class="relative flex h-[72vh] min-h-[520px] items-center justify-center overflow-hidden">
+   242→<img alt="Atelier Noir SS25 campaign — two figures in warm neutral tailoring" class="absolute inset-0 h-full w-full object-cover" src="/images/campaign/campaign-1.jpg">
+   243→<div class="absolute inset-0 bg-stone-900/45" aria-hidden="true">
+   244→</div>
+   245→<div class="relative z-10 max-w-3xl px-6 text-center text-white">
+   246→<p class="text-[11px] font-semibold uppercase tracking-[0.3em] text-white/80">The House — Est. 2014</p>
+   247→<h1 class="mt-4 font-display text-4xl leading-tight tracking-tight md:text-6xl">Crafted to Outlive Trends</h1>
+   248→<p class="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/85 md:text-[15px]">Atelier Noir is a study in restraint: few things, made slowly, from honest materials — designed in Paris, cut in Florence, worn everywhere.</p>
+   249→</div>
+   250→</section>
+   251→<section class="py-16 md:py-24">
+   252→<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+   253→<div class="relative aspect-[4/5] overflow-hidden bg-stone-100">
+   254→<img alt="Inside the Atelier Noir flagship — rails of neutral garments and stone interiors" loading="lazy" class="absolute inset-0 h-full w-full object-cover" src="/images/boutique/boutique-2.jpg">
+   255→</div>
+   256→<div>
+   257→<div class="text-left max-w-2xl mb-10 md:mb-14">
+   258→<p class="text-[11px] font-semibold tracking-[0.3em] uppercase mb-3 text-[#B08968]">Our Philosophy</p>
+   259→<h2 class="font-display text-3xl md:text-[2.75rem] leading-tight tracking-tight text-stone-900">Fewer, better things.</h2>
+   260→<p class="mt-4 text-sm md:text-[15px] leading-relaxed text-stone-500">We believe a wardrobe should be edited, not accumulated — a small cast of pieces that fit, flatter and endure.</p>
+   261→</div>
+   262→<div class="-mt-4 space-y-4 text-[15px] leading-relaxed text-stone-600 md:-mt-6">
+   263→<p>Since 2014 we have produced in small runs of rarely more than 300 pieces, working with pattern cutters who still chalk every line by hand. Nothing reaches production until someone on the team has lived in it for a fortnight — washed it, sat down in it, sweated through a summer afternoon.</p>
+   264→<p>We spend where the body meets the garment, refuse shortcuts in the supply chain, and price honestly. The result is clothing with a quiet confidence: no logos, no seasons of regret — just pieces that get better every year you own them.</p>
+   265→</div>
+   266→<p class="text-[10px] font-semibold uppercase tracking-[0.25em] text-stone-400 mt-8">— Elena Marchetti, Founder &amp; Creative Director</p>
+   267→</div>
+   268→</div>
+   269→</section>
+   270→<section aria-label="Atelier film" class="relative h-[50vh] min-h-[380px] w-full overflow-hidden bg-stone-400">
+   271→<video src="/videos/atelier-film.mp4" poster="/images/about-film-poster.jpg" autoplay="" loop="" playsinline="" preload="auto" disablepictureinpicture="" class="absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms]" style="">
+   272→</video>
+   273→<img alt="Atelier Noir studio film — a model in the leather jacket collection" fetchpriority="high" class="animate-cover-enter animate-cover-settle pointer-events-none absolute inset-0 transition-opacity duration-[2000ms] h-full w-full object-cover" src="/images/about-film-poster.jpg" style="opacity: 0;">
+   274→</section>
+   275→<section class="border-t border-stone-200 bg-stone-50">
+   276→<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 py-16 md:py-24">
+   277→<div class="text-center mx-auto max-w-2xl mb-10 md:mb-14">
+   278→<p class="text-[11px] font-semibold tracking-[0.3em] uppercase mb-3 text-[#B08968]">What Guides Us</p>
+   279→<h2 class="font-display text-3xl md:text-[2.75rem] leading-tight tracking-tight text-stone-900">Values stitched into every seam</h2>
+   280→<p class="mt-4 text-sm md:text-[15px] leading-relaxed text-stone-500">Four commitments that shape each decision, from the first sketch to the last stitch.</p>
+   281→</div>
+   282→<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
+   283→<div class="text-center sm:text-left">
+   284→<span class="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-stone-300 bg-white text-stone-900 sm:mx-0">
+   285→<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scissors" aria-hidden="true">
+   286→<circle cx="6" cy="6" r="3">
+   287→</circle>
+   288→<path d="M8.12 8.12 12 12">
+   289→</path>
+   290→<path d="M20 4 8.12 15.88">
+   291→</path>
+   292→<circle cx="6" cy="18" r="3">
+   293→</circle>
+   294→<path d="M14.8 14.8 20 20">
+   295→</path>
+   296→</svg>
+   297→</span>
+   298→<h3 class="mt-5 font-display text-lg tracking-tight text-stone-900">Cut &amp; Construction</h3>
+   299→<p class="mt-2 text-sm leading-relaxed text-stone-500">Every prototype is cut by hand in our Florence atelier and worn for two weeks before it earns a place in the collection.</p>
+   300→</div>
+   301→<div class="text-center sm:text-left">
+   302→<span class="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-stone-300 bg-white text-stone-900 sm:mx-0">
+   303→<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-leaf" aria-hidden="true">
+   304→<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z">
+   305→</path>
+   306→<path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12">
+   307→</path>
+   308→</svg>
+   309→</span>
+   310→<h3 class="mt-5 font-display text-lg tracking-tight text-stone-900">Responsible Materials</h3>
+   311→<p class="mt-2 text-sm leading-relaxed text-stone-500">92% GOTS-certified organic cotton, RWS wool and deadstock silk — with a hard line against virgin polyester.</p>
+   312→</div>
+   313→<div class="text-center sm:text-left">
+   314→<span class="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-stone-300 bg-white text-stone-900 sm:mx-0">
+   315→<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart-handshake" aria-hidden="true">
+   316→<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z">
+   317→</path>
+   318→<path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66">
+   319→</path>
+   320→<path d="m18 15-2-2">
+   321→</path>
+   322→<path d="m15 18-2-2">
+   323→</path>
+   324→</svg>
+   325→</span>
+   326→<h3 class="mt-5 font-display text-lg tracking-tight text-stone-900">Fair Partnerships</h3>
+   327→<p class="mt-2 text-sm leading-relaxed text-stone-500">Family-run workshops across Portugal, Italy and India, audited every year for wages, safety and craft.</p>
+   328→</div>
+   329→<div class="text-center sm:text-left">
+   330→<span class="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-stone-300 bg-white text-stone-900 sm:mx-0">
+   331→<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-recycle" aria-hidden="true">
+   332→<path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5">
+   333→</path>
+   334→<path d="M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12">
+   335→</path>
+   336→<path d="m14 16-3 3 3 3">
+   337→</path>
+   338→<path d="M8.293 13.596 7.196 9.5 3.1 10.598">
+   339→</path>
+   340→<path d="m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 11.985 3a1.784 1.784 0 0 1 1.546.888l3.943 6.843">
+   341→</path>
+   342→<path d="m13.378 9.633 4.096 1.098 1.097-4.096">
+   343→</path>
+   344→</svg>
+   345→</span>
+   346→<h3 class="mt-5 font-display text-lg tracking-tight text-stone-900">Repair, Not Replace</h3>
+   347→<p class="mt-2 text-sm leading-relaxed text-stone-500">A 10-year repair guarantee on every garment. Send it back and we will mend, reline or re-cut it — free.</p>
+   348→</div>
+   349→</div>
+   350→</div>
+   351→</section>
+   352→<section class="bg-stone-900 py-16 text-white md:py-20">
+   353→<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 grid grid-cols-2 gap-y-12 text-center lg:grid-cols-4">
+   354→<div class="px-4">
+   355→<p class="font-display text-4xl tracking-tight text-[#B08968] md:text-5xl">26</p>
+   356→<p class="text-[10px] font-semibold uppercase tracking-[0.25em] text-stone-400 mt-3 text-white/60">Pieces in the SS25 collection</p>
+   357→</div>
+   358→<div class="px-4">
+   359→<p class="font-display text-4xl tracking-tight text-[#B08968] md:text-5xl">3</p>
+   360→<p class="text-[10px] font-semibold uppercase tracking-[0.25em] text-stone-400 mt-3 text-white/60">Countries of manufacture</p>
+   361→</div>
+   362→<div class="px-4">
+   363→<p class="font-display text-4xl tracking-tight text-[#B08968] md:text-5xl">10-year</p>
+   364→<p class="text-[10px] font-semibold uppercase tracking-[0.25em] text-stone-400 mt-3 text-white/60">Repair guarantee on every piece</p>
+   365→</div>
+   366→<div class="px-4">
+   367→<p class="font-display text-4xl tracking-tight text-[#B08968] md:text-5xl">92%</p>
+   368→<p class="text-[10px] font-semibold uppercase tracking-[0.25em] text-stone-400 mt-3 text-white/60">Certified organic cotton</p>
+   369→</div>
+   370→</div>
+   371→</section>
+   372→<section class="py-16 md:py-24">
+   373→<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
+   374→<div class="text-center mx-auto max-w-2xl mb-10 md:mb-14">
+   375→<p class="text-[11px] font-semibold tracking-[0.3em] uppercase mb-3 text-[#B08968]">The Atelier</p>
+   376→<h2 class="font-display text-3xl md:text-[2.75rem] leading-tight tracking-tight text-stone-900">Where every piece begins</h2>
+   377→<p class="mt-4 text-sm md:text-[15px] leading-relaxed text-stone-500">Chalk dust, steady machines and four decades of muscle memory — a look inside our Florence workshop and the campaigns it produces.</p>
+   378→</div>
+   379→<div class="grid grid-cols-2 gap-3 md:grid-cols-5 md:gap-4">
+   380→<div class="group relative col-span-2 overflow-hidden bg-stone-100 md:col-span-2 md:row-span-2">
+   381→<img alt="The Atelier Noir workshop — pattern cutting tables in Florence" loading="lazy" class="h-full w-full object-cover aspect-[4/3] md:aspect-auto transition-transform duration-700 group-hover:scale-[1.04]" src="/images/boutique/boutique-1.jpg">
+   382→</div>
+   383→<div class="group relative col-span-1 overflow-hidden bg-stone-100">
+   384→<img alt="Atelier Noir atelier and campaign imagery 2" loading="lazy" class="aspect-[4/3] h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" src="/images/boutique/boutique-3.jpg">
+   385→</div>
+   386→<div class="group relative col-span-1 overflow-hidden bg-stone-100">
+   387→<img alt="Atelier Noir atelier and campaign imagery 3" loading="lazy" class="aspect-[4/3] h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" src="/images/campaign/campaign-2.jpg">
+   388→</div>
+   389→<div class="group relative col-span-1 overflow-hidden bg-stone-100">
+   390→<img alt="Atelier Noir atelier and campaign imagery 4" loading="lazy" class="aspect-[4/3] h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" src="/images/campaign/campaign-9.jpg">
+   391→</div>
+   392→<div class="group relative col-span-1 overflow-hidden bg-stone-100">
+   393→<img alt="Atelier Noir atelier and campaign imagery 5" loading="lazy" class="aspect-[4/3] h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" src="/images/campaign/campaign-5.jpg">
+   394→</div>
+   395→</div>
+   396→</div>
+   397→</section>
+   398→<section class="bg-stone-50">
+   399→<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 py-16 md:py-24 text-center">
+   400→<span class="font-display text-6xl leading-none text-[#B08968]" aria-hidden="true">“</span>
+   401→<blockquote class="mx-auto -mt-4 max-w-4xl font-display text-2xl italic leading-snug tracking-tight text-stone-800 md:text-4xl">We make few things, slowly, so that they last long enough to become part of you.</blockquote>
+   402→<p class="text-[10px] font-semibold uppercase tracking-[0.25em] text-stone-400 mt-8">The Atelier Noir promise</p>
+   403→</div>
+   404→</section>
+   405→<section class="py-16 md:py-24">
+   406→<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 text-center">
+   407→<div class="text-center mx-auto max-w-2xl mb-10 md:mb-14">
+   408→<p class="text-[11px] font-semibold tracking-[0.3em] uppercase mb-3 text-[#B08968]">The Collection</p>
+   409→<h2 class="font-display text-3xl md:text-[2.75rem] leading-tight tracking-tight text-stone-900">Ready when you are</h2>
+   410→<p class="mt-4 text-sm md:text-[15px] leading-relaxed text-stone-500">Twenty-six pieces for the season ahead — each one cut, checked and signed off by hand.</p>
+   411→</div>
+   412→<button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive shadow-xs py-2 has-[&gt;svg]:px-3 h-12 rounded-none bg-stone-900 px-10 text-[11px] font-semibold uppercase tracking-[0.25em] text-white transition-colors hover:bg-stone-700">Shop the Collection</button>
+   413→<div class="mt-6">
+   414→<button class="group/link inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-900 transition-colors hover:text-[#B08968] ">Or browse the Lookbook<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right transition-transform duration-300 group-hover/link:translate-x-1" aria-hidden="true">
+   415→<path d="M5 12h14">
+   416→</path>
+   417→<path d="m12 5 7 7-7 7">
+   418→</path>
+   419→</svg>
+   420→</button>
+   421→</div>
+   422→</div>
+   423→</section>
+   424→</div>
+   425→</main>
+   426→<footer class="mt-auto bg-stone-900 text-stone-300">
+   427→<div class="border-b border-stone-800">
+   428→<div class="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 py-14 text-center lg:flex-row lg:justify-between lg:text-left">
+   429→<div>
+   430→<h3 class="font-display text-2xl text-white md:text-3xl">Join the Atelier List</h3>
+   431→<p class="mt-2 max-w-md text-sm text-stone-400">First looks, private sales and 10% off your first order. One considered email a week — never more.</p>
+   432→</div>
+   433→<form class="flex w-full max-w-md">
+   434→<input type="email" placeholder="Your email address" aria-label="Email address" class="h-12 min-w-0 flex-1 border border-stone-700 bg-stone-800/50 px-4 text-sm text-white placeholder:text-stone-500 focus:border-stone-400 focus:outline-none" value="">
+   435→<button type="submit" class="h-12 bg-white px-6 text-[11px] font-semibold tracking-[0.25em] text-stone-900 uppercase transition hover:bg-stone-200">Subscribe</button>
+   436→</form>
+   437→</div>
+   438→</div>
+   439→<div class="mx-auto grid max-w-7xl grid-cols-2 gap-10 px-6 py-14 md:grid-cols-3 lg:grid-cols-5 lg:px-10">
+   440→<div class="col-span-2 md:col-span-3 lg:col-span-1">
+   441→<p class="font-display text-xl tracking-[0.28em] text-white">ATELIER</p>
+   442→<p class="-mt-0.5 text-[10px] font-bold tracking-[0.4em] text-[#B08968]">NOIR</p>
+   443→<p class="mt-4 max-w-xs text-sm leading-relaxed text-stone-400">Considered clothing for a considered life. Cut in small runs from responsible materials, built to be repaired — never replaced.</p>
+   444→<div class="mt-6 flex gap-3">
+   445→<button aria-label="Instagram" class="flex h-9 w-9 items-center justify-center border border-stone-700 text-stone-400 transition hover:border-white hover:text-white">
+   446→<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram" aria-hidden="true">
+   447→<rect width="20" height="20" x="2" y="2" rx="5" ry="5">
+   448→</rect>
+   449→<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+   450→</path>
+   451→<line x1="17.5" x2="17.51" y1="6.5" y2="6.5">
+   452→</line>
+   453→</svg>
+   454→</button>
+   455→<button aria-label="Facebook" class="flex h-9 w-9 items-center justify-center border border-stone-700 text-stone-400 transition hover:border-white hover:text-white">
+   456→<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook" aria-hidden="true">
+   457→<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
+   458→</path>
+   459→</svg>
+   460→</button>
+   461→<button aria-label="Twitter" class="flex h-9 w-9 items-center justify-center border border-stone-700 text-stone-400 transition hover:border-white hover:text-white">
+   462→<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter" aria-hidden="true">
+   463→<path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z">
+   464→</path>
+   465→</svg>
+   466→</button>
+   467→<button aria-label="YouTube" class="flex h-9 w-9 items-center justify-center border border-stone-700 text-stone-400 transition hover:border-white hover:text-white">
+   468→<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-youtube" aria-hidden="true">
+   469→<path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17">
+   470→</path>
+   471→<path d="m10 15 5-3-5-3z">
+   472→</path>
+   473→</svg>
+   474→</button>
+   475→</div>
+   476→</div>
+   477→<div>
+   478→<h4 class="mb-4 text-[11px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Shop Women</h4>
+   479→<ul class="space-y-2.5">
+   480→<li>
+   481→<button class="text-sm text-stone-600 transition hover:text-white">Dresses</button>
+   482→</li>
+   483→<li>
+   484→<button class="text-sm text-stone-600 transition hover:text-white">Tops &amp; Blouses</button>
+   485→</li>
+   486→<li>
+   487→<button class="text-sm text-stone-600 transition hover:text-white">Knitwear</button>
+   488→</li>
+   489→<li>
+   490→<button class="text-sm text-stone-600 transition hover:text-white">Coats &amp; Outerwear</button>
+   491→</li>
+   492→<li>
+   493→<button class="text-sm text-stone-600 transition hover:text-white">Denim</button>
+   494→</li>
+   495→</ul>
+   496→</div>
+   497→<div>
+   498→<h4 class="mb-4 text-[11px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Shop Men</h4>
+   499→<ul class="space-y-2.5">
+   500→<li>
+   501→<button class="text-sm text-stone-600 transition hover:text-white">Shirts</button>
+   502→</li>
+   503→<li>
+   504→<button class="text-sm text-stone-600 transition hover:text-white">Blazers &amp; Tailoring</button>
+   505→</li>
+   506→<li>
+   507→<button class="text-sm text-stone-600 transition hover:text-white">Jackets</button>
+   508→</li>
+   509→<li>
+   510→<button class="text-sm text-stone-600 transition hover:text-white">Knitwear</button>
+   511→</li>
+   512→<li>
+   513→<button class="text-sm text-stone-600 transition hover:text-white">Trousers</button>
+   514→</li>
+   515→</ul>
+   516→</div>
+   517→<div>
+   518→<h4 class="mb-4 text-[11px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Accessories</h4>
+   519→<ul class="space-y-2.5">
+   520→<li>
+   521→<button class="text-sm text-stone-600 transition hover:text-white">Bags</button>
+   522→</li>
+   523→<li>
+   524→<button class="text-sm text-stone-600 transition hover:text-white">Shoes</button>
+   525→</li>
+   526→<li>
+   527→<button class="text-sm text-stone-600 transition hover:text-white">Jewelry &amp; Accessories</button>
+   528→</li>
+   529→</ul>
+   530→</div>
+   531→<div>
+   532→<h4 class="mb-4 text-[11px] font-semibold tracking-[0.3em] text-stone-400 uppercase">Maison</h4>
+   533→<ul class="space-y-2.5">
+   534→<li>
+   535→<button class="text-sm text-stone-600 transition hover:text-white">About Us</button>
+   536→</li>
+   537→<li>
+   538→<button class="text-sm text-stone-600 transition hover:text-white">The Lookbook</button>
+   539→</li>
+   540→<li>
+   541→<button class="text-sm text-stone-600 transition hover:text-white">Journal</button>
+   542→</li>
+   543→<li>
+   544→<button class="text-sm text-stone-600 transition hover:text-white">Contact</button>
+   545→</li>
+   546→<li>
+   547→<button class="text-sm text-stone-600 transition hover:text-white">Help &amp; FAQ</button>
+   548→</li>
+   549→<li>
+   550→<button class="text-sm text-stone-600 transition hover:text-white">Wishlist</button>
+   551→</li>
+   552→</ul>
+   553→</div>
+   554→</div>
+   555→<div class="border-t border-stone-800">
+   556→<div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-[12px] text-stone-500 md:flex-row lg:px-10">
+   557→<p>© <!-- -->2026<!-- --> Atelier Noir. All rights reserved. A fiction, lovingly crafted.</p>
+   558→<div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
+   559→<span>Privacy</span>
+   560→<span>Terms</span>
+   561→<span>Shipping</span>
+   562→<div class="flex items-center gap-2 text-stone-400">
+   563→<span class="border border-stone-700 px-2 py-1 text-[10px] font-semibold tracking-wider">VISA</span>
+   564→<span class="border border-stone-700 px-2 py-1 text-[10px] font-semibold tracking-wider">MC</span>
+   565→<span class="border border-stone-700 px-2 py-1 text-[10px] font-semibold tracking-wider">AMEX</span>
+   566→<span class="border border-stone-700 px-2 py-1 text-[10px] font-semibold tracking-wider">PAYPAL</span>
+   567→</div>
+   568→</div>
+   569→</div>
+   570→</div>
+   571→</footer>
+   572→<div data-orientation="horizontal" role="none" data-slot="separator" class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px hidden">
+   573→</div>
+   574→</div>
+   575→<!--$-->
+   576→<!--/$-->
+   577→<section aria-label="Notifications alt+T" tabindex="-1" aria-live="polite" aria-relevant="additions text" aria-atomic="false">
+   578→</section>
+   579→<script src="/_next/static/chunks/58c60a5fa6b544da.js" id="_R_" async="">
+   580→</script>
+   581→<script>(self.__next_f=self.__next_f||[]).push([0])</script>
+   582→<script>self.__next_f.push([1,"1:\"$Sreact.fragment\"\n2:I[66094,[\"/_next/static/chunks/395a53841c9f1464.js\"],\"Preloader\"]\n3:I[39756,[\"/_next/static/chunks/2f236954d6a65e12.js\"],\"default\"]\n4:I[37457,[\"/_next/static/chunks/2f236954d6a65e12.js\"],\"default\"]\n5:I[13354,[\"/_next/static/chunks/395a53841c9f1464.js\"],\"Toaster\"]\n6:I[92224,[\"/_next/static/chunks/395a53841c9f1464.js\",\"/_next/static/chunks/f0339a7586771414.js\"],\"Site\"]\n7:I[97367,[\"/_next/static/chunks/2f236954d6a65e12.js\"],\"OutletBoundary\"]\n8:\"$Sreact.suspense\"\na:I[97367,[\"/_next/static/chunks/2f236954d6a65e12.js\"],\"ViewportBoundary\"]\nc:I[97367,[\"/_next/static/chunks/2f236954d6a65e12.js\"],\"MetadataBoundary\"]\ne:I[68027,[\"/_next/static/chunks/2f236954d6a65e12.js\"],\"default\"]\n:HL[\"/_next/static/chunks/73fabd49ed15523e.css\",\"style\"]\n:HL[\"/_next/static/chunks/8aced570def43f7b.css\",\"style\"]\n:HL[\"/_next/static/media/2a65768255d6b625-s.p.d19752fb.woff2\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/woff2\"}]\n:HL[\"/_next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/woff2\"}]\n"])</script>
+   583→<script>self.__next_f.push([1,"0:{\"P\":null,\"b\":\"3Uwt8lvXU3y2WRZobpGpE\",\"c\":[\"\",\"\"],\"q\":\"\",\"i\":false,\"f\":[[[\"\",{\"children\":[\"__PAGE__\",{}]},\"$undefined\",\"$undefined\",true],[[\"$\",\"$1\",\"c\",{\"children\":[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/chunks/73fabd49ed15523e.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/chunks/8aced570def43f7b.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"}],[\"$\",\"script\",\"script-0\",{\"src\":\"/_next/static/chunks/395a53841c9f1464.js\",\"async\":true,\"nonce\":\"$undefined\"}]],[\"$\",\"html\",null,{\"lang\":\"en\",\"suppressHydrationWarning\":true,\"children\":[\"$\",\"body\",null,{\"className\":\"inter_fe8b9d92-module__LINzvG__variable playfair_display_fa003182-module__E_H7JW__variable antialiased bg-white text-stone-900 font-sans\",\"children\":[[\"$\",\"$L2\",null,{}],[\"$\",\"$L3\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L4\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":404}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],[]],\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}],[\"$\",\"$L5\",null,{\"position\":\"bottom-center\",\"richColors\":true}]]}]}]]}],{\"children\":[[\"$\",\"$1\",\"c\",{\"children\":[[\"$\",\"$L6\",null,{}],[[\"$\",\"script\",\"script-0\",{\"src\":\"/_next/static/chunks/f0339a7586771414.js\",\"async\":true,\"nonce\":\"$undefined\"}]],[\"$\",\"$L7\",null,{\"children\":[\"$\",\"$8\",null,{\"name\":\"Next.MetadataOutlet\",\"children\":\"$@9\"}]}]]}],{},null,false,false]},null,false,false],[\"$\",\"$1\",\"h\",{\"children\":[null,[\"$\",\"$La\",null,{\"children\":\"$Lb\"}],[\"$\",\"div\",null,{\"hidden\":true,\"children\":[\"$\",\"$Lc\",null,{\"children\":[\"$\",\"$8\",null,{\"name\":\"Next.Metadata\",\"children\":\"$Ld\"}]}]}],[\"$\",\"meta\",null,{\"name\":\"next-size-adjust\",\"content\":\"\"}]]}],false]],\"m\":\"$undefined\",\"G\":[\"$e\",[]],\"S\":true}\n"])</script>
+   584→<script>self.__next_f.push([1,"b:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"meta\",\"1\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}]]\n"])</script>
+   585→<script>self.__next_f.push([1,"f:I[27201,[\"/_next/static/chunks/2f236954d6a65e12.js\"],\"IconMark\"]\n9:null\nd:[[\"$\",\"title\",\"0\",{\"children\":\"Atelier Noir — Considered Clothing\"}],[\"$\",\"meta\",\"1\",{\"name\":\"description\",\"content\":\"Minimal, modern clothing made in small runs from responsible materials. Women's and men's dresses, coats, knitwear, denim and accessories.\"}],[\"$\",\"meta\",\"2\",{\"name\":\"keywords\",\"content\":\"fashion,clothing,minimal fashion,sustainable clothing,Atelier Noir\"}],[\"$\",\"link\",\"3\",{\"rel\":\"icon\",\"href\":\"https://z-cdn.chatglm.cn/z-ai/static/logo.svg\"}],[\"$\",\"$Lf\",\"4\",{}]]\n"])</script>
+   586→<next-route-announcer style="position: absolute;">
+   587→</next-route-announcer>
+   588→</body>
