@@ -90,7 +90,7 @@ export function HomeView() {
 function Hero() {
   const navigate = useStore((s) => s.navigate);
   return (
-    <section className="relative flex min-h-[88vh] items-center justify-center overflow-hidden bg-stone-900 text-white">
+    <section className="relative flex min-h-[calc(88vh+6px)] items-center justify-center overflow-hidden bg-stone-900 pb-[6px] text-white">
       <MediaVideo
         src="/videos/hero.mp4"
         poster="/images/editorial/editorial-8.jpg"

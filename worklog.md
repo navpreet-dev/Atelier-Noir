@@ -280,3 +280,16 @@ Work Log:
 
 Stage Summary:
 - Homepage restored to the user-approved layout; the only change vs. that baseline is the white empty space between hero image bottom and the Women/Men/Accessories cards reduced from 80px to 74px (exactly 6px, within the 6-8px limit). Hero, navbar, hero content, image, and all other sections untouched.
+
+---
+Task ID: 10
+Agent: orchestrator (main)
+Task: Homepage hero viewport-fill micro-fix — hero stopped ~4-6px before the bottom of the visible viewport on fresh load at top, leaving a tiny white sliver at the fold. Extend hero's outer bottom edge by exactly 6px; zero content movement; no overlap; page essentially unchanged.
+
+Work Log:
+- Measured before-state at scrollTop=0 (1280x577): viewport bottom 577, hero bottom 572.75 -> 4.25px white sliver at the fold (remainder of header 65 + min-h-88vh). Root cause: `min-h-[88vh]` + 64px sticky header leaves a viewport-dependent few-px remainder.
+- Fix (one line, Hero section in home-view.tsx): `min-h-[88vh]` -> `min-h-[calc(88vh+6px)]` + added `pb-[6px]`. The pb anchors the flex-centered content box at 88vh so NO hero content moves; only the hero's outer bottom edge extends 6px. Image/video/overlays are absolute inset-0 and fill the extra 6px automatically; no image/overlay/content edits.
+- Verified before/after via getBoundingClientRect diff: hero grew by exactly 6px; hero top delta 0; h1 "Dress Like You"/"Mean It" top+bottom delta 0; subtitle delta 0; both buttons delta 0; whiteBelowHero_atFold = -1.75 (fold fully covered); next section moved DOWN 6px in normal flow (no overlap: hero bottom 578.75 == next top 578.75; heroOverlapsNext=false); doc height +6px on ~10.1k page (0.06%, essentially unchanged); horizontal overflow 0; single scrollbar, normal flow. Screenshot strip /tmp/hero-fold-strip.png confirms hero fills to the fold with buttons unmoved. `bun run lint` clean.
+
+Stage Summary:
+- Hero now reaches the bottom of the visible viewport on load (6px viewport-fill correction, within the 5-8px budget). Hero content pixel-identical, next section still fully below the hero in normal flow, no scroll/overflow changes. Only line changed: Hero section className (min-h calc + pb-[6px]).
