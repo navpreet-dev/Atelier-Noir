@@ -351,3 +351,21 @@ Work Log:
 
 Stage Summary:
 - Task 13 fully reverted (1 header line). Site restored and verified rendering end-to-end; approved hero micro-adjustments preserved. Dev server now runs as a detached daemon that survives session boundaries; outage root cause was OOM from leftover audit browsers, mitigated by closing them.
+
+---
+Task ID: 15
+Agent: orchestrator (main)
+Task: Save current working version as permanent snapshot named "fully" — complete restorable copy of everything.
+
+Work Log:
+- Snapshot state: post-Task-14 rollback (header account icon restored), approved hero viewport-fill 88vh+9px, all 18 pages, full DB, all media/fonts. Server 200 + lint clean + browser-verified at snapshot time.
+- Layer 1: git tag `fully` (annotated) on commit 4fb8baf — in-repo recall point.
+- Layer 2: `git bundle create fully.bundle --all` → 45MB portable complete-history bundle; `git bundle verify` passed ("records a complete history").
+- Layer 3: full project archive `fully-full.tar.gz` — 817MB, 70,001 files, includes src/, public/ (45MB media), db/custom.db, prisma/, research/, node_modules/, .next/, configs, .git.
+- Integrity verified: test-extracted db/custom.db MD5 == live MD5 (62011cb8b4d9479174e18763a7967b8a); header.tsx/package.json/hero images extracted OK.
+- Redundancy: all artifacts stored in TWO locations — /home/z/backups/ (outside project) and /home/z/my-project/backups/ (inside project).
+- Created one-command restore script RESTORE-FULLY.sh (both locations, executable): full mode = stop server → wipe project → extract exact tar → detached restart → health check; --code-only mode = git reset --hard fully from bundle. README-FULLY.md documents layers + recall steps.
+- Post-backup check: dev server still serving 200; disk 4.6GB free.
+
+Stage Summary:
+- Version "fully" is now permanently recallable via 3 independent layers (git tag, portable bundle, byte-level 70k-file archive) in 2 physical locations, with a one-command restore script. Any future breakage (bad edit, db corruption, session/sandbox loss of the project folder) can be reverted to this exact state with `bash /home/z/backups/RESTORE-FULLY.sh`.
