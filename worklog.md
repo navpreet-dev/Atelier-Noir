@@ -369,3 +369,18 @@ Work Log:
 
 Stage Summary:
 - Version "fully" is now permanently recallable via 3 independent layers (git tag, portable bundle, byte-level 70k-file archive) in 2 physical locations, with a one-command restore script. Any future breakage (bad edit, db corruption, session/sandbox loss of the project folder) can be reverted to this exact state with `bash /home/z/backups/RESTORE-FULLY.sh`.
+
+---
+Task ID: 16
+Agent: orchestrator (main)
+Task: Approved storage cleanup (items 1+2+3) so the platform Download button can archive the workspace.
+
+Work Log:
+- (1) Deleted dead /tmp artifacts: HEAD.tar (949MB, failed download), build_fullstack_* dirs+archives (~1.3GB); /tmp/my-project self-emptied to 4KB. ~3.6GB freed.
+- (2) Deleted .next build cache (691MB). Turbopack's live state lived in .next -> running server returned 500 (corrupted task DB: "Unable to open static sorted file"). Restarted dev server via the same python double-fork daemon; first request after restart returned 200 with correct title. Restart was unavoidable to restore the site after .next removal.
+- (3) Git history cleanup, range-limited to 4fb8baf..main (2 commits after tag fully): filter-branch --index-filter removed backups/fully-full.tar.gz + backups/fully.bundle blobs; refs/original removed, reflogs expired, git gc --prune=now. Original pre-rewrite history remains preserved in external bundle /home/z/backups/fully.bundle (untouched, MD5-verified f4845b26...).
+- Results: .git 907MB -> 45MB (size-pack 44.26MiB); workspace 2.9GB -> 1.5GB; disk free 2.8GB -> 6.9GB. Tag fully intact (4fb8baf); all site commits intact; worktree clean; big blobs verified gone (rev-list grep = 0).
+- External backup /home/z/backups/ untouched (4 files intact). Site: HTTP 200, hero content verified, served by fresh daemon.
+
+Stage Summary:
+- Workspace now 1.5GB (archive ~1.4GB, under the ~2GB platform cap) with 6.9GB free disk - the configuration where the platform Download should succeed. Site untouched functionally and visually; "fully" restore capability fully preserved via git tag + external bundle + external tar.
