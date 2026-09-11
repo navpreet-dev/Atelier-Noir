@@ -305,3 +305,15 @@ Work Log:
 
 Stage Summary:
 - Hero bottom edge now covers the full visible viewport on load. Total viewport-fill correction across Tasks 10+11 = 8px, applied in two user-approved steps (6px + 2px). Hero content, navbar, image, overlay, next section layout all pixel-verified unchanged apart from the normal-flow 2px shift. No other files touched.
+
+---
+Task ID: 12
+Agent: orchestrator (main)
+Task: +1px hero viewport-fill micro-fix ("1pixel more").
+
+Work Log:
+- One line in home-view.tsx Hero section: `min-h-[calc(88vh+8px)] pb-[8px]` -> `min-h-[calc(88vh+9px)] pb-[9px]`. Same content-anchoring mechanism (content box stays 88vh).
+- Verified in browser: hero grew exactly 1px; hero top delta 0; h1/buttons delta 0.000; next section +1px normal flow, no overlap; doc height +1px; horizontal overflow 0; fold strip /tmp/hero-fold-1px-strip.png shows hero reaching viewport bottom. `bun run lint` clean.
+
+Stage Summary:
+- Hero bottom now covers the fold with margin. Cumulative viewport-fill correction: 6px (T10) + 2px (T11) + 1px (T12) = 9px total min-height extension over the original 88vh, applied incrementally per user instruction. No other changes.
