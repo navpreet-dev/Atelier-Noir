@@ -317,3 +317,21 @@ Work Log:
 
 Stage Summary:
 - Hero bottom now covers the fold with margin. Cumulative viewport-fill correction: 6px (T10) + 2px (T11) + 1px (T12) = 9px total min-height extension over the original 88vh, applied incrementally per user instruction. No other changes.
+
+---
+Task ID: 13
+Agent: orchestrator (main)
+Task: Complete responsive audit & hardening pass — entire site, desktop preserved as source of truth.
+
+Work Log:
+- Phase 1 inspection: inventoried 14 views + 10 site components + shadcn ui set; scanned vh heights, fixed widths, grids, tables, nowrap, negative margins. Existing code already uses Tailwind responsive prefixes (hidden xl:flex desktop nav, sm/md/lg grids, w-[85vw] mobile menu, 100svh usage).
+- Built single-eval async audit: 18 routes (home, 5x shop variants, product, cart, checkout, wishlist, account, about, contact, faq, lookbook, journal, journal-post, search) x widths 1440/1024/768/600/390/360/320 + landscape 844x390 & 740x360; measured documentElement horizontal overflow + auto culprit detection (excludes fixed + in-scroller elements). Navigation via pushState+back (UI clicks for visual passes).
+- Result: ZERO overflow everywhere EXCEPT 320px: every page overflowed exactly 40px — culprit = header right icon cluster pushed out by the centered logo (grid-cols-[1fr_auto_1fr] min-content sum > 320).
+- Fix (1 line, header.tsx): account icon button now `hidden ... sm:flex` — mirrors the EXISTING wishlist icon pattern (already hidden sm:flex). Account & Wishlist stay reachable in the mobile menu (links already present). Icons visible >=640px exactly as before; desktop untouched.
+- Re-audit 320px: 0 overflow across all 18 routes.
+- Visual QA on touch sizes: 390x844 — home hero (hamburger/logo/search/cart fit, heading readable), mobile menu (accordions, all links incl. Wishlist/Account, close X, Escape), product page (full-bleed gallery 1/3 counter, thumbs, breadcrumb, title/ratings/price, qty+wishlist, full-width ADD TO BAG/BUY NOW, 3-col assurances, accordion, reviews), cart drawer empty+filled (free-shipping bar, item row, toast), cart page (banner, item, stacked order summary, promo+APPLY), checkout step 1 (indicator, RETURN TO BAG, pre-filled form), search dialog (chips+image links), about/lookbook/faq headers; 768x1024 home (user icon visible sm+ as approved); landscape 740x360 product clean.
+- Interaction QA on mobile: add-to-bag after size select, BUY NOW auth gate toast -> Sign In card -> sign-in honored pendingRoute back to product, add to bag -> drawer, CHECKOUT -> cart page, BUY NOW -> checkout, sign out, menu open/close. All working.
+- Desktop regression: 1440x900 re-screenshots of home/shop/product/about vs pre-change baselines — header strip diff bbox=None (ZERO differing pixels) on all four; content-area diffs are video/animation frames only. Combined with 1440/1280/1024 overflow audits = desktop experience intact. `bun run lint` clean.
+
+Stage Summary:
+- Site is responsive-clean at every tested width (320..1440 + landscape) across all 18 routes. One production change: header account icon hidden below 640px (existing wishlist pattern) to fix a real 320px overflow; no other code changed. Desktop pixel-verified identical.

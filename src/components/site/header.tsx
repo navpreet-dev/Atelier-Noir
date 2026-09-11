@@ -417,7 +417,7 @@ export function SiteHeader() {
             </button>
             <button
               onClick={() => g({ name: "account" })}
-              className="relative flex h-10 w-10 items-center justify-center text-stone-800 transition hover:text-stone-500"
+              className="relative hidden h-10 w-10 items-center justify-center text-stone-800 transition hover:text-stone-500 sm:flex"
               aria-label={
                 user ? `Account, signed in as ${user.name}` : "Sign in to your account"
               }
