@@ -252,3 +252,17 @@ Stage Summary:
 - The whole-site font swap was the root cause of "wrong fonts/typography" — fixed with byte-identical live font files.
 - Every route now machine-verified DOM-identical to the CURRENT live site (0 token mismatches, hover artifacts excepted); product page byte-identical.
 - Ground truth refreshed: current live DOM dumps in /tmp/shots-live supersede stale /tmp/shots; stored bundles in /tmp/site are from the previous deploy (duration-s] literal) — current live is authoritative.
+
+---
+Task ID: 8
+Agent: orchestrator (main)
+Task: Homepage micro-fix — remove the small white empty gap between the hero image bottom and the next section (CategoryCards).
+
+Work Log:
+- Inspected live DOM in agent-browser: hero section bottom (572.75) === next section top (572.75), i.e. zero margin/gap between the sections; the visible white band was the CategoryCards section's own `py-20` top padding (80px). Hero itself (top 65 / height 507.75 / bottom 572.75) never had any gap-causing property.
+- Cross-checked ground truth (/tmp/ref/category-cards.js): original wrapper is `mx-auto max-w-7xl px-4 pb-20 md:px-6 lg:px-10` — bottom padding only, NO top padding. Our `py-20` was the single deviation creating the white empty space.
+- Fix (one line, home-view.tsx CategoryCards section): `py-20` -> `pb-20` (top padding removed, bottom padding kept). No other file, class, or property touched.
+- Verified in agent-browser: hero rect byte-identical (top 65, h 507.75, bottom 572.75); gap now 0; first card starts exactly at section top; page 80px shorter (no extra scroll added, next section moved up only by the removed empty space); horizontal overflow 0; before/after screenshots at /tmp/gap-before.png and /tmp/gap-after.png; `bun run lint` clean.
+
+Stage Summary:
+- White empty band between homepage hero and the Women/Men/Accessories cards is gone; layout now matches the original bundle exactly (cards begin immediately under the hero). Single-line, single-class change; zero visual impact anywhere else.
