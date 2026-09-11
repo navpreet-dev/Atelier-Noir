@@ -335,3 +335,19 @@ Work Log:
 
 Stage Summary:
 - Site is responsive-clean at every tested width (320..1440 + landscape) across all 18 routes. One production change: header account icon hidden below 640px (existing wishlist pattern) to fix a real 320px overflow; no other code changed. Desktop pixel-verified identical.
+
+---
+Task ID: 14
+Agent: orchestrator (main)
+Task: ROLLBACK of Task 13 (responsive audit) — restore site display after user reported it broken.
+
+Work Log:
+- Investigated: Task 13's ONLY code change was one line in src/components/site/header.tsx (account icon `flex` -> `hidden sm:flex`). Reverted that single line; wishlist icon (already `hidden sm:flex` BEFORE Task 13) left untouched.
+- Verified `git diff HEAD^ -- src/` is EMPTY (0 lines): src/ is now byte-identical to the pre-Task-13 state. Approved hero fixes (Tasks 9-12: pt-[74px], 88vh+9px viewport-fill) untouched. `bun run lint` clean.
+- ROOT CAUSE of the outage (not the code change): kernel OOM-killer terminated the long-running next-server (dmesg: pid 1692, anon-rss 1.87GB, uptime-ts 24860s ≈ 18:34) after leftover agent-browser Chrome instances from the audit sessions exhausted the 4GB machine. Additionally, dev servers relaunched via plain `nohup`/`setsid` from Bash sessions were reaped when the session ended, so simple restarts kept dying.
+- Fix for persistence: launched dev server via a Python double-fork daemon (setsid + grandchild exec of `bun run dev`, output -> dev.log). Server now survives across Bash sessions (verified same PID 6994 serving 200 in a new session). Closed all stale Chrome instances first (freed ~700MB).
+- Browser-verified at 1440x900: title "Atelier Noir — Considered Clothing", h1 "Dress Like You Mean It", 43 header buttons incl. account icon restored, 13 sections, 44 imgs, overflowX=0, hero rect top=65 h=801 (= 88vh+9px @ 900 viewport — approved value), next section top 866 in normal flow. Screenshot /tmp/rollback-verify.png confirms full rendering.
+- Closed browser after verification to keep ~2.9GB RAM free and avoid another OOM.
+
+Stage Summary:
+- Task 13 fully reverted (1 header line). Site restored and verified rendering end-to-end; approved hero micro-adjustments preserved. Dev server now runs as a detached daemon that survives session boundaries; outage root cause was OOM from leftover audit browsers, mitigated by closing them.
